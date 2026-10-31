@@ -1,6 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
-import { IMAGE_TOOLS, COMPRESS_TOOLS, PDF_TOOLS, SITE } from '../lib/site';
+import { IMAGE_TOOLS, COMPRESS_TOOLS, PDF_GROUPS, SITE } from '../lib/site';
 
 const exams = (await getCollection('exams')).sort((a, b) => a.data.order - b.data.order);
 const idPhotos = (await getCollection('idPhotos')).sort((a, b) => a.data.order - b.data.order);
@@ -30,15 +30,22 @@ const year = new Date().getFullYear();
     </div>
     <div>
       <h2 class="mb-3 text-sm font-bold text-ink">PDF tools</h2>
-      <ul class="space-y-1.5 text-[0.95rem] text-ink-2">
-        {PDF_TOOLS.map((t) => <li><a class="no-underline hover:underline" href={t.href}>{t.title}</a></li>)}
-      </ul>
+      {
+        PDF_GROUPS.map((g, i) => (
+          <>
+            <h3 class={`mb-1.5 text-xs font-semibold tracking-wide text-ink-3 uppercase ${i ? 'mt-4' : ''}`}>{g.title}</h3>
+            <ul class="space-y-1.5 text-[0.95rem] text-ink-2">
+              {g.tools.map((t) => <li><a class="no-underline hover:underline" href={t.href}>{t.title}</a></li>)}
+            </ul>
+          </>
+        ))
+      }
     </div>
   </div>
   <div class="border-t border-rule">
     <div class="mx-auto flex max-w-5xl flex-col gap-3 px-4 py-6 text-sm text-ink-3 sm:flex-row sm:items-center sm:justify-between">
       <p>
-        Your files are processed on your device and never uploaded.
+        Your files are processed on your device and never uploaded.{' '}
         <a class="underline underline-offset-2" href={SITE.repo} rel="noopener">The code is public</a>. © {year} vectradev.in
       </p>
       <ul class="flex flex-wrap gap-x-5 gap-y-1">

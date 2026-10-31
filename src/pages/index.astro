@@ -4,7 +4,7 @@ import Base from '../layouts/Base.astro';
 import AdSlot from '../components/AdSlot.astro';
 import HeroTool from '../components/tools/HeroTool';
 import { describeKb, describeSize } from '../components/tools/ExamTool';
-import { SITE, IMAGE_TOOLS, COMPRESS_TOOLS, PDF_TOOLS } from '../lib/site';
+import { SITE, IMAGE_TOOLS, COMPRESS_TOOLS, PDF_GROUPS } from '../lib/site';
 
 const exams = (await getCollection('exams')).sort((a, b) => a.data.order - b.data.order);
 const idPhotos = (await getCollection('idPhotos')).sort((a, b) => a.data.order - b.data.order);
@@ -92,18 +92,25 @@ const listHeading = 'text-[1.6rem] font-extrabold tracking-[-0.02em] text-ink';
       <h2 id="pdf-heading" class={listHeading}>PDF tools</h2>
       <a href="/pdf-tools" class="text-[0.95rem] font-semibold text-ink-2 underline underline-offset-4">All PDF tools</a>
     </div>
-    <ul class="mt-5 grid border-t border-rule sm:grid-cols-2 sm:gap-x-10">
+    <div class="mt-5 grid gap-10 sm:grid-cols-2">
       {
-        PDF_TOOLS.map((t) => (
-          <li class="border-b border-rule">
-            <a href={t.href} class="flex min-h-[56px] flex-col justify-center py-1.5 no-underline">
-              <span class="font-semibold text-ink">{t.title}</span>
-              <span class="text-sm text-ink-3">{t.blurb}</span>
-            </a>
-          </li>
+        PDF_GROUPS.map((g) => (
+          <div>
+            <h3 class="mb-2 text-sm font-bold text-ink-2">{g.title}</h3>
+            <ul class="border-t border-rule">
+              {g.tools.map((t) => (
+                <li class="border-b border-rule">
+                  <a href={t.href} class="flex min-h-[56px] flex-col justify-center py-1.5 no-underline">
+                    <span class="font-semibold text-ink">{t.title}</span>
+                    <span class="text-sm text-ink-3">{t.blurb}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
         ))
       }
-    </ul>
+    </div>
   </section>
 
   <section class="mx-auto mt-16 max-w-5xl px-4" aria-labelledby="exams-heading">

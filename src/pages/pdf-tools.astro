@@ -1,6 +1,6 @@
 ---
 import ToolPage from '../layouts/ToolPage.astro';
-import { PDF_TOOLS } from '../lib/site';
+import { PDF_GROUPS } from '../lib/site';
 
 const faqs = [
   { q: 'Are my PDFs uploaded?', a: 'No. Every PDF tool on vectradev runs inside your browser, so your documents never leave your device.' },
@@ -15,18 +15,25 @@ const faqs = [
   lede="Get documents and certificates ready for upload. Everything runs on your device."
   faqs={faqs}
 >
-  <ul slot="tool" class="grid border-t border-rule sm:grid-cols-2 sm:gap-x-10">
+  <div slot="tool" class="grid gap-10 sm:grid-cols-2">
     {
-      PDF_TOOLS.map((t) => (
-        <li class="border-b border-rule">
-          <a href={t.href} class="flex min-h-[64px] flex-col justify-center py-2 no-underline">
-            <span class="font-bold text-ink underline decoration-rule-strong underline-offset-4">{t.title}</span>
-            <span class="text-sm text-ink-3">{t.blurb}</span>
-          </a>
-        </li>
+      PDF_GROUPS.map((g) => (
+        <section>
+          <h2 class="mb-2 text-sm font-bold text-ink-2">{g.title}</h2>
+          <ul class="border-t border-rule">
+            {g.tools.map((t) => (
+              <li class="border-b border-rule">
+                <a href={t.href} class="flex min-h-[56px] flex-col justify-center py-1.5 no-underline">
+                  <span class="font-semibold text-ink">{t.title}</span>
+                  <span class="text-sm text-ink-3">{t.blurb}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
       ))
     }
-  </ul>
+  </div>
   <h2>Private by design</h2>
   <p>
     Most PDF websites upload your file to their servers to process it. Here, the PDF is opened and rebuilt inside your browser, so certificates, ID proofs and statements stay on your device.

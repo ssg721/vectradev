@@ -1,7 +1,7 @@
 ---
 import ToolPage from '../layouts/ToolPage.astro';
 import ImagesToPdfTool from '../components/tools/ImagesToPdfTool';
-import { PDF_TOOLS, COMPRESS_TOOLS } from '../lib/site';
+import { PDF_COMPRESS_TOOLS, PDF_CONVERT_TOOLS, COMPRESS_TOOLS } from '../lib/site';
 
 const faqs = [
   { q: 'How do I convert JPG to PDF?', a: 'Choose your JPG files above, arrange them in the order you want and tap Make PDF. Each JPG becomes one page of the PDF.' },
@@ -18,7 +18,7 @@ const faqs = [
   description="Convert JPG images to PDF in your browser. Combine many JPGs into one PDF, choose the page order and page size. Free, nothing is uploaded."
   lede="Turn one or many JPG photos into a single PDF. Arrange the pages, pick A4 or the photo's own size, and download."
   faqs={faqs}
-  related={[...PDF_TOOLS.filter((t) => t.href !== '/jpg-to-pdf'), COMPRESS_TOOLS[0]]}
+  related={[...PDF_CONVERT_TOOLS.filter((t) => t.href !== '/jpg-to-pdf'), PDF_COMPRESS_TOOLS[0], COMPRESS_TOOLS[0]]}
   breadcrumb={{ href: '/pdf-tools', label: 'PDF tools' }}
 >
   <ImagesToPdfTool slot="tool" client:load />

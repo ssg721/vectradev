@@ -87,16 +87,27 @@ export function pdfPresetLabel(kb: number): string {
   return kb >= 1000 && kb % 1000 === 0 ? `${kb / 1000} MB` : `${kb} KB`;
 }
 
-export const PDF_TOOLS: ToolLink[] = [
+export const PDF_COMPRESS_TOOLS: ToolLink[] = [
   { href: '/compress-pdf', title: 'Compress PDF', blurb: 'Make a PDF smaller by quality, or under a size limit.' },
-  { href: '/images-to-pdf', title: 'Images to PDF', blurb: 'Put several photos or scans into one PDF, in the order you choose.' },
-  { href: '/jpg-to-pdf', title: 'JPG to PDF', blurb: 'Turn JPG photos into a single PDF, on A4 or at their own size.' },
   ...PDF_KB_PRESETS.map((kb) => ({
     href: `/compress-pdf-to-${pdfPresetSlug(kb)}`,
     title: `Compress PDF to ${pdfPresetLabel(kb)}`,
     blurb: kb <= 200 ? 'For certificates and documents on exam and job forms.' : 'For email attachments and application portals.',
   })),
 ];
+
+export const PDF_CONVERT_TOOLS: ToolLink[] = [
+  { href: '/images-to-pdf', title: 'Images to PDF', blurb: 'Put several photos or scans into one PDF, in the order you choose.' },
+  { href: '/jpg-to-pdf', title: 'JPG to PDF', blurb: 'Turn JPG photos into a single PDF, on A4 or at their own size.' },
+];
+
+/** PDF tools grouped the way the hub, home page and footer show them. */
+export const PDF_GROUPS: { title: string; tools: ToolLink[] }[] = [
+  { title: 'Compress', tools: PDF_COMPRESS_TOOLS },
+  { title: 'Convert', tools: PDF_CONVERT_TOOLS },
+];
+
+export const PDF_TOOLS: ToolLink[] = [...PDF_COMPRESS_TOOLS, ...PDF_CONVERT_TOOLS];
 
 /** Top menu groups. `short` is shown on phones so all four fit; `match` decides which group is highlighted. */
 export const NAV = [

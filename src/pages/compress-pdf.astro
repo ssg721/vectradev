@@ -1,7 +1,7 @@
 ---
 import ToolPage from '../layouts/ToolPage.astro';
 import PdfCompressTool from '../components/tools/PdfCompressTool';
-import { PDF_TOOLS, COMPRESS_TOOLS } from '../lib/site';
+import { PDF_COMPRESS_TOOLS, PDF_CONVERT_TOOLS, COMPRESS_TOOLS } from '../lib/site';
 
 const faqs = [
   { q: 'Is my PDF uploaded to a server?', a: 'No. The PDF is opened and compressed inside your browser on your own phone or computer. It never leaves your device, so it is safe for certificates, ID proofs and bank statements.' },
@@ -18,7 +18,7 @@ const faqs = [
   description="Make a PDF smaller in your browser: pick a quality or enter a size limit like 200 KB. Great for scanned certificates and forms. Free, nothing is uploaded."
   lede="Shrink a scanned document, certificate or photo-heavy PDF. Choose a quality, or enter the size limit from your form."
   faqs={faqs}
-  related={[...PDF_TOOLS.slice(1), COMPRESS_TOOLS[0]]}
+  related={[...PDF_COMPRESS_TOOLS.filter((t) => t.href !== '/compress-pdf'), PDF_CONVERT_TOOLS[0], COMPRESS_TOOLS[0]]}
   breadcrumb={{ href: '/pdf-tools', label: 'PDF tools' }}
 >
   <PdfCompressTool slot="tool" client:load />

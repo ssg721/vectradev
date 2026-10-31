@@ -1,7 +1,7 @@
 ---
 import ToolPage from '../layouts/ToolPage.astro';
 import ImagesToPdfTool from '../components/tools/ImagesToPdfTool';
-import { PDF_TOOLS, COMPRESS_TOOLS } from '../lib/site';
+import { PDF_COMPRESS_TOOLS, PDF_CONVERT_TOOLS, COMPRESS_TOOLS } from '../lib/site';
 
 const faqs = [
   { q: 'How do I put several images into one PDF?', a: 'Choose all the images at once (or add them a few at a time), arrange them in the order you want, then tap Make PDF. Each image becomes one page.' },
@@ -19,7 +19,7 @@ const faqs = [
   description="Combine JPG, PNG, WebP and iPhone photos into one PDF, in the order you choose. A4, Letter or image size, with an optional size limit. Free, nothing is uploaded."
   lede="Put photos, scans or screenshots into one PDF. Arrange the pages, choose the page size and download. Nothing is uploaded."
   faqs={faqs}
-  related={[...PDF_TOOLS.filter((t) => t.href !== '/images-to-pdf'), COMPRESS_TOOLS[0]]}
+  related={[...PDF_CONVERT_TOOLS.filter((t) => t.href !== '/images-to-pdf'), PDF_COMPRESS_TOOLS[0], COMPRESS_TOOLS[0]]}
   breadcrumb={{ href: '/pdf-tools', label: 'PDF tools' }}
 >
   <ImagesToPdfTool slot="tool" client:load />

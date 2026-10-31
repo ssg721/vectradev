@@ -1,7 +1,7 @@
 ---
 import ToolPage from '../layouts/ToolPage.astro';
 import PdfCompressTool from '../components/tools/PdfCompressTool';
-import { PDF_KB_PRESETS, PDF_TOOLS, pdfPresetLabel, pdfPresetSlug } from '../lib/site';
+import { PDF_KB_PRESETS, PDF_COMPRESS_TOOLS, PDF_CONVERT_TOOLS, pdfPresetLabel, pdfPresetSlug } from '../lib/site';
 
 export function getStaticPaths() {
   return PDF_KB_PRESETS.map((kb) => ({ params: { size: pdfPresetSlug(kb) }, props: { kb } }));
@@ -31,7 +31,7 @@ const faqs = [
   description={`Reduce a PDF to under ${label} in your browser. Ideal for certificates and documents on exam, job and visa forms. Free, nothing is uploaded.`}
   lede={`Choose a PDF and get a copy under ${label}, at the best quality that fits.`}
   faqs={faqs}
-  related={PDF_TOOLS.filter((t) => t.href !== `/compress-pdf-to-${pdfPresetSlug(kb)}`)}
+  related={[...PDF_COMPRESS_TOOLS.filter((t) => t.href !== `/compress-pdf-to-${pdfPresetSlug(kb)}`), PDF_CONVERT_TOOLS[0]]}
   breadcrumb={{ href: '/pdf-tools', label: 'PDF tools' }}
 >
   <PdfCompressTool slot="tool" client:load defaultMaxKb={kb} />
