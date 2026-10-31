@@ -6,7 +6,7 @@ Built with Astro + Preact + Tailwind. Image encoding uses MozJPEG and libwebp co
 
 ## Run it locally
 
-Requires Node.js 22 or newer.
+Requires Node.js 22.23.4 or newer (Node 24 LTS recommended; see `.nvmrc`).
 
 ```bash
 npm install
@@ -25,7 +25,7 @@ npm run preview    # serve dist/ locally
    - Framework preset: **Astro**
    - Build command: `npm run build`
    - Build output directory: `dist`
-   - Environment variable: `NODE_VERSION` = `22`
+   - Environment variable: `NODE_VERSION` = `24`
 4. Deploy. You get a `*.pages.dev` URL to test on your phone.
 5. **Custom domain:** in the Pages project, open **Custom domains → Set up a domain** and enter `vectradev.in` (and `www.vectradev.in`).
    - Easiest: move the domain's nameservers to Cloudflare (add the site in Cloudflare, then change the nameservers at your registrar). Cloudflare then creates the DNS records for you.
