@@ -70,7 +70,7 @@ Environment variables (see `.env.example`). When unset, the related feature is o
 | Variable | Purpose |
 |---|---|
 | `PUBLIC_CF_ANALYTICS_TOKEN` | Cloudflare Web Analytics (cookie-free) |
-| `PUBLIC_ADSENSE_CLIENT` | AdSense publisher ID |
+| `PUBLIC_ADSENSE_CLIENT` | AdSense publisher ID (`ca-pub-…`). Loads the AdSense script and generates `/ads.txt`. |
 | `PUBLIC_ADSENSE_SLOT` | AdSense display ad slot. Ads appear only between page sections, never next to upload or download buttons. |
 
 ## Project layout
