@@ -98,8 +98,6 @@ export const PDF_TOOLS: ToolLink[] = [
 
 /** Top menu groups. `short` is shown on phones so all four fit; `match` decides which group is highlighted. */
 export const NAV = [
-  { href: '/exam', label: 'Exam photos', short: 'Exams', match: (p: string) => p === '/exam' || p.startsWith('/exam/') },
-  { href: '/passport-visa-photo', label: 'Passport & visa', short: 'Passport & visa', match: (p: string) => p.startsWith('/passport-visa-photo') },
   {
     href: '/image-tools',
     label: 'Image tools',
@@ -107,4 +105,6 @@ export const NAV = [
     match: (p: string) => p === '/image-tools' || [...COMPRESS_TOOLS, ...IMAGE_TOOLS].some((t) => t.href === p),
   },
   { href: '/pdf-tools', label: 'PDF tools', short: 'PDFs', match: (p: string) => p === '/pdf-tools' || PDF_TOOLS.some((t) => t.href === p) },
+  { href: '/passport-visa-photo', label: 'Passport & visa', short: 'Passport & visa', match: (p: string) => p.startsWith('/passport-visa-photo') },
+  { href: '/exam', label: 'Exam photos', short: 'Exams', match: (p: string) => p === '/exam' || p.startsWith('/exam/') },
 ];
