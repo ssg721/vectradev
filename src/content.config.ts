@@ -1,5 +1,6 @@
 /**
- * Exam presets live in src/data/exams/*.json — one file per exam.
+ * Presets live in src/data/exams/*.json (exam forms) and
+ * src/data/id-photos/*.json (passport and visa photos) — one file each.
  * The schema below is checked at build time: a typo like "20kb" instead of 20,
  * or a minimum above the maximum, stops the build instead of reaching users.
  */
@@ -46,9 +47,7 @@ const document = z
   })
   .refine((d) => d.fit === 'contain' || d.liveCapture || d.width !== undefined, { message: 'Cropped photos need width/height' });
 
-const exams = defineCollection({
-  loader: glob({ pattern: '*.json', base: './src/data/exams' }),
-  schema: z.object({
+const preset = z.object({
     slug: z.string().regex(/^[a-z0-9-]+$/),
     name: z.string(),
     fullName: z.string(),
@@ -63,7 +62,18 @@ const exams = defineCollection({
     }),
     lastVerified: z.coerce.date(),
     faqs: z.array(z.object({ q: z.string(), a: z.string() })).default([]),
-  }),
+    /** Start with editable rules ("any other document"). */
+    customStart: z.boolean().default(false),
 });
 
-export const collections = { exams };
+const exams = defineCollection({
+  loader: glob({ pattern: '*.json', base: './src/data/exams' }),
+  schema: preset,
+});
+
+const idPhotos = defineCollection({
+  loader: glob({ pattern: '*.json', base: './src/data/id-photos' }),
+  schema: preset,
+});
+
+export const collections = { exams, idPhotos };

@@ -4,7 +4,7 @@ import CropBox from './CropBox';
 import ResultCard, { type Check } from './ResultCard';
 import { useBlobUrl, useImage } from './useImage';
 import { renderImage, type Rect } from '../../lib/render';
-import { compressInWorker, encodeInWorker, TooBigError, type EncodedImage, type OutputFormat } from '../../lib/codec';
+import { compressInWorker, encodeInWorker, TooBigError, type EncodedImage, type OutputFormat, warmUp } from '../../lib/codec';
 import { cmToPx, formatBytes, targetBytesFor } from '../../lib/bytes';
 import { baseName, downloadBlob, extensionFor } from '../../lib/image';
 
@@ -55,6 +55,7 @@ export default function ResizeTool() {
   const [error, setError] = useState<string | null>(null);
   const run = useRef(0);
   const resultUrl = useBlobUrl(result?.blob ?? null);
+  useEffect(() => warmUp(), []);
 
   const dpiN = Math.max(1, parseInt(dpi, 10) || 300);
   const wPx = toPx(parseFloat(w), unit, dpiN);

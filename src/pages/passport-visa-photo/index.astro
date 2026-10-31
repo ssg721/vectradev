@@ -1,0 +1,76 @@
+---
+import { getCollection } from 'astro:content';
+import ToolPage from '../../layouts/ToolPage.astro';
+import { describeKb, describeSize } from '../../components/tools/ExamTool';
+
+const all = (await getCollection('idPhotos')).sort((a, b) => a.data.order - b.data.order);
+const presets = all.filter((e) => !e.data.customStart);
+const custom = all.find((e) => e.data.customStart);
+
+const faqs = [
+  { q: 'Can I take a passport or visa photo with my phone?', a: 'Usually yes, for online applications. Use a plain light background and even light, face the camera, and ask someone else to take it. This tool then sets the exact size and file size.' },
+  { q: 'My country or document is not listed. What do I do?', a: 'Use the "Any other document" page. Enter the size in pixels or millimetres and the KB range from the official instructions.' },
+  { q: 'Is my photo uploaded?', a: 'No. Every tool on vectradev runs inside your browser. Your photo never leaves your device.' },
+];
+---
+
+<ToolPage
+  title="Passport and visa photos"
+  metaTitle="Passport and visa photo resizer: US visa, US, UK and Indian passport"
+  description="Make a passport or visa photo at the exact pixels and KB the online application accepts: US visa (DS-160, DV lottery), US passport, UK passport, Indian passport, or any other document. Nothing uploaded."
+  lede="Pick your application. Each page knows the photo size and file size it accepts, and checks your photo against them."
+  faqs={faqs}
+>
+  <div slot="tool" class="-mx-4 overflow-x-auto px-4">
+    <table class="w-full min-w-[520px] border-collapse text-left">
+      <thead>
+        <tr class="border-b-2 border-ink text-[0.95rem] text-ink">
+          <th scope="col" class="py-2 pr-4 font-bold">Application</th>
+          <th scope="col" class="py-2 pr-4 font-bold">Photo size</th>
+          <th scope="col" class="py-2 font-bold">File size</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          presets.map((e) => (
+            <tr class="border-b border-rule">
+              <th scope="row" class="py-1 pr-4">
+                <a href={`/passport-visa-photo/${e.data.slug}`} class="flex min-h-[52px] flex-col justify-center no-underline">
+                  <span class="font-bold text-ink underline decoration-rule-strong underline-offset-4">{e.data.name}</span>
+                  <span class="text-sm font-normal text-ink-3">{e.data.covers.slice(0, 2).join(', ')}</span>
+                </a>
+              </th>
+              <td class="tabular py-1 pr-4 text-ink-2">{describeSize(e.data.documents[0])}</td>
+              <td class="tabular py-1 text-ink-2">{describeKb(e.data.documents[0])}</td>
+            </tr>
+          ))
+        }
+        {
+          custom && (
+            <tr class="border-b border-rule">
+              <th scope="row" class="py-1 pr-4">
+                <a href={`/passport-visa-photo/${custom.data.slug}`} class="flex min-h-[52px] flex-col justify-center no-underline">
+                  <span class="font-bold text-ink underline decoration-rule-strong underline-offset-4">Any other document</span>
+                  <span class="text-sm font-normal text-ink-3">Other visas, ID cards, residence permits</span>
+                </a>
+              </th>
+              <td class="py-1 pr-4 text-ink-2" colspan="2">Enter the size and KB from your instructions</td>
+            </tr>
+          )
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Why online applications reject photos</h2>
+  <p>
+    Digital applications check the photo automatically: its pixel size and shape, its file size, and its format. A phone photo is usually the wrong shape, several megabytes, and sometimes in iPhone's HEIC format, which most application sites reject. Each page here fixes all three at once.
+  </p>
+  <h2>Tips for a photo that passes</h2>
+  <ul>
+    <li>Stand in front of a plain white or light wall, with soft, even light and no shadows on your face or the wall.</li>
+    <li>Look straight at the camera with a neutral expression and both eyes open. Remove glasses.</li>
+    <li>Have someone else take the photo from about 1.5 metres away; selfies distort your face.</li>
+    <li>Don't use filters or retouching. Most countries reject edited photos.</li>
+  </ul>
+</ToolPage>

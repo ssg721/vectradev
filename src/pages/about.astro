@@ -1,5 +1,6 @@
 ---
 import TextPage from '../layouts/TextPage.astro';
+import { SITE } from '../lib/site';
 ---
 <TextPage title="About vectradev" description="vectradev makes free, private image tools that run in your browser, built for the forms people in India fill every day.">
   <p>
@@ -7,7 +8,7 @@ import TextPage from '../layouts/TextPage.astro';
   </p>
   <h2>How it works</h2>
   <p>
-    Every tool runs inside your web browser. When you choose a photo, it is processed on your own phone or computer and the result is saved straight back to it. Nothing is sent to us, which keeps your documents private and makes the tools work even on a slow connection.
+    Every tool runs inside your web browser. When you choose a photo, it is processed on your own phone or computer and the result is saved straight back to it. Nothing is sent to us, which keeps your documents private and makes the tools work even on a slow connection. The <a href={SITE.repo} rel="noopener">source code is public</a>, so anyone can check how it works.
   </p>
   <h2>How we keep exam sizes accurate</h2>
   <p>

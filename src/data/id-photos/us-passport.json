@@ -1,0 +1,31 @@
+{
+  "slug": "us-passport-photo",
+  "name": "US passport",
+  "fullName": "US passport photo for online renewal",
+  "covers": ["Online passport renewal (MyTravelGov)"],
+  "order": 2,
+  "intro": "Renewing a US passport online needs a square digital photo within a pixel range and a file size range. It's the same 2 × 2 inch shape as a printed passport photo.",
+  "documents": [
+    {
+      "id": "photo", "label": "Passport photo", "kind": "photo",
+      "width": 1200, "height": 1200, "sizeIsSuggested": true,
+      "minWidth": 600, "minHeight": 600,
+      "minKb": 54, "maxKb": 10000, "fit": "cover",
+      "notes": [
+        "Square photo between 600 × 600 and 1200 × 1200 pixels, between 54 KB and 10 MB.",
+        "Plain white or off-white background, facing the camera, neutral expression, no glasses.",
+        "Taken within the last 6 months."
+      ]
+    }
+  ],
+  "source": {
+    "label": "Summary of US Department of State online renewal photo rules (photo-requirements site; confirm on travel.state.gov)",
+    "url": "https://photogov.net/knowledge/requirements/digital-passport-photo/",
+    "official": false
+  },
+  "lastVerified": "2026-10-31",
+  "faqs": [
+    { "q": "What size is a digital US passport photo?", "a": "Square, between 600 × 600 and 1200 × 1200 pixels, with a file size between 54 KB and 10 MB." },
+    { "q": "Can I take my US passport photo with my phone?", "a": "Yes, as long as it meets the rules: plain light background, even light, facing the camera, no glasses. Ask someone else to take it rather than using a selfie." }
+  ]
+}

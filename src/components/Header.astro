@@ -1,12 +1,13 @@
 ---
 const nav = [
   { href: '/exam', label: 'Exam photos' },
+  { href: '/passport-visa-photo', label: 'Passport & visa' },
   { href: '/compress-image-to-kb', label: 'Compress' },
   { href: '/image-resizer', label: 'Resize' },
   { href: '/image-converter', label: 'Convert' },
 ];
 const path = Astro.url.pathname.replace(/\.html$/, '');
-const isActive = (href: string) => path === href || (href === '/exam' && path.startsWith('/exam'));
+const isActive = (href: string) => path === href || (href !== '/' && path.startsWith(`${href}/`));
 ---
 
 <header class="border-b border-rule bg-paper">

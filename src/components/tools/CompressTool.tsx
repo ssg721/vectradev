@@ -3,7 +3,7 @@ import Dropzone from './Dropzone';
 import ResultCard, { type Check } from './ResultCard';
 import { useBlobUrl, useImage } from './useImage';
 import { renderImage } from '../../lib/render';
-import { compressInWorker, TooBigError, type EncodedImage } from '../../lib/codec';
+import { compressInWorker, TooBigError, type EncodedImage, warmUp } from '../../lib/codec';
 import { estimateInitialScale } from '../../lib/compress';
 import { formatBytes, targetBytesFor } from '../../lib/bytes';
 import { baseName, downloadBlob } from '../../lib/image';
@@ -25,6 +25,7 @@ export default function CompressTool({ defaultMaxKb = 100 }: Props) {
   const [error, setError] = useState<string | null>(null);
   const run = useRef(0);
   const resultUrl = useBlobUrl(result?.blob ?? null);
+  useEffect(() => warmUp(), []);
 
   const max = parseFloat(maxKb);
   const min = useMin ? parseFloat(minKb) || 0 : 0;

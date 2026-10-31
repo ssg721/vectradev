@@ -1,0 +1,33 @@
+{
+  "slug": "us-visa-photo",
+  "name": "US visa",
+  "fullName": "US visa photo (DS-160 and Diversity Visa lottery)",
+  "covers": ["DS-160 (F-1 student, B1/B2, H-1B and other visas)", "Diversity Visa (DV) lottery"],
+  "order": 1,
+  "intro": "The DS-160 form and the DV lottery entry both ask for a square digital photo, and reject files that are too big or the wrong shape. JPG is the only accepted format.",
+  "documents": [
+    {
+      "id": "photo", "label": "Visa photo", "kind": "photo",
+      "width": 1200, "height": 1200, "sizeIsSuggested": true,
+      "minWidth": 600, "minHeight": 600,
+      "minKb": 0, "maxKb": 240, "fit": "cover",
+      "notes": [
+        "Square JPG between 600 × 600 and 1200 × 1200 pixels, 240 KB or less. PNG and HEIC files are rejected.",
+        "Your head should fill 50–69% of the photo's height.",
+        "Plain white or off-white background, facing the camera, no glasses.",
+        "For the DV lottery, use a new photo every year. Reusing last year's photo disqualifies the entry."
+      ]
+    }
+  ],
+  "source": {
+    "label": "Summary of US Department of State digital photo requirements (photo-requirements site; confirm on travel.state.gov)",
+    "url": "https://photogov.net/knowledge/requirements/us-visa-photo-requirements/",
+    "official": false
+  },
+  "lastVerified": "2026-10-31",
+  "faqs": [
+    { "q": "What size is a US visa photo for the DS-160?", "a": "A square JPG between 600 × 600 and 1200 × 1200 pixels, no larger than 240 KB. This tool makes a 1200 × 1200 photo and keeps it under the limit." },
+    { "q": "Can I upload a PNG or iPhone HEIC photo to the DS-160?", "a": "No, only JPG is accepted. Choose your PNG or HEIC photo here and it is saved as a JPG automatically." },
+    { "q": "Is the DV lottery photo the same as the DS-160 photo?", "a": "The digital size rules are the same, but the DV lottery checks photos strictly and disqualifies entries that reuse an earlier year's photo." }
+  ]
+}

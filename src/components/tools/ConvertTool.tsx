@@ -1,8 +1,8 @@
-import { useState } from 'preact/hooks';
+import { useEffect, useState } from 'preact/hooks';
 import Dropzone from './Dropzone';
 import { loadImage, UnsupportedFileError, baseName, extensionFor, downloadBlob } from '../../lib/image';
 import { renderImage } from '../../lib/render';
-import { encodeInWorker, type OutputFormat } from '../../lib/codec';
+import { encodeInWorker, type OutputFormat, warmUp } from '../../lib/codec';
 import { formatBytes } from '../../lib/bytes';
 
 interface Props {
@@ -30,6 +30,7 @@ export default function ConvertTool({ to, accept = 'image/*,.heic,.heif', fromLa
   const [quality, setQuality] = useState(90);
   const [items, setItems] = useState<Item[]>([]);
   const [zipping, setZipping] = useState(false);
+  useEffect(() => warmUp(), []);
 
   const lossy = format !== 'png';
   const update = (id: number, patch: Partial<Item>) => setItems((list) => list.map((it) => (it.id === id ? { ...it, ...patch } : it)));

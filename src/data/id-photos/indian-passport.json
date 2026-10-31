@@ -1,0 +1,47 @@
+{
+  "slug": "indian-passport-photo",
+  "name": "Indian passport",
+  "fullName": "Indian passport photo for Passport Seva uploads",
+  "covers": [
+    "Passport Seva online applications",
+    "Passport Seva Global (applying from abroad)"
+  ],
+  "order": 4,
+  "intro": "When an Indian passport application asks for a digital photo, for example when applying from abroad through Passport Seva Global, it must be exactly 630 × 810 pixels on a plain white background.",
+  "documents": [
+    {
+      "id": "photo",
+      "label": "Passport photo",
+      "kind": "photo",
+      "width": 630,
+      "height": 810,
+      "widthCm": 3.5,
+      "heightCm": 4.5,
+      "minKb": 10,
+      "maxKb": 250,
+      "fit": "cover",
+      "notes": [
+        "Exactly 630 × 810 pixels, JPG, between 10 KB and 250 KB.",
+        "Plain white background only; cream, off-white and light grey are rejected.",
+        "Colour photo showing your head and the top of your shoulders, with your face filling most of the frame.",
+        "Printed copies are 35 × 45 mm. Check your Passport Seva Kendra or mission for its current instructions."
+      ]
+    }
+  ],
+  "source": {
+    "label": "Embassy of India, Astana passport renewal instructions (pixel size) and a photo-requirements site (file size)",
+    "url": "https://www.indembastana.gov.in/content/New-Passport-Renewal-01.07.2026.pdf",
+    "official": false
+  },
+  "lastVerified": "2026-10-31",
+  "faqs": [
+    {
+      "q": "What is the Indian passport photo size in pixels?",
+      "a": "630 × 810 pixels, JPG, on a plain white background. The printed size is 35 × 45 mm."
+    },
+    {
+      "q": "Is a 2 × 2 inch photo accepted for an Indian passport?",
+      "a": "No. Indian passports use the 35 × 45 mm size; the older square 2 × 2 inch size is no longer accepted."
+    }
+  ]
+}

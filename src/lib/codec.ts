@@ -82,3 +82,26 @@ export function encodeInWorker(
 ): Promise<EncodedImage> {
   return send({ kind: 'encode', bitmap, format, quality, dpi });
 }
+
+let warmed = false;
+
+/**
+ * Loads the worker and the JPEG encoder as soon as a tool appears, so the
+ * first photo is processed instantly and the tool keeps working if the
+ * connection drops after the page has loaded.
+ */
+export function warmUp(): void {
+  if (warmed || typeof window === 'undefined' || typeof OffscreenCanvas === 'undefined') return;
+  warmed = true;
+  const go = async () => {
+    try {
+      const bitmap = await createImageBitmap(new ImageData(1, 1));
+      await encodeInWorker(bitmap, 'jpeg', 75);
+    } catch {
+      warmed = false; // try again next time a tool mounts
+    }
+  };
+  const w = window as Window & { requestIdleCallback?: (cb: () => void) => void };
+  if (w.requestIdleCallback) w.requestIdleCallback(go);
+  else setTimeout(go, 300);
+}
