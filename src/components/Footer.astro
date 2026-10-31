@@ -1,6 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
-import { IMAGE_TOOLS, COMPRESS_TOOLS, SITE } from '../lib/site';
+import { IMAGE_TOOLS, COMPRESS_TOOLS, PDF_TOOLS, SITE } from '../lib/site';
 
 const exams = (await getCollection('exams')).sort((a, b) => a.data.order - b.data.order);
 const idPhotos = (await getCollection('idPhotos')).sort((a, b) => a.data.order - b.data.order);
@@ -22,15 +22,15 @@ const year = new Date().getFullYear();
       </ul>
     </div>
     <div>
-      <h2 class="mb-3 text-sm font-bold text-ink">Compress</h2>
+      <h2 class="mb-3 text-sm font-bold text-ink">Image tools</h2>
       <ul class="space-y-1.5 text-[0.95rem] text-ink-2">
-        {COMPRESS_TOOLS.map((t) => <li><a class="no-underline hover:underline" href={t.href}>{t.title}</a></li>)}
+        {[...COMPRESS_TOOLS, ...IMAGE_TOOLS].map((t) => <li><a class="no-underline hover:underline" href={t.href}>{t.title}</a></li>)}
       </ul>
     </div>
     <div>
-      <h2 class="mb-3 text-sm font-bold text-ink">Resize and convert</h2>
+      <h2 class="mb-3 text-sm font-bold text-ink">PDF tools</h2>
       <ul class="space-y-1.5 text-[0.95rem] text-ink-2">
-        {IMAGE_TOOLS.map((t) => <li><a class="no-underline hover:underline" href={t.href}>{t.title}</a></li>)}
+        {PDF_TOOLS.map((t) => <li><a class="no-underline hover:underline" href={t.href}>{t.title}</a></li>)}
       </ul>
     </div>
   </div>

@@ -10,11 +10,13 @@ import { baseName, downloadBlob } from '../../lib/image';
 
 interface Props {
   defaultMaxKb?: number;
+  /** A file already chosen elsewhere (the home page's "photo or PDF" box). */
+  initialFile?: File;
 }
 
 const QUICK = [20, 50, 100, 200];
 
-export default function CompressTool({ defaultMaxKb = 100 }: Props) {
+export default function CompressTool({ defaultMaxKb = 100, initialFile }: Props) {
   const { loaded, loading, error: loadError, load } = useImage();
   const [maxKb, setMaxKb] = useState(String(defaultMaxKb));
   const [useMin, setUseMin] = useState(false);
@@ -26,6 +28,9 @@ export default function CompressTool({ defaultMaxKb = 100 }: Props) {
   const run = useRef(0);
   const resultUrl = useBlobUrl(result?.blob ?? null);
   useEffect(() => warmUp(), []);
+  useEffect(() => {
+    if (initialFile) load(initialFile);
+  }, [initialFile, load]);
 
   const max = parseFloat(maxKb);
   const min = useMin ? parseFloat(minKb) || 0 : 0;

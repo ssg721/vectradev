@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "Free in-browser image tools and exam photo resizer — vectradev.in",
   "scripts": {
+    "predev": "node scripts/copy-pdfjs-assets.mjs",
     "dev": "astro dev",
+    "prebuild": "node scripts/copy-pdfjs-assets.mjs",
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
@@ -19,6 +21,8 @@
     "astro": "^7.4.4",
     "fflate": "^0.8.3",
     "heic2any": "^0.0.4",
+    "pdf-lib": "^1.17.1",
+    "pdfjs-dist": "^6.4.299",
     "preact": "^11.1.1",
     "tailwindcss": "^4.3.3"
   },

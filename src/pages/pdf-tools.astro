@@ -1,0 +1,34 @@
+---
+import ToolPage from '../layouts/ToolPage.astro';
+import { PDF_TOOLS } from '../lib/site';
+
+const faqs = [
+  { q: 'Are my PDFs uploaded?', a: 'No. Every PDF tool on vectradev runs inside your browser, so your documents never leave your device.' },
+  { q: 'Which PDF tools are available?', a: 'You can compress a PDF by quality or to a size limit such as 100 KB, 200 KB, 500 KB or 1 MB. More PDF tools are being added.' },
+];
+---
+
+<ToolPage
+  title="PDF tools"
+  metaTitle="Free PDF tools that work in your browser (no upload)"
+  description="Compress PDFs to the size your form asks for, privately in your browser. Nothing is uploaded."
+  lede="Get documents and certificates ready for upload. Everything runs on your device."
+  faqs={faqs}
+>
+  <ul slot="tool" class="grid border-t border-rule sm:grid-cols-2 sm:gap-x-10">
+    {
+      PDF_TOOLS.map((t) => (
+        <li class="border-b border-rule">
+          <a href={t.href} class="flex min-h-[64px] flex-col justify-center py-2 no-underline">
+            <span class="font-bold text-ink underline decoration-rule-strong underline-offset-4">{t.title}</span>
+            <span class="text-sm text-ink-3">{t.blurb}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+  <h2>Private by design</h2>
+  <p>
+    Most PDF websites upload your file to their servers to process it. Here, the PDF is opened and rebuilt inside your browser, so certificates, ID proofs and statements stay on your device.
+  </p>
+</ToolPage>

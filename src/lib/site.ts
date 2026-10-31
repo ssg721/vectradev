@@ -1,8 +1,8 @@
 export const SITE = {
   name: 'vectradev',
   url: 'https://vectradev.in',
-  /** Shown under the logo. Becomes "Form-ready photos and PDFs, made on your device" once PDF tools exist. */
-  tagline: 'Form-ready photos, made on your device',
+  /** Shown under the logo and in the home page title. */
+  tagline: 'Form-ready photos and PDFs, made on your device',
   email: 'hello@vectradev.in',
   /** Public source code, linked so people can check the privacy claims themselves. */
   repo: 'https://github.com/ssg721/vectradev',
@@ -74,4 +74,37 @@ export const IMAGE_TOOLS: ToolLink[] = [
   { href: '/image-resizer', title: 'Image resizer', blurb: 'Set exact pixels or centimetres, with DPI.' },
   { href: '/image-converter', title: 'Image converter', blurb: 'Convert between JPG, PNG and WebP, including iPhone HEIC.' },
   ...CONVERSIONS.map((c) => ({ href: `/${c.slug}`, title: `${c.fromLabel} to ${c.toLabel}`, blurb: c.why.split('. ')[0] + '.' })),
+];
+
+/** "Compress PDF to …" landing pages. */
+export const PDF_KB_PRESETS = [100, 200, 500, 1000] as const;
+
+export function pdfPresetSlug(kb: number): string {
+  return kb >= 1000 && kb % 1000 === 0 ? `${kb / 1000}mb` : `${kb}kb`;
+}
+
+export function pdfPresetLabel(kb: number): string {
+  return kb >= 1000 && kb % 1000 === 0 ? `${kb / 1000} MB` : `${kb} KB`;
+}
+
+export const PDF_TOOLS: ToolLink[] = [
+  { href: '/compress-pdf', title: 'Compress PDF', blurb: 'Make a PDF smaller by quality, or under a size limit.' },
+  ...PDF_KB_PRESETS.map((kb) => ({
+    href: `/compress-pdf-to-${pdfPresetSlug(kb)}`,
+    title: `Compress PDF to ${pdfPresetLabel(kb)}`,
+    blurb: kb <= 200 ? 'For certificates and documents on exam and job forms.' : 'For email attachments and application portals.',
+  })),
+];
+
+/** Top menu groups. `short` is shown on phones so all four fit; `match` decides which group is highlighted. */
+export const NAV = [
+  { href: '/exam', label: 'Exam photos', short: 'Exams', match: (p: string) => p === '/exam' || p.startsWith('/exam/') },
+  { href: '/passport-visa-photo', label: 'Passport & visa', short: 'Passport & visa', match: (p: string) => p.startsWith('/passport-visa-photo') },
+  {
+    href: '/image-tools',
+    label: 'Image tools',
+    short: 'Images',
+    match: (p: string) => p === '/image-tools' || [...COMPRESS_TOOLS, ...IMAGE_TOOLS].some((t) => t.href === p),
+  },
+  { href: '/pdf-tools', label: 'PDF tools', short: 'PDFs', match: (p: string) => p === '/pdf-tools' || PDF_TOOLS.some((t) => t.href === p) },
 ];

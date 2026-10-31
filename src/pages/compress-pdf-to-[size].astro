@@ -1,0 +1,47 @@
+---
+import ToolPage from '../layouts/ToolPage.astro';
+import PdfCompressTool from '../components/tools/PdfCompressTool';
+import { PDF_KB_PRESETS, PDF_TOOLS, pdfPresetLabel, pdfPresetSlug } from '../lib/site';
+
+export function getStaticPaths() {
+  return PDF_KB_PRESETS.map((kb) => ({ params: { size: pdfPresetSlug(kb) }, props: { kb } }));
+}
+
+const { kb } = Astro.props as { kb: number };
+const label = pdfPresetLabel(kb);
+
+const useCase: Record<number, string> = {
+  100: 'A 100 KB limit is common for certificates, caste and income certificates, and ID proofs on Indian government and exam portals.',
+  200: 'A 200 KB limit is common for marksheets, certificates and supporting documents on admission and recruitment forms.',
+  500: 'A 500 KB limit is typical for multi-page documents on job portals, scholarship forms and university applications.',
+  1000: 'A 1 MB limit is used by many visa, bank and university portals for each uploaded document.',
+};
+
+const faqs = [
+  { q: `How do I compress a PDF to ${label}?`, a: `Choose your PDF above. The limit is already set to ${label}, so the smaller PDF is ready to download in a few seconds.` },
+  { q: `Will a ${label} PDF still be readable?`, a: 'Usually yes. The tool keeps the best quality that fits. For text documents, turning on Black and white keeps text sharp at small sizes. Very long PDFs may need a larger limit.' },
+  { q: 'Is my PDF uploaded?', a: 'No. It is compressed inside your browser and never leaves your device.' },
+  { q: 'Why can\'t I select text afterwards?', a: 'Pages are saved as images to reach small sizes. Keep the original if you need to copy text from it.' },
+];
+---
+
+<ToolPage
+  title={`Compress PDF to ${label}`}
+  metaTitle={`Compress PDF to ${label} online, free (no upload)`}
+  description={`Reduce a PDF to under ${label} in your browser. Ideal for certificates and documents on exam, job and visa forms. Free, nothing is uploaded.`}
+  lede={`Choose a PDF and get a copy under ${label}, at the best quality that fits.`}
+  faqs={faqs}
+  related={PDF_TOOLS.filter((t) => t.href !== `/compress-pdf-to-${pdfPresetSlug(kb)}`)}
+  breadcrumb={{ href: '/pdf-tools', label: 'PDF tools' }}
+>
+  <PdfCompressTool slot="tool" client:load defaultMaxKb={kb} />
+
+  <h2>When you need {label}</h2>
+  <p>{useCase[kb]}</p>
+  <h2>Tips for small PDFs</h2>
+  <ul>
+    <li>Turn on <strong>Black and white</strong> for certificates and text documents. It often halves the size.</li>
+    <li>Fewer pages fit more easily. Upload only the pages the form asks for.</li>
+    <li>If your file is a photo of a document rather than a PDF, you can compress the photo directly with the image compressor.</li>
+  </ul>
+</ToolPage>

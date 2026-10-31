@@ -1,0 +1,41 @@
+---
+import ToolPage from '../layouts/ToolPage.astro';
+import { COMPRESS_TOOLS, IMAGE_TOOLS } from '../lib/site';
+
+const groups = [
+  { title: 'Compress to a size', tools: COMPRESS_TOOLS },
+  { title: 'Resize and convert', tools: IMAGE_TOOLS },
+];
+const faqs = [
+  { q: 'Are my images uploaded?', a: 'No. Every image tool on vectradev runs inside your browser. Your photos never leave your device.' },
+  { q: 'Which formats are supported?', a: 'You can open JPG, PNG, WebP, GIF, BMP, AVIF and iPhone HEIC images, and save as JPG, PNG or WebP.' },
+];
+---
+
+<ToolPage
+  title="Image tools"
+  metaTitle="Free image tools: compress to KB, resize, convert (no upload)"
+  description="Compress photos to any KB, resize to exact pixels or cm, and convert JPG, PNG, WebP and HEIC. Free, private, nothing is uploaded."
+  lede="Compress, resize and convert photos. Everything runs on your device."
+  faqs={faqs}
+>
+  <div slot="tool" class="grid gap-10 sm:grid-cols-2">
+    {
+      groups.map((g) => (
+        <section>
+          <h2 class="mb-2 text-sm font-bold text-ink-2">{g.title}</h2>
+          <ul class="border-t border-rule">
+            {g.tools.map((t) => (
+              <li class="border-b border-rule">
+                <a href={t.href} class="flex min-h-[56px] flex-col justify-center py-1.5 no-underline">
+                  <span class="font-semibold text-ink">{t.title}</span>
+                  <span class="text-sm text-ink-3">{t.blurb}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))
+    }
+  </div>
+</ToolPage>

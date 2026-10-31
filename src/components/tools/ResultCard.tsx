@@ -12,6 +12,8 @@ export interface Preview {
   bytes: number;
   w: number;
   h: number;
+  /** Replaces the default "size, W × H px" caption (e.g. for PDFs). */
+  caption?: string;
 }
 
 interface Props {
@@ -44,14 +46,14 @@ function Pane({ title, p, children }: { title: string; p: Preview | null; childr
   return (
     <figure class="flex min-w-0 flex-col">
       <div class="preview-bg relative flex h-[230px] items-center justify-center overflow-hidden rounded-[10px] border border-rule sm:h-[280px]">
-        {p && <img src={p.url} alt={title} class="h-full w-full object-contain p-2" />}
+        {p && p.url && <img src={p.url} alt={title} class="h-full w-full object-contain p-2" />}
         {children}
       </div>
       <figcaption class="mt-2 flex items-baseline justify-between gap-2 text-sm">
         <span class="font-semibold text-ink">{title}</span>
         {p && (
           <span class="tabular text-ink-2">
-            {formatBytes(p.bytes)}, {p.w} × {p.h} px
+            {p.caption ?? `${formatBytes(p.bytes)}, ${p.w} × ${p.h} px`}
           </span>
         )}
       </figcaption>

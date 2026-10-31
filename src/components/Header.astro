@@ -1,20 +1,12 @@
 ---
-import { SITE } from '../lib/site';
+import { SITE, NAV } from '../lib/site';
 
-const nav = [
-  { href: '/exam', label: 'Exam photos' },
-  { href: '/passport-visa-photo', label: 'Passport & visa' },
-  { href: '/compress-image-to-kb', label: 'Compress' },
-  { href: '/image-resizer', label: 'Resize' },
-  { href: '/image-converter', label: 'Convert' },
-];
 const path = Astro.url.pathname.replace(/\.html$/, '');
-const isActive = (href: string) => path === href || (href !== '/' && path.startsWith(`${href}/`));
 ---
 
 <header class="border-b border-rule bg-paper">
   <div class="mx-auto flex max-w-5xl flex-wrap items-center gap-x-8 gap-y-1 px-4 pt-3 pb-1 sm:flex-nowrap sm:py-3">
-    <a href="/" class="flex shrink-0 items-center gap-2 py-1 text-ink no-underline" aria-label={`vectradev home: ${SITE.tagline}`}>
+    <a href="/" class="flex min-w-0 items-center gap-2 py-1 text-ink no-underline sm:shrink-0" aria-label={`vectradev home: ${SITE.tagline}`}>
       <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true">
         <path d="M3 21 C 8 6, 16 6, 23 5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"></path>
         <line x1="13" y1="3" x2="13" y2="12.5" stroke="var(--stamp)" stroke-width="1.6"></line>
@@ -28,17 +20,18 @@ const isActive = (href: string) => path === href || (href !== '/' && path.starts
     <nav aria-label="Main" class="-mx-4 w-[calc(100%+2rem)] overflow-x-auto px-4 sm:mx-0 sm:w-auto sm:px-0">
       <ul class="flex gap-1 whitespace-nowrap">
         {
-          nav.map((item) => (
+          NAV.map((item) => (
             <li>
               <a
                 href={item.href}
-                aria-current={isActive(item.href) ? 'page' : undefined}
+                aria-current={item.match(path) ? 'page' : undefined}
                 class:list={[
-                  'inline-flex min-h-[44px] items-center rounded-md px-2.5 text-[0.95rem] font-semibold no-underline',
-                  isActive(item.href) ? 'text-ink underline decoration-stamp decoration-2 underline-offset-[6px]' : 'text-ink-2 hover:text-ink',
+                  'inline-flex min-h-[44px] items-center rounded-md px-2 text-[0.95rem] font-semibold no-underline sm:px-2.5',
+                  item.match(path) ? 'text-ink underline decoration-stamp decoration-2 underline-offset-[6px]' : 'text-ink-2 hover:text-ink',
                 ]}
               >
-                {item.label}
+                <span class="sm:hidden" aria-hidden="true">{item.short}</span>
+                <span class="sr-only sm:not-sr-only">{item.label}</span>
               </a>
             </li>
           ))

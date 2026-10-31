@@ -1,0 +1,36 @@
+---
+import ToolPage from '../layouts/ToolPage.astro';
+import PdfCompressTool from '../components/tools/PdfCompressTool';
+import { PDF_TOOLS, COMPRESS_TOOLS } from '../lib/site';
+
+const faqs = [
+  { q: 'Is my PDF uploaded to a server?', a: 'No. The PDF is opened and compressed inside your browser on your own phone or computer. It never leaves your device, so it is safe for certificates, ID proofs and bank statements.' },
+  { q: 'How do I compress a PDF to a specific size?', a: 'Choose "Under a size", type the limit from your form (for example 200 KB) and choose your PDF. The tool spreads the size across the pages and keeps the best quality that fits.' },
+  { q: 'Why can\'t I select the text in the compressed PDF?', a: 'To make PDFs much smaller, each page is saved as an image. That works very well for scans, certificates and photos, but the text becomes part of the picture. Keep the original if you need to copy text from it.' },
+  { q: 'My PDF has a password. Can I compress it?', a: 'Not while it is locked. Open it, use Print and choose "Save as PDF" to make an unlocked copy, then compress that copy.' },
+  { q: 'Why did my PDF stay the same size?', a: 'Text-only PDFs made on a computer are usually already small. If compressing would make the file bigger or blurrier, the tool keeps your original unchanged.' },
+];
+---
+
+<ToolPage
+  title="Compress PDF"
+  metaTitle="Compress PDF online to KB, free and private (no upload)"
+  description="Make a PDF smaller in your browser: pick a quality or enter a size limit like 200 KB. Great for scanned certificates and forms. Free, nothing is uploaded."
+  lede="Shrink a scanned document, certificate or photo-heavy PDF. Choose a quality, or enter the size limit from your form."
+  faqs={faqs}
+  related={[...PDF_TOOLS.slice(1), COMPRESS_TOOLS[0]]}
+  breadcrumb={{ href: '/pdf-tools', label: 'PDF tools' }}
+>
+  <PdfCompressTool slot="tool" client:load />
+
+  <h2>How to compress a PDF</h2>
+  <ol>
+    <li>Choose <strong>Under a size</strong> if your form gives a limit, and enter it. Otherwise choose <strong>By quality</strong>.</li>
+    <li>Tap <strong>Choose a PDF</strong>, or drop the file onto the box.</li>
+    <li>Check the result and download the PDF.</li>
+  </ol>
+  <h2>What shrinks the most</h2>
+  <p>
+    Scanned documents and PDFs made from phone photos usually shrink by 70–95%, because their pages are large images. Turning on <em>Black and white</em> saves even more for text documents and certificates. PDFs typed on a computer are often already small; those are left as they are.
+  </p>
+</ToolPage>
