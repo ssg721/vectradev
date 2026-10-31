@@ -1,0 +1,88 @@
+{
+  "slug": "neet-pg-photo-signature-resizer",
+  "name": "NEET PG",
+  "fullName": "NEET PG (NBEMS)",
+  "covers": [
+    "NEET PG"
+  ],
+  "keywords": [
+    "nbems",
+    "nbe",
+    "medical",
+    "md",
+    "ms",
+    "postgraduate"
+  ],
+  "order": 12,
+  "intro": "NEET PG asks for a photograph, a signature and a left thumb impression, each under 80 KB. Signature and thumb are made inside a 3.5 × 1.5 cm box.",
+  "documents": [
+    {
+      "minKb": 0,
+      "fit": "cover",
+      "notes": [
+        "Colour JPG under 80 KB, taken within the last 3 months.",
+        "Plain white background; full face, ears, neck and shoulders visible, face filling 70–80% of the frame."
+      ],
+      "id": "photo",
+      "label": "Photograph",
+      "kind": "photo",
+      "width": 276,
+      "height": 354,
+      "widthCm": 3.5,
+      "heightCm": 4.5,
+      "dpi": 200,
+      "sizeIsSuggested": true,
+      "maxKb": 80
+    },
+    {
+      "minKb": 0,
+      "fit": "contain",
+      "notes": [
+        "Sign inside a 3.5 × 1.5 cm box on plain white paper, in black or dark blue ink. Full signature, not initials.",
+        "JPG under 80 KB."
+      ],
+      "id": "signature",
+      "label": "Signature",
+      "kind": "signature",
+      "width": 276,
+      "height": 118,
+      "widthCm": 3.5,
+      "heightCm": 1.5,
+      "dpi": 200,
+      "maxKb": 80
+    },
+    {
+      "minKb": 0,
+      "fit": "contain",
+      "notes": [
+        "Press your left thumb horizontally inside a 3.5 × 1.5 cm box with a fresh blue or black ink pad.",
+        "JPG under 80 KB."
+      ],
+      "id": "thumb",
+      "label": "Left thumb impression",
+      "kind": "thumb",
+      "width": 276,
+      "height": 118,
+      "widthCm": 3.5,
+      "heightCm": 1.5,
+      "dpi": 200,
+      "maxKb": 80
+    }
+  ],
+  "source": {
+    "label": "Summary of NBEMS NEET PG 2026 image guidelines (news summary, check the NBEMS bulletin)",
+    "url": "https://medicaldialogues.in/news/education/medical-admissions/neet-pg-2026-upload-recent-photograph-correct-signature-thumb-impression-or-risk-application-rejection-check-nbe-guidelines-174667",
+    "official": false
+  },
+  "faqs": [
+    {
+      "q": "What is the NEET PG photo size?",
+      "a": "A colour JPG under 80 KB with a plain white background, showing your full face, ears, neck and shoulders."
+    },
+    {
+      "q": "How do I make the NEET PG thumb impression?",
+      "a": "Draw a 3.5 × 1.5 cm box on white paper, press your left thumb horizontally inside it, photograph or scan it, and choose the file here."
+    }
+  ],
+  "lastVerified": "2026-10-31"
+}

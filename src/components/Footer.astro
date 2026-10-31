@@ -12,7 +12,8 @@ const year = new Date().getFullYear();
     <div>
       <h2 class="mb-3 text-sm font-bold text-ink">Exam photos</h2>
       <ul class="space-y-1.5 text-[0.95rem] text-ink-2">
-        {exams.map((e) => <li><a class="no-underline hover:underline" href={`/exam/${e.data.slug}`}>{e.data.name} photo and signature</a></li>)}
+        {exams.slice(0, 8).map((e) => <li><a class="no-underline hover:underline" href={`/exam/${e.data.slug}`}>{e.data.name} photo and signature</a></li>)}
+        <li><a class="font-semibold no-underline hover:underline" href="/exam">All {exams.length} exams</a></li>
       </ul>
     </div>
     <div>

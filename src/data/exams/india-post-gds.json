@@ -1,0 +1,66 @@
+{
+  "slug": "india-post-gds-photo-signature-resizer",
+  "name": "India Post GDS",
+  "fullName": "India Post GDS (Gramin Dak Sevak)",
+  "covers": [
+    "India Post GDS",
+    "BPM",
+    "ABPM"
+  ],
+  "keywords": [
+    "post office",
+    "postal",
+    "gramin dak sevak",
+    "gds"
+  ],
+  "order": 13,
+  "intro": "The India Post GDS form asks for a photograph and a signature, each within a KB range.",
+  "documents": [
+    {
+      "minKb": 30,
+      "fit": "cover",
+      "notes": [
+        "JPG, 30–100 KB, around 320 × 400 pixels.",
+        "Plain white or light background; face filling 70–80% of the frame."
+      ],
+      "id": "photo",
+      "label": "Photograph",
+      "kind": "photo",
+      "width": 320,
+      "height": 400,
+      "sizeIsSuggested": true,
+      "maxKb": 100
+    },
+    {
+      "minKb": 20,
+      "fit": "contain",
+      "notes": [
+        "JPG, 20–100 KB, around 300 × 120 pixels.",
+        "Black or blue pen on white paper; no shadows or stray marks."
+      ],
+      "id": "signature",
+      "label": "Signature",
+      "kind": "signature",
+      "width": 300,
+      "height": 120,
+      "sizeIsSuggested": true,
+      "maxKb": 100
+    }
+  ],
+  "source": {
+    "label": "Summary of India Post GDS 2026 image guidelines (coaching-site summary, check the notification)",
+    "url": "https://www.pw.live/ssc/exams/india-post-gds-photo-and-signature-guidelines-2026",
+    "official": false
+  },
+  "faqs": [
+    {
+      "q": "What is the India Post GDS photo size?",
+      "a": "A JPG between 30 KB and 100 KB, around 320 × 400 pixels, with a plain light background."
+    },
+    {
+      "q": "What is the India Post GDS signature size?",
+      "a": "A JPG between 20 KB and 100 KB, around 300 × 120 pixels."
+    }
+  ],
+  "lastVerified": "2026-10-31"
+}

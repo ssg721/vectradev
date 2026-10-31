@@ -1,0 +1,71 @@
+{
+  "slug": "ctet-photo-signature-resizer",
+  "name": "CTET",
+  "fullName": "CTET (Central Teacher Eligibility Test)",
+  "covers": [
+    "CTET"
+  ],
+  "keywords": [
+    "teacher",
+    "tet",
+    "cbse",
+    "teaching"
+  ],
+  "order": 11,
+  "intro": "The CTET form asks for a passport-size photograph and a scanned signature, each within a KB range.",
+  "documents": [
+    {
+      "minKb": 10,
+      "fit": "cover",
+      "notes": [
+        "3.5 × 4.5 cm, JPG, 10–100 KB, in colour.",
+        "Light or white background; at least 80% of your face visible with both ears. No caps or tinted glasses."
+      ],
+      "id": "photo",
+      "label": "Photograph",
+      "kind": "photo",
+      "width": 276,
+      "height": 354,
+      "widthCm": 3.5,
+      "heightCm": 4.5,
+      "dpi": 200,
+      "sizeIsSuggested": true,
+      "maxKb": 100,
+      "caption": "optional"
+    },
+    {
+      "minKb": 3,
+      "fit": "contain",
+      "notes": [
+        "3.5 × 1.5 cm, JPG, 3–30 KB.",
+        "Black or blue ink on plain white paper, in running handwriting (not block capitals)."
+      ],
+      "id": "signature",
+      "label": "Signature",
+      "kind": "signature",
+      "width": 276,
+      "height": 118,
+      "widthCm": 3.5,
+      "heightCm": 1.5,
+      "dpi": 200,
+      "sizeIsSuggested": true,
+      "maxKb": 30
+    }
+  ],
+  "source": {
+    "label": "Summary of CTET 2026 application requirements (coaching-site summary, check the information bulletin)",
+    "url": "https://www.cbseguidanceweb.com/ctet-sep-2026-application-form-documents-required-photo-size/",
+    "official": false
+  },
+  "faqs": [
+    {
+      "q": "What is the CTET photo size?",
+      "a": "3.5 × 4.5 cm, JPG, between 10 KB and 100 KB."
+    },
+    {
+      "q": "What is the CTET signature size?",
+      "a": "3.5 × 1.5 cm, JPG, between 3 KB and 30 KB."
+    }
+  ],
+  "lastVerified": "2026-10-31"
+}

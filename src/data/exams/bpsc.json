@@ -1,0 +1,64 @@
+{
+  "slug": "bpsc-photo-signature-resizer",
+  "name": "BPSC",
+  "fullName": "BPSC (Bihar Public Service Commission)",
+  "covers": [
+    "BPSC CCE",
+    "BPSC TRE",
+    "Other BPSC exams"
+  ],
+  "keywords": [
+    "bihar",
+    "state psc",
+    "tre",
+    "teacher"
+  ],
+  "order": 15,
+  "intro": "BPSC captures your photograph live through the webcam. The signature image must be under 20 KB and taller than it is wide.",
+  "documents": [
+    {
+      "minKb": 0,
+      "fit": "cover",
+      "notes": [
+        "The application captures a live photo through your webcam.",
+        "Face the camera with eyes open in good light, against a light background. No headgear, sunglasses or mask, and nobody else in the frame."
+      ],
+      "id": "photo",
+      "label": "Photograph",
+      "kind": "photo",
+      "liveCapture": true
+    },
+    {
+      "minKb": 0,
+      "fit": "contain",
+      "notes": [
+        "Under 20 KB; 150–220 pixels wide and 250–320 pixels tall.",
+        "The image covers your signature in Hindi and in English; signing in both scripts one below the other suits this taller shape. Check your notification for the exact arrangement."
+      ],
+      "id": "signature",
+      "label": "Signature (Hindi and English)",
+      "kind": "signature",
+      "width": 200,
+      "height": 300,
+      "minWidth": 150,
+      "minHeight": 250,
+      "maxKb": 20
+    }
+  ],
+  "source": {
+    "label": "BPSC online application user manual",
+    "url": "https://bpsconline.bihar.gov.in/downloads/User_Manual.pdf",
+    "official": true
+  },
+  "faqs": [
+    {
+      "q": "Do I upload a photo for BPSC?",
+      "a": "No. The BPSC application captures a live photo through your webcam. Only the signature is uploaded."
+    },
+    {
+      "q": "What is the BPSC signature size?",
+      "a": "Under 20 KB, 150–220 pixels wide and 250–320 pixels tall."
+    }
+  ],
+  "lastVerified": "2026-10-31"
+}

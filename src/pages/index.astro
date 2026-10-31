@@ -109,12 +109,12 @@ const listHeading = 'text-[1.6rem] font-extrabold tracking-[-0.02em] text-ink';
   <section class="mx-auto mt-16 max-w-5xl px-4" aria-labelledby="exams-heading">
     <div class="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
       <h2 id="exams-heading" class={listHeading}>Filling an exam form?</h2>
-      <a href="/exam" class="text-[0.95rem] font-semibold text-ink-2 underline underline-offset-4">All exam presets</a>
+      <a href="/exam" class="text-[0.95rem] font-semibold text-ink-2 underline underline-offset-4">All {exams.length} exams</a>
     </div>
     <p class="mt-1 max-w-[60ch] text-ink-2">These pages already know the pixel size and KB range for every document the form asks for.</p>
     <ul class="mt-5 grid border-t border-rule sm:grid-cols-2 sm:gap-x-10">
       {
-        exams.map((e) => (
+        exams.slice(0, 8).map((e) => (
           <li class="border-b border-rule">
             <a href={`/exam/${e.data.slug}`} class="group flex min-h-[64px] items-center justify-between gap-4 py-2 no-underline">
               <span>

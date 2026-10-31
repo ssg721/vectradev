@@ -1,0 +1,72 @@
+{
+  "slug": "gate-photo-signature-resizer",
+  "name": "GATE",
+  "fullName": "GATE (Graduate Aptitude Test in Engineering)",
+  "covers": [
+    "GATE"
+  ],
+  "keywords": [
+    "engineering",
+    "iit",
+    "goaps",
+    "postgraduate",
+    "mtech"
+  ],
+  "order": 8,
+  "intro": "GATE accepts a passport-style photograph and a signature within a range of pixel sizes and file sizes, and checks their proportions too.",
+  "documents": [
+    {
+      "minKb": 5,
+      "fit": "cover",
+      "notes": [
+        "Colour photo, between 200 × 260 and 530 × 690 pixels, 5–600 KB, JPG.",
+        "Plain white background, facing the camera; your face should fill 60–70% of the photo."
+      ],
+      "id": "photo",
+      "label": "Photograph",
+      "kind": "photo",
+      "width": 413,
+      "height": 531,
+      "widthCm": 3.5,
+      "heightCm": 4.5,
+      "dpi": 300,
+      "sizeIsSuggested": true,
+      "minWidth": 200,
+      "minHeight": 260,
+      "maxKb": 600
+    },
+    {
+      "minKb": 3,
+      "fit": "contain",
+      "notes": [
+        "Between 250 × 80 and 580 × 180 pixels, 3–300 KB, JPG. The signature should be about 3 times as wide as it is tall.",
+        "Sign in black or dark blue ink; the signature should fill most of the image. No initials or block capitals."
+      ],
+      "id": "signature",
+      "label": "Signature",
+      "kind": "signature",
+      "width": 480,
+      "height": 150,
+      "sizeIsSuggested": true,
+      "minWidth": 250,
+      "minHeight": 80,
+      "maxKb": 300
+    }
+  ],
+  "source": {
+    "label": "GATE 2027 photograph and signature guidelines, IIT Madras",
+    "url": "https://gate2027.iitm.ac.in/photograph_and_signature",
+    "official": true
+  },
+  "faqs": [
+    {
+      "q": "What is the GATE photo size?",
+      "a": "A colour JPG between 200 × 260 and 530 × 690 pixels and between 5 KB and 600 KB, with a plain white background."
+    },
+    {
+      "q": "What is the GATE signature size?",
+      "a": "A JPG between 250 × 80 and 580 × 180 pixels and between 3 KB and 300 KB, about three times as wide as it is tall."
+    }
+  ],
+  "lastVerified": "2026-10-31"
+}

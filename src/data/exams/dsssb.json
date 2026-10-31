@@ -1,0 +1,75 @@
+{
+  "slug": "dsssb-photo-signature-resizer",
+  "name": "DSSSB",
+  "fullName": "DSSSB (Delhi Subordinate Services Selection Board)",
+  "covers": [
+    "DSSSB TGT",
+    "DSSSB PGT",
+    "DSSSB PRT",
+    "DSSSB other posts"
+  ],
+  "keywords": [
+    "delhi",
+    "teacher",
+    "tgt",
+    "pgt",
+    "prt",
+    "oars"
+  ],
+  "order": 14,
+  "intro": "DSSSB applications need a passport-size photograph and a signature in fixed physical sizes and KB ranges.",
+  "documents": [
+    {
+      "minKb": 25,
+      "fit": "cover",
+      "notes": [
+        "3.5 × 4.5 cm, JPG, 25–100 KB, recent and in colour.",
+        "Bright, light background, preferably white, with your face clearly visible."
+      ],
+      "id": "photo",
+      "label": "Photograph",
+      "kind": "photo",
+      "width": 276,
+      "height": 354,
+      "widthCm": 3.5,
+      "heightCm": 4.5,
+      "dpi": 200,
+      "sizeIsSuggested": true,
+      "maxKb": 100
+    },
+    {
+      "minKb": 10,
+      "fit": "contain",
+      "notes": [
+        "3.5 × 1.5 cm, JPG, 10–50 KB.",
+        "Sign yourself on white paper with a black pen."
+      ],
+      "id": "signature",
+      "label": "Signature",
+      "kind": "signature",
+      "width": 276,
+      "height": 118,
+      "widthCm": 3.5,
+      "heightCm": 1.5,
+      "dpi": 200,
+      "sizeIsSuggested": true,
+      "maxKb": 50
+    }
+  ],
+  "source": {
+    "label": "DSSSB online application instructions",
+    "url": "https://dsssbonline.nic.in/AdvtDetailFiles/doc_dsssb_english.pdf",
+    "official": true
+  },
+  "faqs": [
+    {
+      "q": "What is the DSSSB photo size?",
+      "a": "3.5 × 4.5 cm, JPG, between 25 KB and 100 KB."
+    },
+    {
+      "q": "What is the DSSSB signature size?",
+      "a": "3.5 × 1.5 cm, JPG, between 10 KB and 50 KB."
+    }
+  ],
+  "lastVerified": "2026-10-31"
+}

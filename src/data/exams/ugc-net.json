@@ -1,0 +1,56 @@
+{
+  "slug": "ugc-net-photo-signature-resizer",
+  "name": "UGC NET",
+  "fullName": "UGC NET (National Eligibility Test)",
+  "covers": [
+    "UGC NET",
+    "NTA NET"
+  ],
+  "keywords": [
+    "nta",
+    "jrf",
+    "assistant professor",
+    "net"
+  ],
+  "order": 10,
+  "intro": "UGC NET now captures your photograph live during the application. Your signature is uploaded as a scanned file.",
+  "documents": [
+    {
+      "minKb": 0,
+      "fit": "cover",
+      "notes": [
+        "The form captures a live photo through your webcam, or through your phone using a QR code.",
+        "White background, good light, and at least 80% of your face visible including your ears."
+      ],
+      "id": "photo",
+      "label": "Photograph",
+      "kind": "photo",
+      "liveCapture": true
+    },
+    {
+      "minKb": 10,
+      "fit": "contain",
+      "notes": [
+        "Between 10 KB and 50 KB.",
+        "Sign clearly on white paper."
+      ],
+      "id": "signature",
+      "label": "Signature",
+      "kind": "signature",
+      "autoMaxEdge": 500,
+      "maxKb": 50
+    }
+  ],
+  "source": {
+    "label": "Summary of UGC NET December 2026 application rules (news summary, check the information bulletin)",
+    "url": "https://www.careerindia.com/tips/ugc-net-december-2026-meri-pehchaan-login-live-photo-exam-schedule-011-67205.html",
+    "official": false
+  },
+  "faqs": [
+    {
+      "q": "Is the UGC NET photo uploaded or live?",
+      "a": "Live. The application captures your photo through the camera. Only the signature is uploaded as a file, between 10 KB and 50 KB."
+    }
+  ],
+  "lastVerified": "2026-10-31"
+}

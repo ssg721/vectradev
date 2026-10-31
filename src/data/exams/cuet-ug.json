@@ -1,0 +1,60 @@
+{
+  "slug": "cuet-ug-photo-signature-resizer",
+  "name": "CUET UG",
+  "fullName": "CUET UG (Common University Entrance Test)",
+  "covers": [
+    "CUET UG"
+  ],
+  "keywords": [
+    "nta",
+    "university",
+    "du",
+    "central university",
+    "undergraduate"
+  ],
+  "order": 9,
+  "intro": "The CUET UG form takes your photograph live through the camera. Your signature is uploaded as a scanned file.",
+  "documents": [
+    {
+      "minKb": 0,
+      "fit": "cover",
+      "notes": [
+        "The form captures a live photo through your webcam, or through your phone using a QR code.",
+        "White or very light background, good light, and at least 80% of your face visible including your ears. No mask."
+      ],
+      "id": "photo",
+      "label": "Photograph",
+      "kind": "photo",
+      "liveCapture": true
+    },
+    {
+      "minKb": 10,
+      "fit": "contain",
+      "notes": [
+        "JPG between 10 KB and 50 KB.",
+        "Sign clearly on white paper."
+      ],
+      "id": "signature",
+      "label": "Signature",
+      "kind": "signature",
+      "autoMaxEdge": 500,
+      "maxKb": 50
+    }
+  ],
+  "source": {
+    "label": "Summary of CUET UG 2026 image guidelines (coaching-site summary, check the information bulletin)",
+    "url": "https://university.careers360.com/articles/cuet-photo-size-2026",
+    "official": false
+  },
+  "faqs": [
+    {
+      "q": "Do I upload a photo for CUET UG?",
+      "a": "No. The form takes a live photo through your webcam or phone camera. Only the signature is uploaded as a file."
+    },
+    {
+      "q": "What is the CUET UG signature size?",
+      "a": "A JPG between 10 KB and 50 KB."
+    }
+  ],
+  "lastVerified": "2026-10-31"
+}
