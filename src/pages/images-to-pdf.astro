@@ -1,0 +1,41 @@
+---
+import ToolPage from '../layouts/ToolPage.astro';
+import ImagesToPdfTool from '../components/tools/ImagesToPdfTool';
+import { PDF_TOOLS, COMPRESS_TOOLS } from '../lib/site';
+
+const faqs = [
+  { q: 'How do I put several images into one PDF?', a: 'Choose all the images at once (or add them a few at a time), arrange them in the order you want, then tap Make PDF. Each image becomes one page.' },
+  { q: 'How do I change the order of the pages?', a: 'Use the arrows under each page to move it earlier or later. On a computer you can also drag a page to a new spot. "Sort by file name" puts scans like page1, page2, page10 in the right order.' },
+  { q: 'Are my images uploaded?', a: 'No. The PDF is made inside your browser on your own phone or computer, so marksheets, ID cards and bank documents never leave your device.' },
+  { q: 'Can I make the PDF fit an upload limit?', a: 'Yes. Choose "Under a size" and enter the limit from the form, for example 500 KB. The tool shares the space between the pages and keeps the best quality that fits.' },
+  { q: 'Which page size should I choose?', a: 'A4 suits forms, printing and most offices in India and Europe. Letter is the US paper size. "Same as image" makes each page the shape of its photo, with no white space.' },
+  { q: 'Can I photograph documents with my phone?', a: 'Yes. On a phone, "Photograph a page" opens the camera. Take one photo per page, then turn on Black and white for a clean, scanner-like result.' },
+];
+---
+
+<ToolPage
+  title="Images to PDF"
+  metaTitle="Images to PDF: combine photos into one PDF in any order (no upload)"
+  description="Combine JPG, PNG, WebP and iPhone photos into one PDF, in the order you choose. A4, Letter or image size, with an optional size limit. Free, nothing is uploaded."
+  lede="Put photos, scans or screenshots into one PDF. Arrange the pages, choose the page size and download. Nothing is uploaded."
+  faqs={faqs}
+  related={[...PDF_TOOLS.filter((t) => t.href !== '/images-to-pdf'), COMPRESS_TOOLS[0]]}
+  breadcrumb={{ href: '/pdf-tools', label: 'PDF tools' }}
+>
+  <ImagesToPdfTool slot="tool" client:load />
+
+  <h2>How to turn images into a PDF</h2>
+  <ol>
+    <li>Tap <strong>Choose images</strong> and select every page at once, or drop them onto the box.</li>
+    <li>Put the pages in order with the arrows, or drag them on a computer. Rotate any page that's sideways.</li>
+    <li>Pick a page size and, if your form has a limit, choose <strong>Under a size</strong> and enter it.</li>
+    <li>Tap <strong>Make PDF</strong> and download it.</li>
+  </ol>
+  <h2>Good for</h2>
+  <ul>
+    <li>Marksheets, certificates and ID proofs that a form wants as one PDF.</li>
+    <li>Pages of a document photographed with your phone.</li>
+    <li>Receipts and bills for expense claims.</li>
+    <li>Screenshots you want to send as a single file.</li>
+  </ul>
+</ToolPage>

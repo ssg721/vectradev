@@ -89,6 +89,8 @@ export function pdfPresetLabel(kb: number): string {
 
 export const PDF_TOOLS: ToolLink[] = [
   { href: '/compress-pdf', title: 'Compress PDF', blurb: 'Make a PDF smaller by quality, or under a size limit.' },
+  { href: '/images-to-pdf', title: 'Images to PDF', blurb: 'Put several photos or scans into one PDF, in the order you choose.' },
+  { href: '/jpg-to-pdf', title: 'JPG to PDF', blurb: 'Turn JPG photos into a single PDF, on A4 or at their own size.' },
   ...PDF_KB_PRESETS.map((kb) => ({
     href: `/compress-pdf-to-${pdfPresetSlug(kb)}`,
     title: `Compress PDF to ${pdfPresetLabel(kb)}`,

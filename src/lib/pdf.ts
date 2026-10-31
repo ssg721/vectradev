@@ -11,6 +11,8 @@
  */
 import { compressInWorker, encodeInWorker, TooBigError } from './codec';
 import { estimateInitialScale } from './compress';
+import { loadImage, UnsupportedFileError } from './image';
+import { rotateBitmap } from './render';
 
 export class PdfError extends Error {}
 
@@ -181,6 +183,15 @@ interface PageImage {
   jpeg: Uint8Array;
   widthPt: number;
   heightPt: number;
+  /** Where the image sits on the page, in points; the whole page when not set. */
+  box?: Box;
+}
+
+interface Box {
+  x: number;
+  y: number;
+  w: number;
+  h: number;
 }
 
 async function buildPdf(pages: PageImage[]): Promise<Uint8Array> {
@@ -191,7 +202,8 @@ async function buildPdf(pages: PageImage[]): Promise<Uint8Array> {
   for (const p of pages) {
     const img = await out.embedJpg(p.jpeg);
     const page = out.addPage([p.widthPt, p.heightPt]);
-    page.drawImage(img, { x: 0, y: 0, width: p.widthPt, height: p.heightPt });
+    const b = p.box ?? { x: 0, y: 0, w: p.widthPt, h: p.heightPt };
+    page.drawImage(img, { x: b.x, y: b.y, width: b.w, height: b.h });
   }
   return out.save({ useObjectStreams: true });
 }
@@ -275,4 +287,151 @@ export async function compressPdf(file: File, opts: CompressPdfOptions): Promise
   } finally {
     await close();
   }
+}
+
+/* ------------------------------------------------------------------ */
+/* Images to PDF                                                       */
+/* ------------------------------------------------------------------ */
+
+export type PageSize = 'a4' | 'letter' | 'fit';
+
+export interface ImagePage {
+  file: File;
+  rotation: 0 | 90 | 180 | 270;
+}
+
+export interface ImagesToPdfOptions {
+  pageSize: PageSize;
+  /** A 10 mm white border around each image (A4 and Letter only). */
+  margin: boolean;
+  /** Hard maximum in bytes; switches to "fit under a size" mode. */
+  maxBytes?: number;
+  /** Used when maxBytes is not set. */
+  preset?: PdfPresetName;
+  grayscale?: boolean;
+  onProgress?: (page: number, pages: number) => void;
+}
+
+export interface ImagesToPdfResult {
+  blob: Blob;
+  pages: number;
+}
+
+const PAGE_PT: Record<Exclude<PageSize, 'fit'>, [number, number]> = {
+  a4: [595.28, 841.89],
+  letter: [612, 792],
+};
+const MARGIN_PT = 28.35; // 10 mm
+
+/** Page size and image position for one image. Pages turn sideways for wide images. */
+function layoutPage(imgW: number, imgH: number, size: PageSize, margin: boolean): { pageW: number; pageH: number; box: Box } {
+  if (size === 'fit') {
+    // The page takes the image's shape. Treat the image as 96 pixels per inch,
+    // but cap the long edge at A4's so phone photos don't become poster-sized pages.
+    let w = imgW * 0.75;
+    let h = imgH * 0.75;
+    const k = Math.min(1, PAGE_PT.a4[1] / Math.max(w, h));
+    w *= k;
+    h *= k;
+    return { pageW: w, pageH: h, box: { x: 0, y: 0, w, h } };
+  }
+  let [pageW, pageH] = PAGE_PT[size];
+  if (imgW > imgH) [pageW, pageH] = [pageH, pageW];
+  const m = margin ? MARGIN_PT : 0;
+  const k = Math.min((pageW - 2 * m) / imgW, (pageH - 2 * m) / imgH);
+  const w = imgW * k;
+  const h = imgH * k;
+  return { pageW, pageH, box: { x: (pageW - w) / 2, y: (pageH - h) / 2, w, h } };
+}
+
+/**
+ * Decodes one image, applies its rotation, puts it on white (so transparent
+ * PNGs don't turn black) and scales it to the resolution it will print at.
+ */
+async function prepareImagePage(page: ImagePage, n: number, opts: ImagesToPdfOptions, dpi: number) {
+  let raw: ImageBitmap;
+  try {
+    ({ bitmap: raw } = await loadImage(page.file));
+  } catch (e) {
+    const why = e instanceof UnsupportedFileError ? e.message : 'It could not be opened.';
+    throw new PdfError(`Page ${n} (${page.file.name}): ${why}`);
+  }
+  const src = page.rotation ? await rotateBitmap(raw, page.rotation) : raw;
+  if (src !== raw) raw.close();
+
+  const { pageW, pageH, box } = layoutPage(src.width, src.height, opts.pageSize, opts.margin);
+  const k = Math.min(1, (box.w * dpi) / 72 / src.width);
+  const w = Math.max(1, Math.round(src.width * k));
+  const h = Math.max(1, Math.round(src.height * k));
+  const canvas = document.createElement('canvas');
+  canvas.width = w;
+  canvas.height = h;
+  const ctx = canvas.getContext('2d', { willReadFrequently: !!opts.grayscale })!;
+  ctx.fillStyle = '#fff';
+  ctx.fillRect(0, 0, w, h);
+  ctx.imageSmoothingQuality = 'high';
+  ctx.drawImage(src, 0, 0, w, h);
+  src.close();
+  if (opts.grayscale) toGrayscale(ctx, w, h);
+  const bitmap = await createImageBitmap(canvas);
+  canvas.width = canvas.height = 0; // release memory early on phones
+  return { bitmap, pageW, pageH, box };
+}
+
+/** Puts images on PDF pages in the order given. */
+export async function imagesToPdf(pages: ImagePage[], opts: ImagesToPdfOptions): Promise<ImagesToPdfResult> {
+  const count = pages.length;
+  if (!count) throw new PdfError('Add at least one image.');
+  if (count > MAX_PAGES) throw new PdfError(`That's ${count} images. Up to ${MAX_PAGES} fit in one PDF here; make two PDFs instead.`);
+
+  let pdfBytes: Uint8Array | null = null;
+
+  if (opts.maxBytes) {
+    // Same approach as compressPdf: share the size budget between pages and
+    // try again a little tighter if the finished PDF overshoots.
+    for (const factor of [0.96, 0.88, 0.78]) {
+      const budget = opts.maxBytes * factor - pdfOverheadBytes(count);
+      if (budget < count * 2500) {
+        throw new PdfError(
+          `${count} pages can't fit in that size and still be readable. Try at least ${Math.ceil((pdfOverheadBytes(count) + count * 6000) / 1024)} KB, or use fewer images.`,
+        );
+      }
+      const images: PageImage[] = [];
+      let used = 0;
+      for (let i = 0; i < count; i++) {
+        opts.onProgress?.(i + 1, count);
+        const perPage = Math.floor((budget - used) / (count - i));
+        const { bitmap, pageW, pageH, box } = await prepareImagePage(pages[i], i + 1, opts, PDF_PRESETS.balanced.dpi);
+        const initialScale = estimateInitialScale(bitmap.width, bitmap.height, perPage);
+        let jpeg: Uint8Array;
+        try {
+          const out = await compressInWorker(bitmap, { min: 0, max: perPage, aim: Math.floor(perPage * 0.97) }, { allowDownscale: true, initialScale });
+          jpeg = new Uint8Array(await out.blob.arrayBuffer());
+        } catch (e) {
+          if (e instanceof TooBigError) {
+            throw new PdfError(`Page ${i + 1} can't fit in the space left. Try a larger size limit, or turn on black and white.`);
+          }
+          throw e;
+        }
+        used += jpeg.length;
+        images.push({ jpeg, widthPt: pageW, heightPt: pageH, box });
+      }
+      pdfBytes = await buildPdf(images);
+      if (pdfBytes.length <= opts.maxBytes) break;
+      pdfBytes = null;
+    }
+    if (!pdfBytes) throw new PdfError("These images couldn't be brought under that size. Try a larger limit or black and white.");
+  } else {
+    const preset = PDF_PRESETS[opts.preset ?? 'balanced'];
+    const images: PageImage[] = [];
+    for (let i = 0; i < count; i++) {
+      opts.onProgress?.(i + 1, count);
+      const { bitmap, pageW, pageH, box } = await prepareImagePage(pages[i], i + 1, opts, preset.dpi);
+      const out = await encodeInWorker(bitmap, 'jpeg', preset.quality);
+      images.push({ jpeg: new Uint8Array(await out.blob.arrayBuffer()), widthPt: pageW, heightPt: pageH, box });
+    }
+    pdfBytes = await buildPdf(images);
+  }
+
+  return { blob: new Blob([pdfBytes as BlobPart], { type: 'application/pdf' }), pages: count };
 }

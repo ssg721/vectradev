@@ -1,0 +1,36 @@
+---
+import ToolPage from '../layouts/ToolPage.astro';
+import ImagesToPdfTool from '../components/tools/ImagesToPdfTool';
+import { PDF_TOOLS, COMPRESS_TOOLS } from '../lib/site';
+
+const faqs = [
+  { q: 'How do I convert JPG to PDF?', a: 'Choose your JPG files above, arrange them in the order you want and tap Make PDF. Each JPG becomes one page of the PDF.' },
+  { q: 'Can I convert several JPGs into one PDF?', a: 'Yes. Select them all at once, or keep adding more. They are combined into a single PDF in the order shown, and you can change that order before making it.' },
+  { q: 'Does it work with PNG and iPhone photos too?', a: 'Yes. PNG, WebP and iPhone HEIC photos work the same way as JPG.' },
+  { q: 'Will the PDF be blurry?', a: 'No. "Balanced" keeps pages sharp for reading and printing at a sensible size. Choose "Best quality" for photos you want to print large, or "Under a size" if a form limits the file size.' },
+  { q: 'Are my files uploaded?', a: 'No. The conversion happens in your browser, so your photos never leave your device.' },
+];
+---
+
+<ToolPage
+  title="JPG to PDF"
+  metaTitle="JPG to PDF converter: combine JPGs into one PDF, free (no upload)"
+  description="Convert JPG images to PDF in your browser. Combine many JPGs into one PDF, choose the page order and page size. Free, nothing is uploaded."
+  lede="Turn one or many JPG photos into a single PDF. Arrange the pages, pick A4 or the photo's own size, and download."
+  faqs={faqs}
+  related={[...PDF_TOOLS.filter((t) => t.href !== '/jpg-to-pdf'), COMPRESS_TOOLS[0]]}
+  breadcrumb={{ href: '/pdf-tools', label: 'PDF tools' }}
+>
+  <ImagesToPdfTool slot="tool" client:load />
+
+  <h2>How to convert JPG to PDF</h2>
+  <ol>
+    <li>Tap <strong>Choose images</strong> and select your JPG files.</li>
+    <li>Arrange them in the order the pages should appear.</li>
+    <li>Tap <strong>Make PDF</strong> and download the file.</li>
+  </ol>
+  <h2>Why send a PDF instead of photos?</h2>
+  <p>
+    A PDF keeps the pages together and in order, opens the same way on every phone and computer, and is what most application forms, offices and banks ask for when they want a document.
+  </p>
+</ToolPage>
