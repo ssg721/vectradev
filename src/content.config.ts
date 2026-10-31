@@ -52,6 +52,8 @@ const preset = z.object({
     name: z.string(),
     fullName: z.string(),
     covers: z.array(z.string()).default([]),
+    /** Extra words people might search for ("bank", "railway"). */
+    keywords: z.array(z.string()).default([]),
     order: z.number().int(),
     intro: z.string(),
     documents: z.array(document).min(1),

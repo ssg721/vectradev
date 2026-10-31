@@ -2,32 +2,77 @@
   "slug": "ibps-photo-signature-resizer",
   "name": "IBPS",
   "fullName": "IBPS PO, Clerk, RRB and SO",
-  "covers": ["IBPS PO", "IBPS Clerk", "IBPS RRB", "IBPS SO"],
+  "covers": [
+    "IBPS PO",
+    "IBPS Clerk",
+    "IBPS RRB",
+    "IBPS SO"
+  ],
   "order": 1,
   "intro": "Bank recruitment forms ask for four scanned files: a photograph, a signature, a left thumb impression and a handwritten declaration, each with its own pixel size and KB range.",
   "documents": [
     {
-      "id": "photo", "label": "Photograph", "kind": "photo",
-      "width": 200, "height": 230, "widthCm": 3.5, "heightCm": 4.5, "dpi": 200,
-      "minKb": 20, "maxKb": 50, "fit": "cover", "caption": "none",
-      "notes": ["Recent colour passport-style photo on a light background.", "Face the camera; no caps or dark glasses."]
+      "id": "photo",
+      "label": "Photograph",
+      "kind": "photo",
+      "width": 200,
+      "height": 230,
+      "widthCm": 3.5,
+      "heightCm": 4.5,
+      "dpi": 200,
+      "minKb": 20,
+      "maxKb": 50,
+      "fit": "cover",
+      "caption": "none",
+      "notes": [
+        "Recent colour passport-style photo on a light background.",
+        "Face the camera; no caps or dark glasses."
+      ]
     },
     {
-      "id": "signature", "label": "Signature", "kind": "signature",
-      "width": 140, "height": 60, "dpi": 200,
-      "minKb": 10, "maxKb": 20, "fit": "contain",
-      "notes": ["Sign in black ink on white paper.", "Signatures in capital letters are not accepted."]
+      "id": "signature",
+      "label": "Signature",
+      "kind": "signature",
+      "width": 140,
+      "height": 60,
+      "dpi": 200,
+      "minKb": 10,
+      "maxKb": 20,
+      "fit": "contain",
+      "notes": [
+        "Sign in black ink on white paper.",
+        "Signatures in capital letters are not accepted."
+      ]
     },
     {
-      "id": "thumb", "label": "Left thumb impression", "kind": "thumb",
-      "width": 240, "height": 240, "widthCm": 3, "heightCm": 3, "dpi": 200,
-      "minKb": 20, "maxKb": 50, "fit": "contain",
-      "notes": ["Black or blue ink on white paper.", "If your left thumb is unavailable, the right thumb may be used."]
+      "id": "thumb",
+      "label": "Left thumb impression",
+      "kind": "thumb",
+      "width": 240,
+      "height": 240,
+      "widthCm": 3,
+      "heightCm": 3,
+      "dpi": 200,
+      "minKb": 20,
+      "maxKb": 50,
+      "fit": "contain",
+      "notes": [
+        "Black or blue ink on white paper.",
+        "If your left thumb is unavailable, the right thumb may be used."
+      ]
     },
     {
-      "id": "declaration", "label": "Handwritten declaration", "kind": "declaration",
-      "width": 800, "height": 400, "widthCm": 10, "heightCm": 5, "dpi": 200,
-      "minKb": 50, "maxKb": 100, "fit": "contain",
+      "id": "declaration",
+      "label": "Handwritten declaration",
+      "kind": "declaration",
+      "width": 800,
+      "height": 400,
+      "widthCm": 10,
+      "heightCm": 5,
+      "dpi": 200,
+      "minKb": 50,
+      "maxKb": 100,
+      "fit": "contain",
       "notes": [
         "Write it yourself, in English, in black ink on white paper. Typed text is rejected.",
         "Text: I, (your name), hereby declare that all the information submitted by me in the application form is correct, true and valid. I will present the supporting documents as and when required."
@@ -41,8 +86,25 @@
   },
   "lastVerified": "2026-10-31",
   "faqs": [
-    { "q": "What is the IBPS photo size?", "a": "200 × 230 pixels (about 3.5 × 4.5 cm at 200 DPI), JPG, between 20 KB and 50 KB." },
-    { "q": "What is the IBPS signature size?", "a": "140 × 60 pixels at 200 DPI, JPG, between 10 KB and 20 KB, signed in black ink on white paper." },
-    { "q": "My signature comes out smaller than 10 KB. What do I do?", "a": "A small, clean signature often compresses below 10 KB even at top quality. This tool adds a harmless comment block inside the file to bring it inside the allowed range without changing how it looks." }
+    {
+      "q": "What is the IBPS photo size?",
+      "a": "200 × 230 pixels (about 3.5 × 4.5 cm at 200 DPI), JPG, between 20 KB and 50 KB."
+    },
+    {
+      "q": "What is the IBPS signature size?",
+      "a": "140 × 60 pixels at 200 DPI, JPG, between 10 KB and 20 KB, signed in black ink on white paper."
+    },
+    {
+      "q": "My signature comes out smaller than 10 KB. What do I do?",
+      "a": "A small, clean signature often compresses below 10 KB even at top quality. This tool adds a harmless comment block inside the file to bring it inside the allowed range without changing how it looks."
+    }
+  ],
+  "keywords": [
+    "bank",
+    "banking",
+    "po",
+    "clerk",
+    "rrb",
+    "so"
   ]
 }

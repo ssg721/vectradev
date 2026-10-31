@@ -3,8 +3,8 @@ import { formatBytes } from '../../lib/bytes';
 export interface Check {
   label: string;
   value: string;
-  /** true = meets the rule, false = fails it, null = information only */
-  ok: boolean | null;
+  /** true = meets the rule, false = fails it, 'warn' = worth a look (doesn't block), null = information only */
+  ok: boolean | 'warn' | null;
 }
 
 export interface Preview {
@@ -27,9 +27,18 @@ interface Props {
   notes?: string[];
   downloadLabel?: string;
   onDownload?: () => void;
+  /** File to offer through the phone's share sheet (WhatsApp, Drive…), when supported. */
+  shareFile?: File | null;
 }
 
-function Mark({ ok }: { ok: boolean | null }) {
+function Mark({ ok }: { ok: Check['ok'] }) {
+  if (ok === 'warn')
+    return (
+      <svg width="20" height="20" viewBox="0 0 20 20" aria-label="Worth checking" class="shrink-0 text-warn">
+        <path d="M10 3l8 14H2L10 3z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+        <path d="M10 8v4M10 14.5v.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+      </svg>
+    );
   if (ok === null) return <span aria-hidden="true" class="inline-block w-5 text-center text-ink-3">·</span>;
   return ok ? (
     <svg width="20" height="20" viewBox="0 0 20 20" aria-label="Meets the rule" class="shrink-0 text-pass">
@@ -72,7 +81,10 @@ export default function ResultCard({
   notes = [],
   downloadLabel = 'Download',
   onDownload,
+  shareFile,
 }: Props) {
+  const canShare =
+    !!shareFile && typeof navigator !== 'undefined' && !!navigator.canShare && navigator.canShare({ files: [shareFile] });
   const saved = result && original.bytes > 0 ? 1 - result.bytes / original.bytes : 0;
   const allOk = checks.length > 0 && checks.every((c) => c.ok !== false);
 
@@ -106,10 +118,10 @@ export default function ResultCard({
           {checks.length > 0 && (
             <ul class="mt-5 divide-y divide-rule border-y border-rule" aria-label="Requirement checks">
               {checks.map((c) => (
-                <li class="flex min-h-[44px] items-center gap-3 py-2 text-[0.95rem]">
+                <li class={`flex min-h-[44px] items-center gap-3 py-2 text-[0.95rem] ${c.ok === 'warn' ? 'text-warn' : ''}`}>
                   <Mark ok={c.ok} />
                   <span class="w-28 shrink-0 text-ink-2 sm:w-36">{c.label}</span>
-                  <span class="tabular font-semibold text-ink">{c.value}</span>
+                  <span class={`tabular font-semibold ${c.ok === 'warn' ? 'text-warn' : 'text-ink'}`}>{c.value}</span>
                 </li>
               ))}
             </ul>
@@ -128,6 +140,18 @@ export default function ResultCard({
               </svg>
               {downloadLabel}
             </button>
+            {canShare && (
+              <button
+                type="button"
+                class="btn btn-quiet"
+                onClick={() => navigator.share({ files: [shareFile!] }).catch(() => {})}
+              >
+                <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
+                  <path d="M9 11V2M5.5 5.5L9 2l3.5 3.5M4 9H3v7h12V9h-1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                Share
+              </button>
+            )}
             {saved > 0.01 && (
               <span class="tabular text-sm text-ink-2">{Math.round(saved * 100)}% smaller than the original</span>
             )}

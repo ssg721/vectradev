@@ -30,6 +30,11 @@ export interface RenderOptions {
   caption?: Caption | null;
   /** Keep transparency (PNG/WebP output). Otherwise transparent areas become white. */
   transparent?: boolean;
+  /** -100..100 each; 0 leaves the image unchanged. Applied to the final picture area. */
+  brightness?: number;
+  contrast?: number;
+  /** 0..100 for cleanPaper: higher whitens more of the paper and darkens ink more. Default 50. */
+  inkStrength?: number;
 }
 
 export const CAPTION_RATIO = 0.18;
@@ -82,20 +87,23 @@ function lumPercentile(d: Uint8ClampedArray, p: number): number {
  * Levels adjustment tuned for ink on paper: the paper tone becomes pure white,
  * ink becomes darker, and the ink's colour (blue or black) is kept.
  */
-export function cleanPaper(c: HTMLCanvasElement): void {
+export function cleanPaper(c: HTMLCanvasElement, strength = 50): void {
+  const t = Math.min(100, Math.max(0, strength)) / 100;
   const ctx = c.getContext('2d', { willReadFrequently: true })!;
   const img = ctx.getImageData(0, 0, c.width, c.height);
   const d = img.data;
   const paper = lumPercentile(d, 0.6); // most of a signature image is paper
   const ink = Math.min(lumPercentile(d, 0.02), paper - 40);
-  const white = paper - (paper - ink) * 0.25;
+  // At the default strength this matches the original tuning (0.25 / 0.55).
+  const white = paper - (paper - ink) * (0.05 + 0.4 * t);
+  const keep = 0.8 - 0.5 * t; // how much of the ink's own brightness to keep
   const range = Math.max(1, white - ink);
   for (let i = 0; i < d.length; i += 4) {
     const t = Math.min(1, Math.max(0, (luminance(d, i) - ink) / range));
     const k = t * t; // keep strokes solid, fade near-paper tones out quickly
-    d[i] = d[i] * 0.55 * (1 - k) + 255 * k;
-    d[i + 1] = d[i + 1] * 0.55 * (1 - k) + 255 * k;
-    d[i + 2] = d[i + 2] * 0.55 * (1 - k) + 255 * k;
+    d[i] = d[i] * keep * (1 - k) + 255 * k;
+    d[i + 1] = d[i + 1] * keep * (1 - k) + 255 * k;
+    d[i + 2] = d[i + 2] * keep * (1 - k) + 255 * k;
     d[i + 3] = 255;
   }
   ctx.putImageData(img, 0, 0);
@@ -149,7 +157,7 @@ function drawCaption(ctx: CanvasRenderingContext2D, caption: Caption, x: number,
 /** Renders the final image and returns it as an ImageBitmap ready for the encoder. */
 export async function renderImage(bitmap: ImageBitmap, opts: RenderOptions): Promise<ImageBitmap> {
   let src = toCanvas(bitmap, opts.crop, opts.transparent);
-  if (opts.cleanPaper) cleanPaper(src);
+  if (opts.cleanPaper) cleanPaper(src, opts.inkStrength ?? 50);
 
   if (opts.fit === 'contain' && opts.cleanPaper) {
     // Trim empty paper around a signature or thumb impression before fitting it.
@@ -192,6 +200,7 @@ export async function renderImage(bitmap: ImageBitmap, opts: RenderOptions): Pro
     ctx.drawImage(stepDown(src, dw, dh), Math.round((areaW - dw) / 2), Math.round((areaH - dh) / 2), dw, dh);
   }
 
+  if (opts.brightness || opts.contrast) adjustArea(ctx, out.width, areaH, opts.brightness ?? 0, opts.contrast ?? 0);
   if (opts.caption) drawCaption(ctx, opts.caption, 0, areaH, out.width, stripH);
 
   return createImageBitmap(out);
@@ -224,4 +233,92 @@ export function centeredCrop(imgW: number, imgH: number, aspect: number, topBias
     w: Math.round(w),
     h: Math.round(h),
   };
+}
+
+/** Brightness/contrast on the picture area (not the caption strip). Values -100..100. */
+function adjustArea(ctx: CanvasRenderingContext2D, w: number, h: number, brightness: number, contrast: number): void {
+  const img = ctx.getImageData(0, 0, w, h);
+  const d = img.data;
+  const b = (brightness / 100) * 80;
+  const c = Math.tan(((contrast / 100) * 0.9 + 1) * (Math.PI / 4)); // 0.16..6.3, 1 at 0
+  const lut = new Uint8ClampedArray(256);
+  for (let v = 0; v < 256; v++) lut[v] = (v - 128) * c + 128 + b;
+  for (let i = 0; i < d.length; i += 4) {
+    d[i] = lut[d[i]];
+    d[i + 1] = lut[d[i + 1]];
+    d[i + 2] = lut[d[i + 2]];
+  }
+  ctx.putImageData(img, 0, 0);
+}
+
+/** Rotates a bitmap by a multiple of 90 degrees. */
+export async function rotateBitmap(bitmap: ImageBitmap, degrees: 0 | 90 | 180 | 270): Promise<ImageBitmap> {
+  if (degrees === 0) return createImageBitmap(bitmap);
+  const swap = degrees === 90 || degrees === 270;
+  const c = canvas(swap ? bitmap.height : bitmap.width, swap ? bitmap.width : bitmap.height);
+  const ctx = c.getContext('2d')!;
+  ctx.translate(c.width / 2, c.height / 2);
+  ctx.rotate((degrees * Math.PI) / 180);
+  ctx.drawImage(bitmap, -bitmap.width / 2, -bitmap.height / 2);
+  return createImageBitmap(c);
+}
+
+export interface QuickCheck {
+  label: string;
+  value: string;
+  ok: true | 'warn';
+}
+
+/**
+ * Simple, honest checks on the finished picture. They can't judge everything
+ * a portal or examiner might, so problems are shown as warnings, not failures.
+ */
+export async function quickChecks(bitmap: ImageBitmap, kind: 'photo' | 'paper', photoAreaRatio = 1): Promise<QuickCheck[]> {
+  const W = 96;
+  const H = Math.max(8, Math.round((bitmap.height / bitmap.width) * W));
+  const c = canvas(W, H);
+  const ctx = c.getContext('2d', { willReadFrequently: true })!;
+  ctx.drawImage(bitmap, 0, 0, W, H);
+  const { data } = ctx.getImageData(0, 0, W, H);
+  const lum = (x: number, y: number) => {
+    const i = (y * W + x) * 4;
+    return 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
+  };
+
+  if (kind === 'paper') {
+    let ink = 0;
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) if (lum(x, y) < 140) ink++;
+    const share = ink / (W * H);
+    if (share < 0.004) return [{ label: 'Ink', value: 'Very little ink found. Is the writing clear and dark?', ok: 'warn' }];
+    if (share > 0.45) return [{ label: 'Ink', value: 'Looks very dark. Use white paper and good light.', ok: 'warn' }];
+    return [{ label: 'Ink', value: 'Clear on a white background', ok: true }];
+  }
+
+  // Photo: sample a frame around the top and sides (the bottom is usually clothing).
+  const photoH = Math.round(H * photoAreaRatio);
+  const band = Math.max(2, Math.round(W * 0.07));
+  const edge: number[] = [];
+  for (let y = 0; y < photoH * 0.75; y++) {
+    for (let x = 0; x < W; x++) {
+      if (y < band || x < band || x >= W - band) edge.push(lum(x, y));
+    }
+  }
+  const mean = (a: number[]) => a.reduce((s, v) => s + v, 0) / Math.max(1, a.length);
+  const bgMean = mean(edge);
+  const bgStd = Math.sqrt(mean(edge.map((v) => (v - bgMean) ** 2)));
+  const centre: number[] = [];
+  for (let y = Math.round(photoH * 0.25); y < Math.round(photoH * 0.6); y++) {
+    for (let x = Math.round(W * 0.3); x < Math.round(W * 0.7); x++) centre.push(lum(x, y));
+  }
+  const faceMean = mean(centre);
+
+  const checks: QuickCheck[] = [];
+  if (bgMean >= 175 && bgStd <= 32) checks.push({ label: 'Background', value: 'Plain and light', ok: true });
+  else if (bgMean < 175) checks.push({ label: 'Background', value: 'Looks dark. Most forms want plain white or light.', ok: 'warn' });
+  else checks.push({ label: 'Background', value: 'Looks busy. Use a plain wall behind you.', ok: 'warn' });
+
+  if (faceMean < 80) checks.push({ label: 'Lighting', value: 'Face looks dark. Try more light, or raise Brightness.', ok: 'warn' });
+  else if (faceMean > 225) checks.push({ label: 'Lighting', value: 'Looks washed out. Lower Brightness a little.', ok: 'warn' });
+  else checks.push({ label: 'Lighting', value: 'Face is well lit', ok: true });
+  return checks;
 }

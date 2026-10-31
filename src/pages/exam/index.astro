@@ -25,7 +25,21 @@ const faqs = [
   lede="Pick your exam. Each page knows the sizes for every document the form asks for and checks your file against them."
   faqs={faqs}
 >
-  <div slot="tool" class="-mx-4 overflow-x-auto px-4">
+  <div slot="tool">
+    <label class="mb-4 block max-w-md">
+      <span class="text-sm font-semibold text-ink-2">Find your exam</span>
+      <input
+        id="exam-search"
+        type="search"
+        class="blank mt-1 text-[1.15rem]"
+        placeholder="e.g. SSC, bank, NEET"
+        autocomplete="off"
+      />
+    </label>
+    <p id="exam-none" class="mb-4 hidden text-ink-2">
+      No preset for that exam yet. Use <a href="/compress-image-to-kb" class="underline">compress to any KB</a> with the sizes from your notification, and <a href="/contact" class="underline">tell us</a> which exam to add.
+    </p>
+  <div class="-mx-4 overflow-x-auto px-4">
     <table class="w-full min-w-[560px] border-collapse text-left">
       <thead>
         <tr class="border-b-2 border-ink text-[0.95rem] text-ink">
@@ -38,7 +52,7 @@ const faqs = [
       <tbody>
         {
           exams.map((e) => (
-            <tr class="border-b border-rule">
+            <tr class="border-b border-rule" data-search={[e.data.name, e.data.fullName, ...e.data.covers, ...e.data.keywords].join(' ').toLowerCase()}>
               <th scope="row" class="py-1 pr-4">
                 <a href={`/exam/${e.data.slug}`} class="flex min-h-[52px] flex-col justify-center no-underline">
                   <span class="font-bold text-ink underline decoration-rule-strong underline-offset-4">{e.data.name}</span>
@@ -56,6 +70,21 @@ const faqs = [
       </tbody>
     </table>
   </div>
+  </div>
+  <script>
+    const input = document.getElementById('exam-search') as HTMLInputElement | null;
+    const none = document.getElementById('exam-none');
+    input?.addEventListener('input', () => {
+      const q = input.value.trim().toLowerCase();
+      let shown = 0;
+      document.querySelectorAll<HTMLTableRowElement>('tr[data-search]').forEach((row) => {
+        const match = !q || q.split(/\s+/).every((w) => row.dataset.search!.includes(w));
+        row.hidden = !match;
+        if (match) shown++;
+      });
+      none?.classList.toggle('hidden', shown > 0);
+    });
+  </script>
 
   <h2>Why exam photos get rejected</h2>
   <p>

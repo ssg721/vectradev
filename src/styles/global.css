@@ -20,6 +20,8 @@
   --pass-soft: #e3f3ea;
   --fail: #b8362b;
   --fail-soft: #fbe9e7;
+  --warn: #8a5a00;
+  --warn-soft: #fbf1dc;
   color-scheme: light;
 }
 
@@ -38,6 +40,8 @@
     --pass-soft: #12291f;
     --fail: #f08074;
     --fail-soft: #2e1714;
+    --warn: #f0b84d;
+    --warn-soft: #2d2412;
     color-scheme: dark;
   }
 }
@@ -57,6 +61,8 @@
   --color-pass-soft: var(--pass-soft);
   --color-fail: var(--fail);
   --color-fail-soft: var(--fail-soft);
+  --color-warn: var(--warn);
+  --color-warn-soft: var(--warn-soft);
 }
 
 @layer base {

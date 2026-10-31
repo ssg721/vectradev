@@ -2,14 +2,30 @@
   "slug": "upsc-photo-signature-resizer",
   "name": "UPSC",
   "fullName": "UPSC Civil Services, CDS, NDA and other UPSC exams",
-  "covers": ["UPSC CSE", "UPSC CDS", "UPSC NDA", "UPSC CAPF", "UPSC ESE"],
+  "covers": [
+    "UPSC CSE",
+    "UPSC CDS",
+    "UPSC NDA",
+    "UPSC CAPF",
+    "UPSC ESE"
+  ],
   "order": 5,
   "intro": "UPSC asks for a recent photograph and a single image containing three signatures, one below the other.",
   "documents": [
     {
-      "id": "photo", "label": "Photograph", "kind": "photo",
-      "width": 413, "height": 531, "widthCm": 3.5, "heightCm": 4.5, "dpi": 300, "sizeIsSuggested": true,
-      "minKb": 20, "maxKb": 200, "fit": "cover", "caption": "optional",
+      "id": "photo",
+      "label": "Photograph",
+      "kind": "photo",
+      "width": 413,
+      "height": 531,
+      "widthCm": 3.5,
+      "heightCm": 4.5,
+      "dpi": 300,
+      "sizeIsSuggested": true,
+      "minKb": 20,
+      "maxKb": 200,
+      "fit": "cover",
+      "caption": "optional",
       "notes": [
         "Plain white background; your face should cover most of the photo.",
         "No caps, sunglasses or masks.",
@@ -17,9 +33,13 @@
       ]
     },
     {
-      "id": "signature", "label": "Signature (three times)", "kind": "signature",
+      "id": "signature",
+      "label": "Signature (three times)",
+      "kind": "signature",
       "autoMaxEdge": 700,
-      "minKb": 20, "maxKb": 100, "fit": "contain",
+      "minKb": 20,
+      "maxKb": 100,
+      "fit": "contain",
       "notes": [
         "Sign three times, one below the other, on plain white paper in black ink, then photograph or scan the page.",
         "Typed or digital signatures are not accepted."
@@ -33,7 +53,21 @@
   },
   "lastVerified": "2026-10-31",
   "faqs": [
-    { "q": "What is the UPSC photo size in KB?", "a": "JPG between 20 KB and 200 KB. UPSC does not fix exact pixel dimensions in the summary we checked, so this tool uses a standard passport ratio of 3.5 × 4.5 cm." },
-    { "q": "How do I make the UPSC triple signature?", "a": "Sign three times, one below the other, on white paper in black ink. Photograph the page, upload it here, and the tool trims the empty paper and fits it between 20 KB and 100 KB." }
+    {
+      "q": "What is the UPSC photo size in KB?",
+      "a": "JPG between 20 KB and 200 KB. UPSC does not fix exact pixel dimensions in the summary we checked, so this tool uses a standard passport ratio of 3.5 × 4.5 cm."
+    },
+    {
+      "q": "How do I make the UPSC triple signature?",
+      "a": "Sign three times, one below the other, on white paper in black ink. Photograph the page, upload it here, and the tool trims the empty paper and fits it between 20 KB and 100 KB."
+    }
+  ],
+  "keywords": [
+    "civil services",
+    "ias",
+    "cse",
+    "cds",
+    "nda",
+    "capf"
   ]
 }

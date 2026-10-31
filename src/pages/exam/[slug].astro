@@ -43,14 +43,47 @@ related.push({ href: '/compress-image-to-kb', title: 'Compress image to any KB',
   related={related}
   breadcrumb={{ href: '/exam', label: 'Exam photos' }}
 >
+    <details slot="crumb-extra" class="group relative">
+      <summary class="inline-flex min-h-[44px] cursor-pointer list-none items-center gap-1.5 font-semibold text-ink-2 hover:text-ink">
+        Switch exam
+        <svg class="transition-transform group-open:rotate-180" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
+          <path d="M3 5l4 4 4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </summary>
+      <ul class="absolute right-0 z-20 mt-1 w-72 rounded-[12px] border border-rule bg-sheet p-1 shadow-[0_8px_24px_rgb(0_0_0/0.12)]">
+        {
+          all
+            .slice()
+            .sort((a, b) => a.data.order - b.data.order)
+            .map((e) => (
+              <li>
+                <a
+                  href={`/exam/${e.data.slug}`}
+                  aria-current={e.id === exam.id ? 'page' : undefined}
+                  class:list={[
+                    'flex min-h-[44px] flex-col justify-center rounded-md px-3 py-1.5 no-underline hover:bg-paper',
+                    e.id === exam.id && 'bg-stamp-soft',
+                  ]}
+                >
+                  <span class="font-semibold text-ink">{e.data.name}</span>
+                  <span class="text-xs text-ink-3">{e.data.covers.slice(0, 3).join(', ')}</span>
+                </a>
+              </li>
+            ))
+        }
+        <li class="mt-1 border-t border-rule pt-1">
+          <a href="/exam" class="flex min-h-[44px] items-center rounded-md px-3 text-[0.95rem] font-semibold text-ink-2 no-underline hover:bg-paper">All exams</a>
+        </li>
+      </ul>
+    </details>
   <div slot="tool">
-    <p class="mb-5 max-w-[68ch] text-sm text-ink-3">
+    <ExamTool client:load examName={d.name} documents={d.documents} />
+    <p class="mt-6 max-w-[68ch] text-sm text-ink-3">
       Sizes last checked on {verified} against{' '}
       <a href={d.source.url} rel="nofollow noopener" target="_blank" class="text-ink-2 underline underline-offset-2">{d.source.label}</a>.
       {!d.source.official && ' Rules can change with each notification, so compare with yours.'}{' '}
       <a href={reportHref} class="text-ink-2 underline underline-offset-2">Report an outdated size</a>
     </p>
-    <ExamTool client:load examName={d.name} documents={d.documents} />
   </div>
 
   <p>{d.intro}</p>
