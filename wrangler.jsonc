@@ -1,0 +1,11 @@
+// Cloudflare Workers static assets: serves the built site in dist/.
+// No Worker script and no Astro adapter are needed for a fully static site.
+{
+  "name": "vectradev",
+  "compatibility_date": "2026-10-31",
+  "assets": {
+    "directory": "./dist/",
+    "not_found_handling": "404-page",
+    "html_handling": "auto-trailing-slash"
+  }
+}
