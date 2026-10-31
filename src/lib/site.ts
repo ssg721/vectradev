@@ -1,7 +1,8 @@
 export const SITE = {
   name: 'vectradev',
   url: 'https://vectradev.in',
-  tagline: 'Photo and image tools that work in your browser',
+  /** Shown under the logo. Becomes "Form-ready photos and PDFs, made on your device" once PDF tools exist. */
+  tagline: 'Form-ready photos, made on your device',
   email: 'hello@vectradev.in',
   /** Public source code, linked so people can check the privacy claims themselves. */
   repo: 'https://github.com/ssg721/vectradev',
