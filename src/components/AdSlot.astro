@@ -1,13 +1,14 @@
 ---
+import { SITE } from '../lib/site';
+
 /**
- * A display ad slot. Renders nothing until PUBLIC_ADSENSE_CLIENT and a slot id
- * are configured, so the site launches clean and ads switch on with one env var.
+ * A display ad slot. Renders nothing until an ad slot id (PUBLIC_ADSENSE_SLOT) is configured, so the site launches clean and ads switch on with one env var.
  * Slots are only placed between sections, never next to upload or download buttons.
  */
 interface Props {
   slot?: string;
 }
-const client = import.meta.env.PUBLIC_ADSENSE_CLIENT;
+const client = SITE.adsenseClient;
 const slot = Astro.props.slot ?? import.meta.env.PUBLIC_ADSENSE_SLOT;
 ---
 

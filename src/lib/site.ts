@@ -3,6 +3,8 @@ export const SITE = {
   url: 'https://vectradev.in',
   tagline: 'Photo and image tools that work in your browser',
   email: 'hello@vectradev.in',
+  /** AdSense publisher ID. Public by design (it appears in every page's HTML). Can be overridden with PUBLIC_ADSENSE_CLIENT. */
+  adsenseClient: (import.meta.env.PUBLIC_ADSENSE_CLIENT as string | undefined)?.trim() || 'ca-pub-4857783926140389',
 };
 
 export interface ToolLink {

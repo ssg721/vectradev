@@ -16,7 +16,7 @@ interface Props {
 const { title, description, jsonLd = [], noindex = false } = Astro.props;
 const canonical = new URL(Astro.url.pathname.replace(/\.html$/, '').replace(/\/index$/, '/') || '/', SITE.url).href;
 const fullTitle = title.includes(SITE.name) ? title : `${title} | ${SITE.name}`;
-const adsClient = import.meta.env.PUBLIC_ADSENSE_CLIENT;
+const adsClient = SITE.adsenseClient;
 const cfToken = import.meta.env.PUBLIC_CF_ANALYTICS_TOKEN;
 ---
 
@@ -44,6 +44,7 @@ const cfToken = import.meta.env.PUBLIC_CF_ANALYTICS_TOKEN;
     <meta property="og:image" content={new URL('/og.png', SITE.url).href} />
     <meta name="twitter:card" content="summary_large_image" />
 
+    {adsClient && <meta name="google-adsense-account" content={adsClient} />}
     {jsonLd.map((data) => <script type="application/ld+json" set:html={JSON.stringify(data)} />)}
 
     {
