@@ -1,0 +1,22 @@
+---
+import TextPage from '../layouts/TextPage.astro';
+import { SITE } from '../lib/site';
+---
+<TextPage title="Privacy policy" description="vectradev processes your images in your browser. Your files are never uploaded. Here is what we do and don't collect." updated="31 October 2026">
+  <h2>Your files</h2>
+  <p>
+    Images you open in vectradev tools are processed entirely inside your browser on your own device. They are not uploaded to our servers or anyone else's, and we cannot see them. When you close the page, they are gone unless you downloaded the result.
+  </p>
+  <h2>What we collect</h2>
+  <p>
+    We use Cloudflare Web Analytics to count page visits. It does not use cookies or track you across websites, and it does not collect personal information. Our hosting provider, Cloudflare, keeps standard server logs (such as IP address and browser type) for security and to keep the site running.
+  </p>
+  <h2>Advertising</h2>
+  <p>
+    We may show ads from Google AdSense to keep the tools free. Google and its partners may use cookies to show ads based on your visits to this and other websites. You can turn off personalised ads at <a href="https://adssettings.google.com" rel="noopener">Google Ads Settings</a>, and learn more at <a href="https://policies.google.com/technologies/partner-sites" rel="noopener">How Google uses information from sites that use its services</a>. Where required by law, we ask for your consent before personalised ads are shown.
+  </p>
+  <h2>Children</h2>
+  <p>The site is for general audiences and does not knowingly collect personal information from anyone.</p>
+  <h2>Changes and contact</h2>
+  <p>If this policy changes, we will update the date at the top. Questions: <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.</p>
+</TextPage>

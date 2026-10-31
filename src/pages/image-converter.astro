@@ -1,0 +1,30 @@
+---
+import ToolPage from '../layouts/ToolPage.astro';
+import ConvertTool from '../components/tools/ConvertTool';
+import { CONVERSIONS } from '../lib/site';
+
+const faqs = [
+  { q: 'Which formats can I convert?', a: 'You can open JPG, PNG, WebP, GIF, BMP, AVIF and iPhone HEIC files, and save them as JPG, PNG or WebP.' },
+  { q: 'Can I convert many images at once?', a: 'Yes. Choose several files together. Each one is converted in turn, and you can download them one by one or all together as a ZIP.' },
+  { q: 'Will converting reduce quality?', a: 'PNG keeps every pixel. JPG and WebP at quality 90 look the same as the original for almost every photo, at a fraction of the size.' },
+  { q: 'Are my images uploaded?', a: 'No. Conversion happens inside your browser and your files never leave your device.' },
+];
+---
+
+<ToolPage
+  title="Image converter"
+  metaTitle="Image converter: JPG, PNG, WebP and HEIC, free and private"
+  description="Convert images between JPG, PNG and WebP, including iPhone HEIC photos. Convert many at once, download as ZIP. Nothing is uploaded."
+  lede="Convert JPG, PNG, WebP and iPhone HEIC images. Add several at once and download them together."
+  faqs={faqs}
+  related={CONVERSIONS.map((c) => ({ href: `/${c.slug}`, title: `${c.fromLabel} to ${c.toLabel}`, blurb: c.why.split('. ')[0] + '.' }))}
+>
+  <ConvertTool slot="tool" client:load />
+
+  <h2>Which format should I use?</h2>
+  <ul>
+    <li><strong>JPG</strong> for photos you'll upload to forms, email or share. Every website accepts it.</li>
+    <li><strong>PNG</strong> for screenshots, logos and anything with transparency or sharp text.</li>
+    <li><strong>WebP</strong> for images on your own website. It is smaller than JPG at the same quality.</li>
+  </ul>
+</ToolPage>

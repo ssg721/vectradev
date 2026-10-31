@@ -1,0 +1,35 @@
+{
+  "slug": "rrb-photo-signature-resizer",
+  "name": "RRB",
+  "fullName": "RRB NTPC, Group D, ALP and JE",
+  "covers": ["RRB NTPC", "RRB Group D", "RRB ALP", "RRB JE"],
+  "order": 4,
+  "intro": "Railway recruitment forms now capture your photograph live through the camera. The signature is still uploaded as a scanned file.",
+  "documents": [
+    {
+      "id": "photo", "label": "Photograph", "kind": "photo", "liveCapture": true, "fit": "cover",
+      "notes": [
+        "The form captures a live photo through your webcam or phone's front camera.",
+        "Use a plain white background and wear non-white, preferably dark, clothing.",
+        "Keep the camera at eye level. No cap, mask or spectacles."
+      ]
+    },
+    {
+      "id": "signature", "label": "Signature", "kind": "signature",
+      "width": 276, "height": 157, "widthCm": 3.5, "heightCm": 2, "dpi": 200,
+      "minWidth": 140, "minHeight": 60,
+      "minKb": 30, "maxKb": 49, "fit": "contain",
+      "notes": ["Black ink on white paper, in running handwriting (not block capitals).", "The full signature must be visible."]
+    }
+  ],
+  "source": {
+    "label": "Summary of RRB NTPC Graduate CEN 06/2026 (coaching-site summary, check your CEN)",
+    "url": "https://www.oliveboard.in/blog/rrb-ntpc-photo-and-signature-details/",
+    "official": false
+  },
+  "lastVerified": "2026-10-31",
+  "faqs": [
+    { "q": "What is the RRB signature size?", "a": "JPG between 30 KB and 49 KB, at least 140 × 60 pixels, scanned at 100 DPI or more from a 35 × 20 mm box." },
+    { "q": "Why is my RRB signature padded?", "a": "A clean signature at this size is usually smaller than 30 KB. The tool adds a harmless comment block inside the file so it meets the minimum without changing how it looks." }
+  ]
+}

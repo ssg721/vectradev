@@ -1,0 +1,41 @@
+---
+import { getCollection } from 'astro:content';
+import { IMAGE_TOOLS, COMPRESS_TOOLS } from '../lib/site';
+
+const exams = (await getCollection('exams')).sort((a, b) => a.data.order - b.data.order);
+const year = new Date().getFullYear();
+---
+
+<footer class="mt-20 border-t border-rule bg-sheet">
+  <div class="mx-auto grid max-w-5xl gap-10 px-4 py-12 sm:grid-cols-3">
+    <div>
+      <h2 class="mb-3 text-sm font-bold text-ink">Exam photos</h2>
+      <ul class="space-y-1.5 text-[0.95rem] text-ink-2">
+        {exams.map((e) => <li><a class="no-underline hover:underline" href={`/exam/${e.data.slug}`}>{e.data.name} photo and signature</a></li>)}
+      </ul>
+    </div>
+    <div>
+      <h2 class="mb-3 text-sm font-bold text-ink">Compress</h2>
+      <ul class="space-y-1.5 text-[0.95rem] text-ink-2">
+        {COMPRESS_TOOLS.map((t) => <li><a class="no-underline hover:underline" href={t.href}>{t.title}</a></li>)}
+      </ul>
+    </div>
+    <div>
+      <h2 class="mb-3 text-sm font-bold text-ink">Resize and convert</h2>
+      <ul class="space-y-1.5 text-[0.95rem] text-ink-2">
+        {IMAGE_TOOLS.map((t) => <li><a class="no-underline hover:underline" href={t.href}>{t.title}</a></li>)}
+      </ul>
+    </div>
+  </div>
+  <div class="border-t border-rule">
+    <div class="mx-auto flex max-w-5xl flex-col gap-3 px-4 py-6 text-sm text-ink-3 sm:flex-row sm:items-center sm:justify-between">
+      <p>Your files are processed on your device and never uploaded. © {year} vectradev.in</p>
+      <ul class="flex flex-wrap gap-x-5 gap-y-1">
+        <li><a class="no-underline hover:underline" href="/about">About</a></li>
+        <li><a class="no-underline hover:underline" href="/privacy">Privacy</a></li>
+        <li><a class="no-underline hover:underline" href="/terms">Terms</a></li>
+        <li><a class="no-underline hover:underline" href="/contact">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>

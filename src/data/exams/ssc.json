@@ -1,0 +1,35 @@
+{
+  "slug": "ssc-photo-signature-resizer",
+  "name": "SSC",
+  "fullName": "SSC CGL, CHSL, MTS, GD, CPO and Selection Post",
+  "covers": ["SSC CGL", "SSC CHSL", "SSC MTS", "SSC GD", "SSC CPO", "SSC Selection Post"],
+  "order": 3,
+  "intro": "SSC now captures your photograph live through a webcam or phone camera during the application, so only the signature needs to be prepared as a file.",
+  "documents": [
+    {
+      "id": "photo", "label": "Photograph", "kind": "photo", "liveCapture": true, "fit": "cover",
+      "notes": [
+        "The form takes a live photo with your webcam or phone camera. Uploading an old photo is not allowed.",
+        "Sit facing the camera at eye level, against a plain background in good light.",
+        "Remove caps, masks and glasses before capturing.",
+        "If the webcam fails, the upload page shows a QR code to capture the photo with the SSC mobile app."
+      ]
+    },
+    {
+      "id": "signature", "label": "Signature", "kind": "signature",
+      "width": 315, "height": 157, "widthCm": 4, "heightCm": 2, "dpi": 200,
+      "minKb": 10, "maxKb": 20, "fit": "contain",
+      "notes": ["Sign clearly on white paper; blurred or tiny signatures are rejected.", "Avoid signing in capital letters."]
+    }
+  ],
+  "source": {
+    "label": "Summary of the SSC CGL 2026 and Selection Post Phase 14 notices (coaching-site summary, check your notice)",
+    "url": "https://www.pw.live/ssc/exams/ssc-cgl-photo-and-signature-size-2026",
+    "official": false
+  },
+  "lastVerified": "2026-10-31",
+  "faqs": [
+    { "q": "Can I upload a photo for SSC?", "a": "No. SSC captures a live photo through your webcam or phone during the application. Only the signature is uploaded as a file." },
+    { "q": "What is the SSC signature size?", "a": "About 4.0 × 2.0 cm, JPG, between 10 KB and 20 KB." }
+  ]
+}

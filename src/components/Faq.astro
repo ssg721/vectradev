@@ -1,0 +1,29 @@
+---
+export interface FaqItem {
+  q: string;
+  a: string;
+}
+interface Props {
+  items: FaqItem[];
+}
+const { items } = Astro.props;
+---
+
+<section aria-labelledby="faq-heading" class="prose-form">
+  <h2 id="faq-heading">Questions</h2>
+  <div class="divide-y divide-rule border-y border-rule">
+    {
+      items.map((item) => (
+        <details class="group py-1">
+          <summary class="flex min-h-[48px] cursor-pointer list-none items-center justify-between gap-4 font-semibold text-ink">
+            {item.q}
+            <svg class="shrink-0 transition-transform group-open:rotate-45" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+              <path d="M8 2v12M2 8h12" stroke="currentColor" stroke-width="2" />
+            </svg>
+          </summary>
+          <p class="pb-3">{item.a}</p>
+        </details>
+      ))
+    }
+  </div>
+</section>

@@ -1,0 +1,32 @@
+{
+  "slug": "jee-main-photo-signature-resizer",
+  "name": "JEE Main",
+  "fullName": "JEE Main",
+  "covers": ["JEE Main"],
+  "order": 7,
+  "intro": "The JEE Main form asks for a recent passport-size colour photograph and a scanned signature.",
+  "documents": [
+    {
+      "id": "photo", "label": "Photograph", "kind": "photo",
+      "width": 413, "height": 531, "widthCm": 3.5, "heightCm": 4.5, "dpi": 300, "sizeIsSuggested": true,
+      "minKb": 10, "maxKb": 200, "fit": "cover", "caption": "optional",
+      "notes": ["White background, face covering about 80% of the photo with both ears visible.", "Masks are not allowed."]
+    },
+    {
+      "id": "signature", "label": "Signature", "kind": "signature",
+      "autoMaxEdge": 600,
+      "minKb": 10, "maxKb": 100, "fit": "contain",
+      "notes": ["Sign clearly in black ink on white paper."]
+    }
+  ],
+  "source": {
+    "label": "Summary of JEE Main 2027 registration requirements (coaching-site summary, check the information bulletin)",
+    "url": "https://www.pw.live/news/jee-main-2027-session-1-registration-documents-required",
+    "official": false
+  },
+  "lastVerified": "2026-10-31",
+  "faqs": [
+    { "q": "What is the JEE Main photo size?", "a": "JPG between 10 KB and 200 KB, with a white background." },
+    { "q": "What is the JEE Main signature size?", "a": "JPG between 10 KB and 100 KB." }
+  ]
+}

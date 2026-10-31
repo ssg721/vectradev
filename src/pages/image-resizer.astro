@@ -1,0 +1,32 @@
+---
+import ToolPage from '../layouts/ToolPage.astro';
+import ResizeTool from '../components/tools/ResizeTool';
+import { COMPRESS_TOOLS, IMAGE_TOOLS } from '../lib/site';
+
+const faqs = [
+  { q: 'How do I resize a photo to exact pixels?', a: 'Choose your photo, unlock the proportions if the shape needs to change, and type the width and height. Drag the photo to choose what stays inside the frame, then download.' },
+  { q: 'How do I resize a photo in centimetres?', a: 'Switch the unit to cm and enter the size. The DPI decides how many pixels that is: 3.5 cm at 300 DPI is 413 pixels. The DPI is also written into the file.' },
+  { q: 'Can I resize and keep it under a KB limit?', a: 'Yes. With JPG selected, fill in "Also keep under (KB)" and the tool lowers the quality just enough while keeping your exact pixel size.' },
+  { q: 'Is my photo uploaded?', a: 'No. It is resized inside your browser and never leaves your device.' },
+];
+---
+
+<ToolPage
+  title="Image resizer"
+  metaTitle="Resize image online to exact pixels or cm, free"
+  description="Resize a photo to exact pixels, centimetres or inches with the DPI you need. Crop or fit, keep it under a KB limit. Free, nothing uploaded."
+  lede="Set the exact width and height in pixels, centimetres or inches. Crop to fill, or fit with margins."
+  faqs={faqs}
+  related={[IMAGE_TOOLS[1], COMPRESS_TOOLS[0], COMPRESS_TOOLS[3], { href: '/exam', title: 'Exam photo and signature resizer', blurb: 'Presets for SSC, UPSC, IBPS, SBI, RRB, NEET and JEE.' }]}
+>
+  <ResizeTool slot="tool" client:load />
+
+  <h2>Pixels, centimetres and DPI</h2>
+  <p>
+    Screens and forms count pixels. Printed photos are measured in centimetres or inches. DPI (dots per inch) connects the two: a 3.5 × 4.5 cm passport photo at 300 DPI is 413 × 531 pixels, while the same size at 200 DPI is 276 × 354 pixels. If a form gives both a size in cm and a DPI, choose cm and enter both.
+  </p>
+  <h2>Crop to fill or fit with margins</h2>
+  <p>
+    When the new shape differs from your photo, <em>Crop to fill</em> cuts off the edges so the frame is completely filled. You choose what stays by dragging the photo. <em>Fit with margins</em> keeps the whole photo and adds white space (or transparency for PNG and WebP).
+  </p>
+</ToolPage>

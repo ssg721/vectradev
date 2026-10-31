@@ -1,0 +1,40 @@
+---
+import ToolPage from '../layouts/ToolPage.astro';
+import ConvertTool from '../components/tools/ConvertTool';
+import { CONVERSIONS, type Conversion } from '../lib/site';
+
+export function getStaticPaths() {
+  return CONVERSIONS.map((c) => ({ params: { conversion: c.slug }, props: { c } }));
+}
+
+const { c } = Astro.props as { c: Conversion };
+const faqs = [
+  { q: `How do I convert ${c.fromLabel} to ${c.toLabel}?`, a: `Choose one or more ${c.fromLabel} files above. Each is converted to ${c.toLabel} straight away, and you can download them one by one or as a ZIP.` },
+  ...(c.from === 'heic'
+    ? [{ q: 'How do I stop my iPhone saving HEIC photos?', a: 'Open Settings, then Camera, then Formats, and choose Most Compatible. New photos will be saved as JPG.' }]
+    : []),
+  ...(c.to === 'jpeg'
+    ? [{ q: 'What happens to transparent areas?', a: 'JPG cannot store transparency, so transparent areas become white.' }]
+    : []),
+  { q: 'Are my files uploaded?', a: 'No. Conversion happens inside your browser and your files never leave your device.' },
+];
+const others = CONVERSIONS.filter((x) => x.slug !== c.slug).map((x) => ({ href: `/${x.slug}`, title: `${x.fromLabel} to ${x.toLabel}`, blurb: x.why.split('. ')[0] + '.' }));
+---
+
+<ToolPage
+  title={`${c.fromLabel} to ${c.toLabel} converter`}
+  metaTitle={`Convert ${c.fromLabel} to ${c.toLabel} online, free and private`}
+  description={`Convert ${c.fromLabel} images to ${c.toLabel} in your browser. Several files at once, download as ZIP. Free, and nothing is uploaded.`}
+  lede={c.why}
+  faqs={faqs}
+  related={[{ href: '/image-converter', title: 'Image converter', blurb: 'Any of JPG, PNG and WebP, including HEIC.' }, ...others.slice(0, 5)]}
+>
+  <ConvertTool slot="tool" client:load to={c.to} accept={`${c.accept},image/*`} fromLabel={c.fromLabel} />
+
+  <h2>How to convert {c.fromLabel} to {c.toLabel}</h2>
+  <ol>
+    <li>Tap <strong>Choose {c.fromLabel} files</strong>, or drop them onto the box. You can pick several.</li>
+    <li>Each file is converted on your device in a moment.</li>
+    <li>Download them one by one, or all together as a ZIP.</li>
+  </ol>
+</ToolPage>

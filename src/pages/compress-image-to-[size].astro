@@ -1,0 +1,49 @@
+---
+import ToolPage from '../layouts/ToolPage.astro';
+import CompressTool from '../components/tools/CompressTool';
+import { COMPRESS_TOOLS, KB_PRESETS } from '../lib/site';
+
+export function getStaticPaths() {
+  return KB_PRESETS.map((kb) => ({ params: { size: `${kb}kb` }, props: { kb } }));
+}
+
+const { kb } = Astro.props as { kb: number };
+
+const useCase: Record<number, string> = {
+  10: 'Small limits like 10 KB are common for signatures and thumb impressions on government and bank forms.',
+  20: 'A 20 KB limit is common for signatures and for photos on older exam and job portals.',
+  50: 'A 50 KB limit is the most common photo limit on exam, bank and job application forms.',
+  100: 'A 100 KB limit is common for photos and scanned documents on admission and registration forms.',
+  200: 'A 200 KB limit is used by forms like NEET and JEE for photographs, and by many sites for documents.',
+  500: 'A 500 KB limit is typical for scanned certificates, ID proofs and email attachments.',
+};
+
+const faqs = [
+  { q: `How do I reduce a photo to ${kb} KB?`, a: `Choose your photo above. The limit is already set to ${kb} KB, so the JPG is ready to download in a few seconds.` },
+  { q: `Will a ${kb} KB photo look blurry?`, a: `The tool keeps the highest quality that fits. If the photo is very large, it also reduces the pixel size, which keeps it sharp instead of blocky.` },
+  { q: 'Is my photo uploaded anywhere?', a: 'No. It is processed inside your browser and never leaves your device.' },
+  { q: `My form needs between ${Math.max(1, Math.round(kb * 0.4))} KB and ${kb} KB. Can I set a minimum?`, a: 'Yes. Tick "The form also has a minimum size" and enter it. If needed, invisible padding is added so the file is accepted.' },
+];
+
+const others = COMPRESS_TOOLS.filter((t) => t.href !== `/compress-image-to-${kb}kb`);
+---
+
+<ToolPage
+  title={`Compress image to ${kb} KB`}
+  metaTitle={`Compress image to ${kb} KB online, free`}
+  description={`Reduce a photo or signature to under ${kb} KB in seconds. Free, works on phones, and your photo is never uploaded.`}
+  lede={`Choose a photo and get a JPG under ${kb} KB, at the best quality that fits.`}
+  faqs={faqs}
+  related={others.slice(0, 6)}
+>
+  <CompressTool slot="tool" client:load defaultMaxKb={kb} />
+
+  <h2>When you need {kb} KB</h2>
+  <p>{useCase[kb]}</p>
+  <h2>How to use it</h2>
+  <ol>
+    <li>Tap <strong>Choose a photo</strong>. Phone photos, screenshots and iPhone HEIC files all work.</li>
+    <li>The size is set to {kb} KB. Change it if your form says something different.</li>
+    <li>Check the result and download the JPG.</li>
+  </ol>
+</ToolPage>

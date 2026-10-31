@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <style>
+    .bg{fill:#161d36}.curve{stroke:#f5f6fa}.node{fill:#161d36;stroke:#ab97ff}.handle{stroke:#ab97ff}
+  </style>
+  <rect class="bg" width="32" height="32" rx="7"/>
+  <path class="curve" d="M6 25 C 11 10, 19 10, 27 8" fill="none" stroke-width="3" stroke-linecap="round"/>
+  <line class="handle" x1="16.5" y1="5" x2="16.5" y2="16" stroke-width="2"/>
+  <rect class="node" x="13.5" y="8" width="6" height="6" stroke-width="2"/>
+</svg>

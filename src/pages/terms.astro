@@ -1,0 +1,16 @@
+---
+import TextPage from '../layouts/TextPage.astro';
+import { SITE } from '../lib/site';
+---
+<TextPage title="Terms of use" description="The terms for using vectradev's free image tools." updated="31 October 2026">
+  <h2>Using the tools</h2>
+  <p>vectradev tools are free to use for personal and commercial purposes. You are responsible for the files you process and for having the right to use them.</p>
+  <h2>Exam and form requirements</h2>
+  <p>
+    We work to keep exam presets accurate and show when each was last checked, but recruitment and admission bodies can change their rules at any time. Always confirm the requirements in your official notification before submitting. We are not responsible for rejected applications.
+  </p>
+  <h2>No warranty</h2>
+  <p>The tools are provided as they are, without warranties of any kind. To the extent permitted by law, we are not liable for any loss arising from their use.</p>
+  <h2>Contact</h2>
+  <p><a href={`mailto:${SITE.email}`}>{SITE.email}</a></p>
+</TextPage>

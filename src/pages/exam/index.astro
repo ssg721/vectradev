@@ -1,0 +1,70 @@
+---
+import { getCollection } from 'astro:content';
+import ToolPage from '../../layouts/ToolPage.astro';
+import { describeKb } from '../../components/tools/ExamTool';
+
+const exams = (await getCollection('exams')).sort((a, b) => a.data.order - b.data.order);
+
+const cell = (e: (typeof exams)[number], kinds: string[]) => {
+  const doc = e.data.documents.find((d) => kinds.includes(d.kind));
+  if (!doc) return '—';
+  return doc.liveCapture ? 'Live camera' : describeKb(doc);
+};
+
+const faqs = [
+  { q: 'Why do exam forms reject my photo?', a: 'Usually because the file is above the maximum KB, below the minimum KB, or the wrong pixel size. Each exam page here sets all three at once and shows a check for each.' },
+  { q: 'My exam is not listed. What do I do?', a: 'Use the compress-to-KB tool, set the maximum (and minimum, if there is one) from your notification, and use the image resizer if exact pixels are required.' },
+  { q: 'Is my photo uploaded?', a: 'No. Every tool on vectradev runs inside your browser. Your files never leave your device.' },
+];
+---
+
+<ToolPage
+  title="Exam photo and signature resizer"
+  metaTitle="Exam photo and signature resizer for SSC, UPSC, IBPS, SBI, RRB, NEET, JEE"
+  description="Resize your photo and signature for SSC, UPSC, IBPS, SBI, RRB, NEET and JEE forms. Exact pixels and KB, free, nothing uploaded."
+  lede="Pick your exam. Each page knows the sizes for every document the form asks for and checks your file against them."
+  faqs={faqs}
+>
+  <div slot="tool" class="-mx-4 overflow-x-auto px-4">
+    <table class="w-full min-w-[560px] border-collapse text-left">
+      <thead>
+        <tr class="border-b-2 border-ink text-[0.95rem] text-ink">
+          <th scope="col" class="py-2 pr-4 font-bold">Exam</th>
+          <th scope="col" class="py-2 pr-4 font-bold">Photo</th>
+          <th scope="col" class="py-2 pr-4 font-bold">Signature</th>
+          <th scope="col" class="py-2 font-bold">Last checked</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          exams.map((e) => (
+            <tr class="border-b border-rule">
+              <th scope="row" class="py-1 pr-4">
+                <a href={`/exam/${e.data.slug}`} class="flex min-h-[52px] flex-col justify-center no-underline">
+                  <span class="font-bold text-ink underline decoration-rule-strong underline-offset-4">{e.data.name}</span>
+                  <span class="text-sm font-normal text-ink-3">{e.data.covers.slice(0, 3).join(', ')}</span>
+                </a>
+              </th>
+              <td class="tabular py-1 pr-4 text-ink-2">{cell(e, ['photo'])}</td>
+              <td class="tabular py-1 pr-4 text-ink-2">{cell(e, ['signature'])}</td>
+              <td class="tabular py-1 text-sm text-ink-3">
+                {e.data.lastVerified.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'Asia/Kolkata' })}
+              </td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Why exam photos get rejected</h2>
+  <p>
+    Online application forms check three things automatically: the file size in KB (often with both a minimum and a maximum), the pixel dimensions, and the format. A photo straight from a phone is usually several megabytes and thousands of pixels wide, so it fails all three. Each exam page here fixes all of them at once.
+  </p>
+  <h2>Before you start</h2>
+  <ul>
+    <li>Use a recent photo with a plain light background and even light on your face.</li>
+    <li>Sign on plain white paper with a black pen. A clear phone photo of the paper is enough.</li>
+    <li>Keep your notification open. If its sizes differ from ours, enter them in the tool and let us know.</li>
+  </ul>
+</ToolPage>

@@ -1,0 +1,44 @@
+{
+  "slug": "neet-photo-signature-resizer",
+  "name": "NEET UG",
+  "fullName": "NEET UG",
+  "covers": ["NEET UG"],
+  "order": 6,
+  "intro": "The NEET UG form asks for a passport-size photo, a postcard-size photo, your signature and thumb impressions of both hands.",
+  "documents": [
+    {
+      "id": "photo", "label": "Passport-size photo", "kind": "photo",
+      "width": 413, "height": 531, "widthCm": 3.5, "heightCm": 4.5, "dpi": 300, "sizeIsSuggested": true,
+      "minKb": 10, "maxKb": 200, "fit": "cover", "caption": "optional",
+      "notes": ["White background, face covering about 80% of the photo with both ears visible."]
+    },
+    {
+      "id": "postcard", "label": "Postcard-size photo", "kind": "postcard",
+      "width": 800, "height": 1200, "widthCm": 10.16, "heightCm": 15.24, "dpi": 200,
+      "minKb": 10, "maxKb": 200, "fit": "cover", "caption": "optional",
+      "notes": ["4 × 6 inch photo with a white background."]
+    },
+    {
+      "id": "signature", "label": "Signature", "kind": "signature",
+      "autoMaxEdge": 600,
+      "minKb": 4, "maxKb": 30, "fit": "contain",
+      "notes": ["Black ink on white paper. Signatures in capital letters are not allowed."]
+    },
+    {
+      "id": "thumb", "label": "Thumb impression (left and right)", "kind": "thumb",
+      "autoMaxEdge": 600,
+      "minKb": 10, "maxKb": 200, "fit": "contain",
+      "notes": ["Make one file for each hand: run the tool once for the left thumb and once for the right.", "The impression must be clear."]
+    }
+  ],
+  "source": {
+    "label": "Summary of the NEET UG 2026 information bulletin (coaching-site summary, check neet.nta.nic.in)",
+    "url": "https://www.pw.live/news/neet-ug-2026-registration-documents-required-size-format-nta",
+    "official": false
+  },
+  "lastVerified": "2026-10-31",
+  "faqs": [
+    { "q": "What is the NEET photo size?", "a": "Both the passport-size and postcard-size photos must be JPG between 10 KB and 200 KB, with a white background." },
+    { "q": "What is the NEET signature size?", "a": "JPG between 4 KB and 30 KB, in black ink on white paper." }
+  ]
+}

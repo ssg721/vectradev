@@ -1,0 +1,115 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import AdSlot from '../components/AdSlot.astro';
+import CompressTool from '../components/tools/CompressTool';
+import { describeKb } from '../components/tools/ExamTool';
+import { SITE, IMAGE_TOOLS, COMPRESS_TOOLS } from '../lib/site';
+
+const exams = (await getCollection('exams')).sort((a, b) => a.data.order - b.data.order);
+const kb = (e: (typeof exams)[number], kind: string) => {
+  const d = e.data.documents.find((x) => x.kind === kind);
+  return !d ? null : d.liveCapture ? 'live camera' : describeKb(d);
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: SITE.name,
+    url: SITE.url,
+    description: 'Free photo and image tools that run in your browser: compress to KB, exam photo resizer, image resizer and converter.',
+  },
+];
+---
+
+<Base
+  title="vectradev: compress, resize and convert photos for any form"
+  description="Free photo tools that work on your phone: compress to any KB, exam photo and signature resizer for SSC, UPSC, IBPS, SBI, RRB, NEET and JEE, resizer and converter. Nothing is uploaded."
+  jsonLd={jsonLd}
+>
+  <section class="mx-auto max-w-5xl px-4 pt-10 sm:pt-16">
+    <h1 class="max-w-[14ch] text-[2.5rem] leading-[1.02] font-extrabold tracking-[-0.035em] text-ink sm:text-[3.6rem]">
+      Make your photo fit the form.
+    </h1>
+    <p class="mt-4 max-w-[52ch] text-[1.1rem] text-ink-2">
+      Compress, resize and convert photos and signatures for exam, bank and job applications. It all happens on your phone or computer; your files are never uploaded.
+    </p>
+  </section>
+
+  <section class="mx-auto mt-8 max-w-5xl px-4" aria-label="Compress a photo">
+    <CompressTool client:load defaultMaxKb={50} />
+  </section>
+
+  <section class="mx-auto mt-16 max-w-5xl px-4" aria-labelledby="exams-heading">
+    <div class="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
+      <h2 id="exams-heading" class="text-[1.6rem] font-extrabold tracking-[-0.02em] text-ink">Filling an exam form?</h2>
+      <a href="/exam" class="text-[0.95rem] font-semibold text-ink-2 underline underline-offset-4">All exam presets</a>
+    </div>
+    <p class="mt-1 max-w-[60ch] text-ink-2">These pages already know the pixel size and KB range for every document the form asks for.</p>
+    <ul class="mt-5 grid border-t border-rule sm:grid-cols-2 sm:gap-x-10">
+      {
+        exams.map((e) => (
+          <li class="border-b border-rule">
+            <a href={`/exam/${e.data.slug}`} class="group flex min-h-[64px] items-center justify-between gap-4 py-2 no-underline">
+              <span>
+                <span class="block font-bold text-ink group-hover:underline">{e.data.name}</span>
+                <span class="tabular block text-sm text-ink-3">
+                  Photo: {kb(e, 'photo')}
+                  {kb(e, 'signature') && `, signature: ${kb(e, 'signature')}`}
+                </span>
+              </span>
+              <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" class="shrink-0 text-ink-3">
+                <path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <AdSlot />
+
+  <section class="mx-auto mt-16 max-w-5xl px-4" aria-labelledby="tools-heading">
+    <h2 id="tools-heading" class="text-[1.6rem] font-extrabold tracking-[-0.02em] text-ink">More image tools</h2>
+    <div class="mt-5 grid gap-10 sm:grid-cols-2">
+      <div>
+        <h3 class="mb-2 text-sm font-bold text-ink-2">Compress to a size</h3>
+        <ul class="border-t border-rule">
+          {
+            COMPRESS_TOOLS.map((t) => (
+              <li class="border-b border-rule">
+                <a href={t.href} class="flex min-h-[48px] items-center justify-between gap-3 py-1.5 no-underline">
+                  <span class="font-semibold text-ink">{t.title}</span>
+                  <span class="hidden text-sm text-ink-3 md:block">{t.blurb}</span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <div>
+        <h3 class="mb-2 text-sm font-bold text-ink-2">Resize and convert</h3>
+        <ul class="border-t border-rule">
+          {
+            IMAGE_TOOLS.map((t) => (
+              <li class="border-b border-rule">
+                <a href={t.href} class="flex min-h-[48px] items-center py-1.5 font-semibold text-ink no-underline">{t.title}</a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto mt-16 max-w-5xl px-4" aria-labelledby="private-heading">
+    <div class="max-w-[62ch] border-l-[3px] border-stamp pl-5">
+      <h2 id="private-heading" class="text-[1.25rem] font-bold text-ink">Your photos stay with you</h2>
+      <p class="mt-2 text-ink-2">
+        Most online tools send your photo to a server. Here, the work happens inside your browser, so your photo, signature or ID never leaves your device. It also means the tools keep working on a slow connection once the page has loaded.
+      </p>
+    </div>
+  </section>
+</Base>

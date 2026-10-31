@@ -1,0 +1,35 @@
+---
+import ToolPage from '../layouts/ToolPage.astro';
+import CompressTool from '../components/tools/CompressTool';
+import { COMPRESS_TOOLS, IMAGE_TOOLS } from '../lib/site';
+
+const faqs = [
+  { q: 'How do I reduce a photo to a specific size in KB?', a: 'Choose your photo, type the maximum size the form allows, and download the JPG. The tool finds the highest quality that still fits, and resizes the photo only if quality alone is not enough.' },
+  { q: 'Is my photo uploaded anywhere?', a: 'No. Everything happens inside your browser on your own phone or computer. The photo never leaves your device, so it works even for ID documents.' },
+  { q: 'Why is the result a little under my limit?', a: 'Some websites count 1 KB as 1000 bytes and others as 1024. We aim slightly under the limit so the file fits on every site.' },
+  { q: 'My form also has a minimum size. What do I do?', a: 'Tick "The form also has a minimum size" and enter it. If the photo is naturally smaller than the minimum, the tool adds invisible padding inside the file so it is accepted without changing how it looks.' },
+  { q: 'Can I compress an iPhone HEIC photo?', a: 'Yes. HEIC photos are converted automatically and saved as JPG, which every form accepts.' },
+];
+---
+
+<ToolPage
+  title="Compress image to any KB"
+  metaTitle="Compress image to KB online, free (JPG under any size limit)"
+  description="Reduce a photo to the exact KB limit an online form asks for. Free, works on phones, and your photo is never uploaded."
+  lede="Type the size limit from your form. You'll get a JPG just under it, at the best quality that fits."
+  faqs={faqs}
+  related={[...COMPRESS_TOOLS.slice(1, 5), IMAGE_TOOLS[0], IMAGE_TOOLS[2]]}
+>
+  <CompressTool slot="tool" client:load defaultMaxKb={100} />
+
+  <h2>How to compress a photo to a KB limit</h2>
+  <ol>
+    <li>Tap <strong>Choose a photo</strong>, or drop a file onto the box.</li>
+    <li>Enter the maximum size in KB from your form, or tap one of the common sizes.</li>
+    <li>Check the result and download the JPG.</li>
+  </ol>
+  <h2>How it keeps quality high</h2>
+  <p>
+    The tool tries many quality levels and keeps the best one that fits under your limit. If even the lowest sensible quality is too big, it reduces the pixel size step by step, because a sharp smaller photo looks better than a blurry large one. Turn on <em>Keep the pixel size</em> if the form also checks width and height.
+  </p>
+</ToolPage>

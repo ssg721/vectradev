@@ -1,0 +1,108 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import ToolPage from '../../layouts/ToolPage.astro';
+import ExamTool, { describeKb, describeSize } from '../../components/tools/ExamTool';
+import { SITE } from '../../lib/site';
+
+export async function getStaticPaths() {
+  const exams = await getCollection('exams');
+  return exams.map((e) => ({ params: { slug: e.data.slug }, props: { exam: e, all: exams } }));
+}
+
+const { exam, all } = Astro.props as { exam: CollectionEntry<'exams'>; all: CollectionEntry<'exams'>[] };
+const d = exam.data;
+const uploads = d.documents.filter((doc) => !doc.liveCapture);
+const live = d.documents.filter((doc) => doc.liveCapture);
+const verified = d.lastVerified.toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Asia/Kolkata' });
+const reportHref = `mailto:${SITE.email}?subject=${encodeURIComponent(`Outdated ${d.name} size`)}&body=${encodeURIComponent(
+  `The ${d.name} photo/signature size on vectradev.in looks outdated.\n\nNotification (link or name):\nWhat it says now:\n`,
+)}`;
+
+const docNames = uploads.map((x) => x.label.toLowerCase());
+const lede = `Get your ${docNames.join(', ').replace(/, ([^,]*)$/, ' and $1')} to the exact size the ${d.name} form accepts. Nothing is uploaded.`;
+
+const genericFaqs = [
+  { q: 'Is my photo uploaded to your server?', a: 'No. Everything runs inside your browser, on your own phone or computer. Your photo and signature never leave your device.' },
+  { q: 'What if my upload is still rejected?', a: 'Open your notification and compare its size rules with the table on this page. If they differ, tick "My notification says something different" and enter the new numbers. Please also tell us so we can update the preset.' },
+];
+const faqs = [...d.faqs, ...genericFaqs];
+const related = all
+  .filter((e) => e.id !== exam.id)
+  .sort((a, b) => a.data.order - b.data.order)
+  .slice(0, 4)
+  .map((e) => ({ href: `/exam/${e.data.slug}`, title: `${e.data.name} photo and signature`, blurb: e.data.fullName }));
+related.push({ href: '/compress-image-to-kb', title: 'Compress image to any KB', blurb: 'For forms not listed here.' });
+---
+
+<ToolPage
+  title={`${d.name} photo and signature resizer`}
+  metaTitle={`${d.name} photo and signature size and resizer`}
+  description={`Resize your ${d.name} ${docNames.join(', ')} to the required pixels and KB. Free, works on phones, nothing is uploaded. Checked ${verified}.`}
+  lede={lede}
+  faqs={faqs}
+  related={related}
+  breadcrumb={{ href: '/exam', label: 'Exam photos' }}
+>
+  <div slot="tool">
+    <p class="mb-5 max-w-[68ch] text-sm text-ink-3">
+      Sizes last checked on {verified} against{' '}
+      <a href={d.source.url} rel="nofollow noopener" target="_blank" class="text-ink-2 underline underline-offset-2">{d.source.label}</a>.
+      {!d.source.official && ' Rules can change with each notification, so compare with yours.'}{' '}
+      <a href={reportHref} class="text-ink-2 underline underline-offset-2">Report an outdated size</a>
+    </p>
+    <ExamTool client:load examName={d.name} documents={d.documents} />
+  </div>
+
+  <p>{d.intro}</p>
+  {d.covers.length > 1 && <p>These rules apply to {d.covers.join(', ').replace(/, ([^,]*)$/, ' and $1')} unless your notification says otherwise.</p>}
+
+  <h2>{d.name} image size requirements</h2>
+  <div class="-mx-4 overflow-x-auto px-4">
+    <table class="w-full min-w-[480px] border-collapse text-left text-[0.95rem]">
+      <thead>
+        <tr class="border-b-2 border-ink text-ink">
+          <th scope="col" class="py-2 pr-4 font-bold">Document</th>
+          <th scope="col" class="py-2 pr-4 font-bold">File size</th>
+          <th scope="col" class="py-2 pr-4 font-bold">Size</th>
+          <th scope="col" class="py-2 font-bold">Format</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          d.documents.map((doc) => (
+            <tr class="border-b border-rule align-top">
+              <th scope="row" class="py-2 pr-4 font-semibold text-ink">{doc.label}</th>
+              <td class="tabular py-2 pr-4">{doc.liveCapture ? 'Live camera capture' : describeKb(doc)}</td>
+              <td class="tabular py-2 pr-4">
+                {doc.liveCapture ? '—' : describeSize(doc) || 'Not fixed'}
+                {doc.dpi && !doc.liveCapture ? `, ${doc.dpi} DPI` : ''}
+              </td>
+              <td class="py-2">{doc.liveCapture ? '—' : 'JPG'}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <h2>How to prepare your {d.name} documents</h2>
+  <ol>
+    {uploads.map((doc) => (
+      <li>
+        <strong>{doc.label}:</strong>{' '}
+        {doc.fit === 'contain'
+          ? 'Do it on plain white paper, take a clear photo from straight above in good light, and choose it in the tool. The tool trims the empty paper, whitens the background and fits it to size.'
+          : 'Choose a recent photo, drag it so your face sits inside the guide, and check the result.'}
+      </li>
+    ))}
+    <li>Download each file and upload it to the matching field on the {d.name} form.</li>
+  </ol>
+  {live.length > 0 && (
+    <>
+      <h3>About the live photo</h3>
+      <p>
+        The {d.name} form captures your {live.map((l) => l.label.toLowerCase()).join(' and ')} live through the camera, so there is nothing to upload for it. Sit in good light against a plain background, look straight at the camera, and remove caps, masks and glasses.
+      </p>
+    </>
+  )}
+</ToolPage>

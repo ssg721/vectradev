@@ -1,0 +1,14 @@
+---
+import TextPage from '../layouts/TextPage.astro';
+import { SITE } from '../lib/site';
+---
+<TextPage title="Contact" description="Get in touch with vectradev to report an outdated exam size, a problem with a tool, or to suggest a new one.">
+  <p>Write to us at <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.</p>
+  <p>Helpful things to include:</p>
+  <ul>
+    <li><strong>Outdated exam size:</strong> the exam name and a link to the notification with the new rules.</li>
+    <li><strong>A tool not working:</strong> which page, your phone or computer, and your browser.</li>
+    <li><strong>A new tool or exam:</strong> what you were trying to do.</li>
+  </ul>
+  <p>Please don't email your photos or documents. We never need them, because the tools work without uploading anything.</p>
+</TextPage>
