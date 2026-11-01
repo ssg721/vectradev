@@ -261,3 +261,84 @@
     font-variant-numeric: tabular-nums;
   }
 }
+
+/* ---------------------------------------------------------------- */
+/* Ads: framed, labelled, never inside a tool                        */
+/* ---------------------------------------------------------------- */
+@layer components {
+  .ad-label {
+    margin-bottom: 0.5rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .ad-unit {
+    min-height: 250px;
+  }
+  .ad-band {
+    margin: 3.5rem auto;
+    max-width: 64rem;
+    padding: 0 1rem;
+  }
+  .ad-band > *,
+  .ad-inline > * {
+    max-width: 100%;
+  }
+  .ad-band,
+  .ad-inline {
+    text-align: center;
+  }
+  .ad-band .ad-label,
+  .ad-inline .ad-label {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .ad-band .ad-label::before,
+  .ad-band .ad-label::after,
+  .ad-inline .ad-label::before,
+  .ad-inline .ad-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+  .ad-inline {
+    margin: 2.5rem 0;
+  }
+  /* Wide screens get leaderboard-shaped banners rather than tall boxes. */
+  @media (min-width: 1024px) {
+    .ad-band .ad-unit,
+    .ad-inline .ad-unit {
+      min-height: 120px;
+    }
+  }
+  .ad-rail .ad-unit {
+    width: 300px;
+    min-height: 600px;
+  }
+  .ad-preview {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    border: 1px dashed var(--rule-strong);
+    border-radius: 10px;
+    background: repeating-linear-gradient(135deg, transparent 0 10px, color-mix(in oklab, var(--rule) 45%, transparent) 10px 11px);
+    color: var(--ink-3);
+    font-weight: 600;
+    text-align: center;
+    padding: 1rem;
+  }
+  .ad-preview small {
+    font-weight: 400;
+    font-size: 0.78rem;
+  }
+  /* AdSense marks a slot it couldn't fill; hide the frame instead of leaving a gap. */
+  .ad:has(ins[data-ad-status='unfilled']) {
+    display: none;
+  }
+}

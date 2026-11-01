@@ -1,29 +1,45 @@
 ---
-import { SITE } from '../lib/site';
-
 /**
- * A display ad slot. Renders nothing until an ad slot id (PUBLIC_ADSENSE_SLOT) is configured, so the site launches clean and ads switch on with one env var.
- * Slots are only placed between sections, never next to upload or download buttons.
+ * One ad, in a frame that matches the site: a small "Advertisement" label and
+ * hairline rules, with space reserved so the page doesn't jump when it loads.
+ * If AdSense has no ad to show, the whole frame is hidden (see .ad in global.css).
  */
+import { SITE } from '../lib/site';
+import { adSlotFor, showsAd, type AdPlacement } from '../lib/ads';
+
 interface Props {
-  slot?: string;
+  placement: AdPlacement;
+  class?: string;
 }
-const client = SITE.adsenseClient;
-const slot = Astro.props.slot ?? import.meta.env.PUBLIC_ADSENSE_SLOT;
+const { placement, class: cls } = Astro.props;
+const slot = adSlotFor(placement);
+const show = showsAd(placement);
+const previewSize = { band: 'Responsive · fills the width', rail: '300 × 600 or 300 × 250', inline: 'Responsive · fills the width' }[placement];
 ---
 
 {
-  client && slot && (
-    <aside class="mx-auto my-10 max-w-5xl px-4" aria-label="Advertisement">
-      <ins
-        class="adsbygoogle block min-h-[100px]"
-        style="display:block"
-        data-ad-client={client}
-        data-ad-slot={slot}
-        data-ad-format="auto"
-        data-full-width-responsive="true"
-      />
-      <script is:inline>(window.adsbygoogle = window.adsbygoogle || []).push({});</script>
+  show && (
+    <aside class:list={['ad', `ad-${placement}`, cls]} aria-label="Advertisement">
+      <p class="ad-label">Advertisement</p>
+      {slot ? (
+        <>
+          <ins
+            class="adsbygoogle ad-unit"
+            style="display:block"
+            data-ad-client={SITE.adsenseClient}
+            data-ad-slot={slot}
+            data-ad-format="auto"
+            data-full-width-responsive={placement === 'rail' ? 'false' : 'true'}
+          />
+          <script is:inline>(window.adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </>
+      ) : (
+        <div class="ad-unit ad-preview" aria-hidden="true">
+          <span>Ad space</span>
+          <small>{previewSize}</small>
+          <small>Preview only, not shown on the live site until an ad unit is set</small>
+        </div>
+      )}
     </aside>
   )
 }

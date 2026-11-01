@@ -1,13 +1,15 @@
 ---
 /**
- * Shared frame for every tool page: heading, the tool, an ad slot after the
- * tool (never beside its buttons), how-to content, FAQ and related tools.
+ * Shared frame for every tool page: heading, the tool, then the guide, FAQ and
+ * related tools. Ads sit after the tool and beside (or, on phones, inside) the
+ * guide — never in the tool itself or next to its buttons.
  * Generates WebApplication + FAQPage structured data.
  */
 import Base from './Base.astro';
 import AdSlot from '../components/AdSlot.astro';
 import Faq, { type FaqItem } from '../components/Faq.astro';
 import { SITE, type ToolLink } from '../lib/site';
+import { showsAd } from '../lib/ads';
 
 interface Props {
   title: string;
@@ -21,6 +23,7 @@ interface Props {
 }
 
 const { title, metaTitle, description, lede, faqs, related = [], breadcrumb } = Astro.props;
+const rail = showsAd('rail');
 const url = new URL(Astro.url.pathname.replace(/\.html$/, ''), SITE.url).href;
 
 const jsonLd: object[] = [
@@ -73,12 +76,14 @@ if (breadcrumb) {
     <slot name="tool" />
   </div>
 
-  <AdSlot />
+  <AdSlot placement="band" />
 
-  <div class="mx-auto max-w-5xl px-4">
+  <div class:list={['mx-auto max-w-5xl px-4', rail && 'lg:grid lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-12']}>
+    <div class="min-w-0">
     <div class="prose-form">
       <slot />
     </div>
+    {faqs.length > 0 && <AdSlot placement="inline" class={rail ? 'lg:hidden' : undefined} />}
     {faqs.length > 0 && <Faq items={faqs} />}
 
     {
@@ -100,5 +105,7 @@ if (breadcrumb) {
         </section>
       )
     }
+    </div>
+    {rail && <AdSlot placement="rail" class="hidden lg:block" />}
   </div>
 </Base>
