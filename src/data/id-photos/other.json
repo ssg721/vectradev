@@ -2,15 +2,29 @@
   "slug": "any-document-photo",
   "name": "Any other document",
   "fullName": "Photo resizer for any passport, visa or ID application",
-  "covers": ["Visas for any country", "National ID cards and driving licences", "Student and staff ID cards", "OCI, PR and residence permits"],
-  "order": 9,
+  "covers": [
+    "Visas for any country",
+    "National ID cards and driving licences",
+    "Student and staff ID cards",
+    "OCI, PR and residence permits"
+  ],
+  "order": 99,
   "intro": "Enter the photo rules from your application's official instructions: size in pixels or millimetres, DPI and the KB range. The tool crops, resizes and compresses your photo to match.",
   "customStart": true,
   "documents": [
     {
-      "id": "photo", "label": "Photo", "kind": "photo",
-      "width": 413, "height": 531, "widthCm": 3.5, "heightCm": 4.5, "dpi": 300,
-      "minKb": 20, "maxKb": 200, "fit": "cover", "caption": "optional",
+      "id": "photo",
+      "label": "Photo",
+      "kind": "photo",
+      "width": 413,
+      "height": 531,
+      "widthCm": 3.5,
+      "heightCm": 4.5,
+      "dpi": 300,
+      "minKb": 20,
+      "maxKb": 200,
+      "fit": "cover",
+      "caption": "optional",
       "notes": [
         "The fields start at a common 35 × 45 mm size. Change them to match your instructions.",
         "If the instructions give only pixels, switch to Pixels. If they give mm and DPI, keep mm."
@@ -24,7 +38,13 @@
   },
   "lastVerified": "2026-10-31",
   "faqs": [
-    { "q": "How do I resize a photo for a visa or ID card that isn't listed?", "a": "Find the photo rules in the application's instructions, enter the size and KB range on this page, position your face inside the guide and download the JPG." },
-    { "q": "What if the instructions only give a size in inches?", "a": "Multiply inches by 25.4 to get millimetres. For example, 2 × 2 inches is 50.8 × 50.8 mm." }
+    {
+      "q": "How do I resize a photo for a visa or ID card that isn't listed?",
+      "a": "Find the photo rules in the application's instructions, enter the size and KB range on this page, position your face inside the guide and download the JPG."
+    },
+    {
+      "q": "What if the instructions only give a size in inches?",
+      "a": "Multiply inches by 25.4 to get millimetres. For example, 2 × 2 inches is 50.8 × 50.8 mm."
+    }
   ]
 }

@@ -2,6 +2,7 @@
   "slug": "indian-passport-photo",
   "name": "Indian passport",
   "fullName": "Indian passport photo for Passport Seva uploads",
+  "category": "passport",
   "covers": [
     "Passport Seva online applications",
     "Passport Seva Global (applying from abroad)"

@@ -14,7 +14,7 @@ type DocResult = { blob: Blob; ok: boolean } | null;
 export interface ExamDocument {
   id: string;
   label: string;
-  kind: 'photo' | 'postcard' | 'signature' | 'thumb' | 'declaration';
+  kind: 'photo' | 'postcard' | 'signature' | 'thumb' | 'declaration' | 'passport-page';
   liveCapture: boolean;
   width?: number;
   height?: number;
@@ -231,6 +231,8 @@ interface DocPanelProps {
 function DocPanel({ doc, examName, ruleSource, customStart, onResult, next }: DocPanelProps) {
   const { loaded, loading, error: loadError, load } = useImage();
   const isPaper = doc.fit === 'contain';
+  /** A photo of the passport's photo page: framed and resized, but no face or paper checks. */
+  const isScan = doc.kind === 'passport-page';
   const [clean, setClean] = useState(isPaper);
   const [withCaption, setWithCaption] = useState(doc.caption === 'required');
   const [name, setName] = useState('');
@@ -308,7 +310,7 @@ function DocPanel({ doc, examName, ruleSource, customStart, onResult, next }: Do
     ? { minKb: spec.minKb, maxKb: spec.maxKb, ...specPixels(spec), dpi: spec.dpi }
     : { minKb: doc.minKb, maxKb: doc.maxKb!, width: doc.width, height: doc.height, dpi: doc.dpi };
   const fixedSize = !!(active.width && active.height);
-  const showCaption = withCaption && doc.kind !== 'signature' && doc.kind !== 'thumb' && doc.kind !== 'declaration';
+  const showCaption = withCaption && doc.kind !== 'signature' && doc.kind !== 'thumb' && doc.kind !== 'declaration' && !isScan;
   const captionData = showCaption ? { name, date } : null;
   const aspect = fixedSize ? photoAspect(active.width!, active.height!, showCaption) : 1;
   const needsCrop = !!work && doc.fit === 'cover' && fixedSize;
@@ -334,7 +336,7 @@ function DocPanel({ doc, examName, ruleSource, customStart, onResult, next }: Do
           caption: captionData,
         });
         // Checks run on the finished picture, before it is handed to the encoder.
-        const qc = await quickChecks(frame, isPaper ? 'paper' : 'photo', showCaption ? 1 - 0.18 : 1);
+        const qc = isScan ? [] : await quickChecks(frame, isPaper ? 'paper' : 'photo', showCaption ? 1 - 0.18 : 1);
         const target = targetBytesFor({ minKb: active.minKb, maxKb: active.maxKb });
         const out = await compressInWorker(frame, target, {
           // Exact sizes must stay exact; suggested or automatic sizes may shrink.
@@ -423,9 +425,15 @@ function DocPanel({ doc, examName, ruleSource, customStart, onResult, next }: Do
             <Dropzone
               onFiles={(f) => load(f[0])}
               camera="environment"
-              cameraLabel={isPaper ? `Photograph your ${doc.kind === 'thumb' ? 'thumb impression' : doc.kind}` : 'Take a photo'}
+              cameraLabel={isScan ? 'Photograph your passport page' : isPaper ? `Photograph your ${doc.kind === 'thumb' ? 'thumb impression' : doc.kind}` : 'Take a photo'}
               label={`Choose ${doc.label.toLowerCase()}`}
-              hint={isPaper ? 'A clear phone photo of the paper works. We trim the edges and whiten the paper.' : 'Any recent photo works. You can position it in the next step.'}
+              hint={
+                isScan
+                  ? 'Lay your passport open and flat in daylight, and photograph the photo page from straight above. You can line it up in the next step.'
+                  : isPaper
+                    ? 'A clear phone photo of the paper works. We trim the edges and whiten the paper.'
+                    : 'Any recent photo works. You can position it in the next step.'
+              }
             />
             {loading && <p class="text-ink-2" role="status">Opening your file…</p>}
             {loadError && <p class="font-semibold text-fail" role="alert">{loadError}</p>}
@@ -435,7 +443,9 @@ function DocPanel({ doc, examName, ruleSource, customStart, onResult, next }: Do
             <div class="rounded-[14px] border border-rule bg-sheet p-4">
               {needsCrop && work && (
                 <>
-                  <p class="mb-3 text-sm font-semibold text-ink-2">Fit your face inside the guide</p>
+                  <p class="mb-3 text-sm font-semibold text-ink-2">
+                    {isScan ? 'Line up the whole photo page inside the frame, including the two lines of letters at the bottom' : 'Fit your face inside the guide'}
+                  </p>
                   <CropBox
                     src={work.url}
                     imgW={work.bitmap.width}
@@ -521,7 +531,9 @@ function DocPanel({ doc, examName, ruleSource, customStart, onResult, next }: Do
             </ul>
           )}
           <p class="mt-3 text-sm text-ink-3">
-            We check the size, pixels and format, plus {isPaper ? 'that the ink is clear' : 'the background and lighting'}, automatically.
+            {isScan
+              ? 'We check the size, pixels and format automatically. Make sure every letter on the page is sharp and readable before you download.'
+              : `We check the size, pixels and format, plus ${isPaper ? 'that the ink is clear' : 'the background and lighting'}, automatically.`}
           </p>
         </div>
         )}

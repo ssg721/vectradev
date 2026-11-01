@@ -1,0 +1,86 @@
+{
+  "slug": "bali-indonesia-e-voa-photo",
+  "name": "Bali e-VOA",
+  "fullName": "Indonesia e-VOA (visa on arrival) for Bali: photo and passport page",
+  "category": "visa",
+  "covers": ["Indonesia e-VOA (Visitor Visa)", "Bali, Jakarta and the rest of Indonesia"],
+  "keywords": ["indonesia", "bali", "evoa", "e-voa", "visa on arrival", "visitor visa"],
+  "order": 10,
+  "intro": "Most visitors to Bali apply online for Indonesia's electronic visa on arrival (e-VOA), called the Visitor Visa on the official site. The form asks for two uploads: a passport-style photo and the photo page of your passport. Each must be a JPG or PNG of 200 KB or less.",
+  "documents": [
+    {
+      "id": "photo",
+      "label": "Photo",
+      "kind": "photo",
+      "width": 413,
+      "height": 531,
+      "widthCm": 3.5,
+      "heightCm": 4.5,
+      "sizeIsSuggested": true,
+      "maxKb": 200,
+      "fit": "cover",
+      "notes": [
+        "JPG or PNG, 200 KB or less (the official limit).",
+        "The site doesn't set a pixel size, so we make a standard 35 × 45 mm passport-style photo.",
+        "Use a recent colour photo on a plain light background, facing the camera, with no sunglasses or hat."
+      ]
+    },
+    {
+      "id": "passport-page",
+      "label": "Passport photo page",
+      "kind": "passport-page",
+      "width": 1200,
+      "height": 845,
+      "sizeIsSuggested": true,
+      "maxKb": 200,
+      "fit": "cover",
+      "notes": [
+        "The whole photo page of your passport, JPG or PNG, 200 KB or less (the official limit).",
+        "Your passport must be valid for at least 6 months from the day you arrive.",
+        "Every letter must be readable, including the two lines of letters and arrows at the bottom of the page."
+      ]
+    }
+  ],
+  "source": {
+    "label": "the official Indonesian e-Visa website (Directorate General of Immigration)",
+    "url": "https://evisa.imigrasi.go.id/front/info/evoa",
+    "official": true
+  },
+  "lastVerified": "2026-11-01",
+  "travel": {
+    "portal": { "label": "evisa.imigrasi.go.id", "url": "https://evisa.imigrasi.go.id/" },
+    "facts": [
+      { "label": "Who can use it", "value": "Passport holders of about 90 countries, including India, the US, the UK and Australia. Check that yours is on the list on the official site." },
+      { "label": "Cost", "value": "IDR 500,000 per person, paid online by Visa, Mastercard or JCB card." },
+      { "label": "Stay", "value": "30 days, single entry. It can be extended once, for another 30 days, at an immigration office in Indonesia." },
+      { "label": "When to apply", "value": "At least 48 hours before you fly. Every traveller, including babies and children, needs their own visa." }
+    ],
+    "steps": [
+      "Go to evisa.imigrasi.go.id, choose Apply, then Register. Open the email it sends and activate your account within one hour.",
+      "Log in, choose Apply again and pick the Visitor Visa (e-VOA). Enter your arrival date and where you'll stay in Indonesia.",
+      "Upload the photo and passport page you made on this page. Both must be 200 KB or less.",
+      "Check that every detail matches your passport exactly. Mistakes can't be refunded.",
+      "Pay within 120 minutes of reaching the payment page, or you'll have to start a new request.",
+      "Download the visa from your account. Keep a copy on your phone and a printed copy."
+    ],
+    "beforeYouFly": [
+      "Fill in the free All Indonesia arrival card at allindonesia.imigrasi.go.id in the 3 days before you land, and keep the QR code.",
+      "Pay Bali's tourist levy (IDR 150,000) on the official Love Bali site, lovebali.baliprov.go.id.",
+      "Carry a return or onward ticket and a passport with at least 2 blank pages."
+    ],
+    "sources": [
+      { "label": "Wego: Indonesia visa for Indians, updated May 2026 (extension, arrival card and Bali levy)", "url": "https://blog.wego.com/indonesia-visa-for-indians/" }
+    ]
+  },
+  "seo": {
+    "title": "Bali e-VOA photo and passport page",
+    "metaTitle": "Bali (Indonesia) e-VOA photo under 200 KB, and how to apply",
+    "description": "Make the photo and passport page for Indonesia's e-VOA under 200 KB, then follow clear steps to get your Bali visa on the official site. Free, nothing is uploaded.",
+    "lede": "Make both uploads Indonesia's e-VOA asks for, each under 200 KB, then follow the steps below to apply on the official site."
+  },
+  "faqs": [
+    { "q": "What size photo does the Bali e-VOA need?", "a": "The official site sets a file limit of 200 KB (JPG or PNG) but no pixel size. A standard 35 × 45 mm passport-style photo on a plain light background works; this page makes one under 200 KB." },
+    { "q": "Why won't my passport page upload?", "a": "Usually because the file is over 200 KB. Phone photos are several MB. Make it here and it comes out under the limit, with the text still readable." },
+    { "q": "Is the e-VOA the same as the visa on arrival?", "a": "Yes. It's the same visa, applied for online before you fly, so you can skip the visa queue at the airport. Indonesia's site calls it the Visitor Visa." }
+  ]
+}

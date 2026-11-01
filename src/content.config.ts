@@ -12,7 +12,8 @@ const document = z
   .object({
     id: z.string().regex(/^[a-z0-9-]+$/),
     label: z.string(),
-    kind: z.enum(['photo', 'postcard', 'signature', 'thumb', 'declaration']),
+    /** 'passport-page' is a photo of the passport's photo (data) page, as visa portals ask for. */
+    kind: z.enum(['photo', 'postcard', 'signature', 'thumb', 'declaration', 'passport-page']),
     /** The portal captures this live with a camera, so there is nothing to upload. */
     liveCapture: z.boolean().default(false),
     /** Exact pixel size required by the portal. */
@@ -68,6 +69,31 @@ const preset = z.object({
     customStart: z.boolean().default(false),
 });
 
+/** Plain-language travel guidance shown on visa pages, from the official sources. */
+const travelGuide = z.object({
+  /** The official place to apply. Look-alike sites charge extra, so this is always named. */
+  portal: z.object({ label: z.string(), url: z.url() }),
+  /** Short "at a glance" rows: who needs it, cost, stay, processing time. */
+  facts: z.array(z.object({ label: z.string(), value: z.string() })).min(1),
+  steps: z.array(z.string()).min(1),
+  /** Other things to do before flying (arrival cards, tourist levies…). */
+  beforeYouFly: z.array(z.string()).default([]),
+  /** Extra sources behind the guide (the photo rules use `source`). */
+  sources: z.array(z.object({ label: z.string(), url: z.url() })).default([]),
+});
+
+const idPhotoPreset = preset.extend({
+  /** Passports and visas are listed separately on the hub. */
+  category: z.enum(['passport', 'visa']).default('visa'),
+  /** Empty when the country needs no photo (the page is then a guide only). */
+  documents: z.array(document).default([]),
+  travel: travelGuide.optional(),
+  /** Overrides for pages whose title isn't "<name> photo resizer". */
+  seo: z
+    .object({ title: z.string(), metaTitle: z.string(), description: z.string(), lede: z.string() })
+    .optional(),
+});
+
 const exams = defineCollection({
   loader: glob({ pattern: '*.json', base: './src/data/exams' }),
   schema: preset,
@@ -75,7 +101,7 @@ const exams = defineCollection({
 
 const idPhotos = defineCollection({
   loader: glob({ pattern: '*.json', base: './src/data/id-photos' }),
-  schema: preset,
+  schema: idPhotoPreset,
 });
 
 export const collections = { exams, idPhotos };

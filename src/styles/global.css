@@ -117,6 +117,14 @@
   .prose-form ol {
     margin: 0 0 0.9rem;
   }
+  .prose-form .callout {
+    margin: 0 0 1rem;
+    border-left: 3px solid var(--stamp);
+    border-radius: 0 8px 8px 0;
+    background: var(--stamp-soft);
+    padding: 0.7rem 1rem;
+    color: var(--ink);
+  }
   .prose-form ul {
     list-style: disc;
     padding-left: 1.2rem;

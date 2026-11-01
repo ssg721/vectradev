@@ -12,34 +12,51 @@ export async function getStaticPaths() {
 const { entry, all } = Astro.props as { entry: CollectionEntry<'idPhotos'>; all: CollectionEntry<'idPhotos'>[] };
 const d = entry.data;
 const doc = d.documents[0];
+const hasTool = d.documents.length > 0;
+const hasScan = d.documents.some((x) => x.kind === 'passport-page');
+const travel = d.travel;
 const verified = d.lastVerified.toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Asia/Kolkata' });
-const reportHref = `mailto:${SITE.email}?subject=${encodeURIComponent(`Outdated ${d.name} photo size`)}&body=${encodeURIComponent(
-  `The ${d.name} photo size on vectradev.in looks outdated.\n\nOfficial page (link):\nWhat it says now:\n`,
+const reportHref = `mailto:${SITE.email}?subject=${encodeURIComponent(`Outdated ${d.name} rules`)}&body=${encodeURIComponent(
+  `The ${d.name} rules on vectradev.in look outdated.\n\nOfficial page (link):\nWhat it says now:\n`,
 )}`;
+const anyOther = all.find((e) => e.data.customStart);
 
-const title = d.customStart ? 'Photo resizer for any passport, visa or ID' : `${d.name} photo resizer`;
-const lede = d.customStart
-  ? 'Enter the photo rules from your official instructions and get a JPG that matches them exactly. Nothing is uploaded.'
-  : `Make a ${d.name} photo at the exact size and file size the online application accepts. Nothing is uploaded.`;
-const description = d.customStart
-  ? 'Crop, resize and compress a photo for any passport, visa or ID application. Enter the size in pixels or mm and the KB limit. Free, nothing uploaded.'
-  : `${d.name} photo at the required pixels and KB (${[describeSize(doc), describeKb(doc)].filter(Boolean).join(', ')}). Free, works on phones, nothing is uploaded.`;
+const title = d.seo?.title ?? (d.customStart ? 'Photo resizer for any passport, visa or ID' : `${d.name} photo resizer`);
+const lede =
+  d.seo?.lede ??
+  (d.customStart
+    ? 'Enter the photo rules from your official instructions and get a JPG that matches them exactly. Nothing is uploaded.'
+    : `Make a ${d.name} photo at the exact size and file size the online application accepts. Nothing is uploaded.`);
+const description =
+  d.seo?.description ??
+  (d.customStart
+    ? 'Crop, resize and compress a photo for any passport, visa or ID application. Enter the size in pixels or mm and the KB limit. Free, nothing uploaded.'
+    : `${d.name} photo at the required pixels and KB (${[describeSize(doc), describeKb(doc)].filter(Boolean).join(', ')}). Free, works on phones, nothing is uploaded.`);
+const metaTitle = d.seo?.metaTitle ?? (d.customStart ? 'Passport, visa and ID photo resizer for any country' : `${d.name} photo size and resizer`);
 
 const genericFaqs = [
-  { q: 'Is my photo uploaded to your server?', a: 'No. Everything runs inside your browser, on your own phone or computer. Your photo never leaves your device.' },
-  ...(d.customStart
+  ...(hasTool ? [{ q: 'Is my photo uploaded to your server?', a: 'No. Everything runs inside your browser, on your own phone or computer. Your photo and passport never leave your device.' }] : []),
+  ...(d.customStart || !hasTool
     ? []
-    : [{ q: 'What if my photo is still rejected?', a: 'Compare the official instructions with the rules on this page. If they differ, tick "My official guidance says something different" and enter the new numbers. Please also tell us so we can update the preset.' }]),
+    : [{ q: 'What if my upload is still rejected?', a: 'Compare the official instructions with the rules on this page. If they differ, tick "My official guidance says something different" and enter the new numbers. Please also tell us so we can update this page.' }]),
 ];
 const related = all
   .filter((e) => e.id !== entry.id)
   .sort((a, b) => a.data.order - b.data.order)
-  .map((e) => ({ href: `/passport-visa-photo/${e.data.slug}`, title: e.data.customStart ? 'Any other passport, visa or ID photo' : `${e.data.name} photo`, blurb: e.data.fullName }));
+  .map((e) => ({
+    href: `/passport-visa-photo/${e.data.slug}`,
+    title: e.data.customStart ? 'Any other passport, visa or ID photo' : e.data.documents.length ? `${e.data.name} photo` : `${e.data.name} visa`,
+    blurb: e.data.fullName,
+  }));
+
+const kbOf = (x: (typeof d.documents)[number]) => describeKb(x);
+const sizeOf = (x: (typeof d.documents)[number]) =>
+  x.kind === 'passport-page' ? 'The whole photo page, readable' : [describeSize(x), x.sizeIsSuggested ? '(our suggestion; no fixed size)' : ''].filter(Boolean).join(' ') || 'Not fixed';
 ---
 
 <ToolPage
   title={title}
-  metaTitle={d.customStart ? 'Passport, visa and ID photo resizer for any country' : `${d.name} photo size and resizer`}
+  metaTitle={metaTitle}
   description={description}
   lede={lede}
   faqs={[...d.faqs, ...genericFaqs]}
@@ -53,39 +70,138 @@ const related = all
           Rules last checked on {verified} against{' '}
           <a href={d.source.url} rel="nofollow noopener" target="_blank" class="text-ink-2 underline underline-offset-2">{d.source.label}</a>.
           {!d.source.official && ' Rules can change, so compare with the official page before you apply.'}{' '}
-          <a href={reportHref} class="text-ink-2 underline underline-offset-2">Report an outdated size</a>
+          <a href={reportHref} class="text-ink-2 underline underline-offset-2">Report something outdated</a>
         </p>
       )
     }
-    <ExamTool client:load examName={d.name} documents={d.documents} ruleSource="official guidance" customStart={d.customStart} />
+    {
+      hasTool ? (
+        <ExamTool client:load examName={d.name} documents={d.documents} ruleSource="official guidance" customStart={d.customStart} />
+      ) : (
+        travel && (
+          <div class="grid gap-x-10 gap-y-6 rounded-[14px] border border-rule bg-sheet p-5 sm:p-6 lg:grid-cols-[minmax(0,1fr)_320px]">
+            <dl class="grid gap-x-6 gap-y-3 sm:grid-cols-2">
+              {travel.facts.map((f) => (
+                <div>
+                  <dt class="text-sm font-semibold text-ink-3">{f.label}</dt>
+                  <dd class="text-[1.05rem] font-semibold text-ink">{f.value}</dd>
+                </div>
+              ))}
+            </dl>
+            <div class="border-t border-rule pt-5 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-8">
+              <p class="font-bold text-ink">The one form to fill in</p>
+              <p class="mt-1 text-[0.95rem] text-ink-2">{travel.steps[0]}</p>
+              <a href={travel.portal.url} rel="noopener" target="_blank" class="btn btn-primary mt-4">
+                Open the official form
+              </a>
+              <p class="mt-2 text-sm text-ink-3">{travel.portal.label}</p>
+            </div>
+          </div>
+        )
+      )
+    }
   </div>
 
   <p>{d.intro}</p>
-  {d.covers.length > 0 && <p>{d.customStart ? 'Works for' : 'Use it for'} {d.covers.join(', ').replace(/, ([^,]*)$/, ' and $1')}.</p>}
+  {hasTool && d.covers.length > 0 && <p>{d.customStart ? 'Works for' : 'Use it for'} {d.covers.join(', ').replace(/, ([^,]*)$/, ' and $1')}.</p>}
 
   {
-    !d.customStart && (
+    travel && hasTool && (
       <>
-        <h2>{d.name} photo requirements</h2>
+        <h2>{d.name} at a glance</h2>
         <div class="-mx-4 overflow-x-auto px-4">
           <table class="w-full min-w-[420px] border-collapse text-left text-[0.95rem]">
             <tbody>
-              <tr class="border-b border-rule"><th scope="row" class="w-40 py-2 pr-4 font-semibold text-ink">File size</th><td class="tabular py-2">{describeKb(doc)}</td></tr>
-              <tr class="border-b border-rule"><th scope="row" class="py-2 pr-4 font-semibold text-ink">Size</th><td class="tabular py-2">{describeSize(doc) || 'Not fixed'}{doc.dpi ? `, ${doc.dpi} DPI` : ''}</td></tr>
-              <tr class="border-b border-rule"><th scope="row" class="py-2 pr-4 font-semibold text-ink">Format</th><td class="py-2">JPG</td></tr>
+              {travel.facts.map((f) => (
+                <tr class="border-b border-rule">
+                  <th scope="row" class="w-40 py-2 pr-4 align-top font-semibold text-ink">{f.label}</th>
+                  <td class="py-2">{f.value}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
-        <ul>{doc.notes.map((n) => <li>{n}</li>)}</ul>
       </>
     )
   }
 
-  <h2>How to make your photo</h2>
-  <ol>
-    <li>Stand against a plain, light wall in even daylight, facing the camera. Ask someone to take the photo from about 1.5 metres away, rather than taking a selfie.</li>
-    {d.customStart && <li>Enter the size and KB range from your application's instructions.</li>}
-    <li>Choose the photo here and drag it so your face sits inside the guide.</li>
-    <li>Check the result and download the JPG, then upload it to your application.</li>
-  </ol>
+  {
+    hasTool && !d.customStart && (
+      <>
+        <h2>{d.documents.length > 1 ? `What ${d.name} asks you to upload` : `${d.name} photo requirements`}</h2>
+        {d.documents.map((x) => (
+          <>
+            {d.documents.length > 1 && <h3>{x.label}</h3>}
+            <div class="-mx-4 overflow-x-auto px-4">
+              <table class="w-full min-w-[420px] border-collapse text-left text-[0.95rem]">
+                <tbody>
+                  <tr class="border-b border-rule"><th scope="row" class="w-40 py-2 pr-4 font-semibold text-ink">File size</th><td class="tabular py-2">{kbOf(x)}</td></tr>
+                  <tr class="border-b border-rule"><th scope="row" class="py-2 pr-4 font-semibold text-ink">Size</th><td class="tabular py-2">{sizeOf(x)}{x.dpi ? `, ${x.dpi} DPI` : ''}</td></tr>
+                  <tr class="border-b border-rule"><th scope="row" class="py-2 pr-4 font-semibold text-ink">Format</th><td class="py-2">JPG</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <ul>{x.notes.map((n) => <li>{n}</li>)}</ul>
+          </>
+        ))}
+      </>
+    )
+  }
+
+  {
+    hasTool && (
+      <>
+        <h2>{hasScan ? 'How to make your photo and passport page' : 'How to make your photo'}</h2>
+        <ol>
+          <li>Stand against a plain, light wall in even daylight, facing the camera. Ask someone to take the photo from about 1.5 metres away, rather than taking a selfie.</li>
+          {d.customStart && <li>Enter the size and KB range from your application's instructions.</li>}
+          <li>Choose the photo here and drag it so your face sits inside the guide.</li>
+          {hasScan && (
+            <li>
+              Open the <strong>Passport photo page</strong> tab. Lay your passport open and flat by a window, and photograph the photo page from straight above, with no flash. Line up the whole page inside the frame,
+              including the two lines of letters at the bottom.
+            </li>
+          )}
+          <li>Check each result and download the files, then upload them to your application.</li>
+        </ol>
+      </>
+    )
+  }
+
+  {
+    travel && (
+      <>
+        <h2>{hasTool ? `How to apply for the ${d.name}` : 'What to do, step by step'}</h2>
+        <p class="callout">
+          Apply only on the official site,{' '}
+          <a href={travel.portal.url} rel="noopener" target="_blank">{travel.portal.label}</a>. Look-alike websites charge extra fees for the same {hasTool ? 'visa' : 'form'}.
+        </p>
+        <ol>
+          {travel.steps.map((s) => <li>{s}</li>)}
+        </ol>
+        {travel.beforeYouFly.length > 0 && (
+          <>
+            <h3>{hasTool ? 'Before you fly' : 'What to carry'}</h3>
+            <ul>
+              {travel.beforeYouFly.map((s) => <li>{s}</li>)}
+            </ul>
+          </>
+        )}
+        {!hasTool && anyOther && (
+          <p>
+            If an airline or travel form ever asks you for a photo, use the <a href={`/passport-visa-photo/${anyOther.data.slug}`}>photo resizer for any document</a> and enter the size it asks for.
+          </p>
+        )}
+        <p class="text-sm text-ink-3">
+          Sources: <a href={d.source.url} rel="nofollow noopener" target="_blank">{d.source.label}</a>
+          {travel.sources.map((s) => (
+            <>
+              ; <a href={s.url} rel="nofollow noopener" target="_blank">{s.label}</a>
+            </>
+          ))}
+          . Checked on {verified}. Entry rules change, so confirm on the official site before you travel.
+        </p>
+      </>
+    )
+  }
 </ToolPage>

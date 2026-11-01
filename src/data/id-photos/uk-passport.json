@@ -2,15 +2,25 @@
   "slug": "uk-passport-photo",
   "name": "UK passport",
   "fullName": "UK passport photo for online applications",
-  "covers": ["Online UK passport applications and renewals"],
+  "category": "passport",
+  "covers": [
+    "Online UK passport applications and renewals"
+  ],
   "order": 3,
   "intro": "GOV.UK accepts a digital photo for online passport applications. It must be at least 600 × 750 pixels and between 50 KB and 10 MB, and HM Passport Office crops it for you.",
   "documents": [
     {
-      "id": "photo", "label": "Passport photo", "kind": "photo",
-      "width": 1200, "height": 1500, "sizeIsSuggested": true,
-      "minWidth": 600, "minHeight": 750,
-      "minKb": 50, "maxKb": 10000, "fit": "cover",
+      "id": "photo",
+      "label": "Passport photo",
+      "kind": "photo",
+      "width": 1200,
+      "height": 1500,
+      "sizeIsSuggested": true,
+      "minWidth": 600,
+      "minHeight": 750,
+      "minKb": 50,
+      "maxKb": 10000,
+      "fit": "cover",
       "notes": [
         "At least 600 × 750 pixels, between 50 KB and 10 MB, in colour and sharp.",
         "Show your head, shoulders and upper body. GOV.UK crops the photo itself, so keep the zoom all the way out.",
@@ -26,7 +36,13 @@
   },
   "lastVerified": "2026-10-31",
   "faqs": [
-    { "q": "What size is a digital UK passport photo?", "a": "At least 600 pixels wide and 750 pixels tall, with a file size between 50 KB and 10 MB." },
-    { "q": "Should I crop my UK passport photo?", "a": "No. GOV.UK asks you not to crop it, because HM Passport Office does that. Keep your head, shoulders and upper body in the frame and leave the zoom at its lowest." }
+    {
+      "q": "What size is a digital UK passport photo?",
+      "a": "At least 600 pixels wide and 750 pixels tall, with a file size between 50 KB and 10 MB."
+    },
+    {
+      "q": "Should I crop my UK passport photo?",
+      "a": "No. GOV.UK asks you not to crop it, because HM Passport Office does that. Keep your head, shoulders and upper body in the frame and leave the zoom at its lowest."
+    }
   ]
 }

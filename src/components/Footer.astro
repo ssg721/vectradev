@@ -19,7 +19,7 @@ const year = new Date().getFullYear();
     <div>
       <h2 class="mb-3 text-sm font-bold text-ink">Passport and visa photos</h2>
       <ul class="space-y-1.5 text-[0.95rem] text-ink-2">
-        {idPhotos.map((e) => <li><a class="no-underline hover:underline" href={`/passport-visa-photo/${e.data.slug}`}>{e.data.customStart ? 'Any other document' : `${e.data.name} photo`}</a></li>)}
+        {idPhotos.map((e) => <li><a class="no-underline hover:underline" href={`/passport-visa-photo/${e.data.slug}`}>{e.data.customStart ? 'Any other document' : e.data.documents.length ? `${e.data.name} photo` : `${e.data.name} visa`}</a></li>)}
       </ul>
     </div>
     <div>

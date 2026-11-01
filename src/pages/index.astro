@@ -148,7 +148,7 @@ const listHeading = 'text-[1.6rem] font-extrabold tracking-[-0.02em] text-ink';
       <h2 id="id-heading" class={listHeading}>Passport or visa photo?</h2>
       <a href="/passport-visa-photo" class="text-[0.95rem] font-semibold text-ink-2 underline underline-offset-4">All passport and visa photos</a>
     </div>
-    <p class="mt-1 max-w-[60ch] text-ink-2">Get the exact photo size and file size an online application accepts, or enter the rules for any other document.</p>
+    <p class="mt-1 max-w-[60ch] text-ink-2">Get the exact photo and file size an online application accepts, with step-by-step guides for visas to Bali, Vietnam, Thailand and the Maldives.</p>
     <ul class="mt-5 grid border-t border-rule sm:grid-cols-2 sm:gap-x-10">
       {
         idPhotos.map((e) => (
@@ -159,7 +159,9 @@ const listHeading = 'text-[1.6rem] font-extrabold tracking-[-0.02em] text-ink';
                 <span class="tabular block text-sm text-ink-3">
                   {e.data.customStart
                     ? 'Other visas, ID cards, residence permits'
-                    : [describeSize(e.data.documents[0]), describeKb(e.data.documents[0])].filter(Boolean).join(', ')}
+                    : e.data.documents.length
+                      ? [describeSize(e.data.documents[0]), describeKb(e.data.documents[0])].filter(Boolean).join(', ')
+                      : 'No photo needed: free visa on arrival'}
                 </span>
               </span>
               <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" class="shrink-0 text-ink-3">

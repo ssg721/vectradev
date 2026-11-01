@@ -1,0 +1,53 @@
+{
+  "slug": "maldives-visa",
+  "name": "Maldives",
+  "fullName": "Maldives tourist visa: free on arrival, no photo needed",
+  "category": "visa",
+  "covers": ["Maldives tourist visa on arrival", "IMUGA Traveller Declaration"],
+  "keywords": ["maldives", "male", "imuga", "visa on arrival", "traveller declaration"],
+  "order": 13,
+  "intro": "You don't need a visa photo for the Maldives. Every nationality gets a free tourist visa on arrival for up to 30 days, as long as you meet the entry requirements below and have filled in the free online Traveller Declaration (IMUGA) before you fly.",
+  "documents": [],
+  "source": {
+    "label": "the Maldives Mission (entry to Maldives)",
+    "url": "https://bd.mdvmission.gov.mv/index.php/en/consular/for-foreigners/entry-to-maldives",
+    "official": true
+  },
+  "lastVerified": "2026-11-01",
+  "travel": {
+    "portal": { "label": "imuga.immigration.gov.mv", "url": "https://imuga.immigration.gov.mv/traveller" },
+    "facts": [
+      { "label": "Who can get it", "value": "All nationalities." },
+      { "label": "Cost", "value": "Free." },
+      { "label": "Stay", "value": "Up to 30 days, for tourism. Working isn't allowed on this visa." },
+      { "label": "Photo", "value": "None. The visa is stamped in your passport when you land." }
+    ],
+    "steps": [
+      "In the 96 hours (4 days) before you land, fill in the free Traveller Declaration at imuga.immigration.gov.mv. Choose New Declaration. Every traveller, including children, needs their own.",
+      "Keep your passport, return ticket and hotel booking ready for the immigration desk.",
+      "Your free visa is stamped into your passport on arrival."
+    ],
+    "beforeYouFly": [
+      "A machine-readable passport valid for at least 1 month. Children need their own passport.",
+      "A confirmed return or onward ticket.",
+      "A confirmed, prepaid booking at a registered resort, hotel or guesthouse, or enough money for your stay (US$100 plus US$50 a day).",
+      "A yellow fever vaccination certificate if you're arriving from, or recently passed through, a country with yellow fever risk.",
+      "The Traveller Declaration is free. Ignore websites that charge for it."
+    ],
+    "sources": [
+      { "label": "Maldives Immigration: tourist visa on arrival", "url": "https://www.immigration.gov.mv/visa/tourist-visa" },
+      { "label": "Maldives Immigration: Traveller Declaration (IMUGA)", "url": "https://imuga.immigration.gov.mv/traveller" }
+    ]
+  },
+  "seo": {
+    "title": "Maldives visa: no photo needed",
+    "metaTitle": "Maldives visa for tourists: free on arrival, no photo needed (IMUGA guide)",
+    "description": "The Maldives gives every nationality a free 30-day tourist visa on arrival, with no photo. Here's exactly what to carry and how to fill in the free IMUGA Traveller Declaration.",
+    "lede": "Good news: there's no visa photo to make. Here's what to carry and the one form to fill in before you fly."
+  },
+  "faqs": [
+    { "q": "Do I need a photo for the Maldives visa?", "a": "No. The tourist visa is free and stamped on arrival, and the official requirements don't include a photo." },
+    { "q": "When should I fill in the IMUGA Traveller Declaration?", "a": "Within 96 hours (4 days) before your arrival. It's free on imuga.immigration.gov.mv; each traveller needs their own." },
+    { "q": "Do Indian passport holders need a visa for the Maldives?", "a": "No advance visa is needed. Like every nationality, you get a free tourist visa on arrival for up to 30 days if you meet the entry requirements." }
+  ]
+}

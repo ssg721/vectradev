@@ -1,0 +1,130 @@
+{
+  "slug": "thailand-e-visa-photo",
+  "name": "Thailand e-Visa",
+  "fullName": "Thailand e-Visa: photo and passport page",
+  "category": "visa",
+  "covers": [
+    "Thailand tourist e-Visa",
+    "Bangkok, Phuket, Chiang Mai and the rest of Thailand"
+  ],
+  "keywords": [
+    "thailand",
+    "thai",
+    "evisa",
+    "e-visa",
+    "bangkok",
+    "phuket"
+  ],
+  "order": 12,
+  "intro": "Many travellers can visit Thailand without a visa for up to 30 days. If you need a visa, or plan to stay longer, you apply for a tourist e-Visa on the official site, thaievisa.go.th. The form asks for a recent photo on a white background and your passport's photo page, as JPG or PDF files of up to 3 MB each.",
+  "documents": [
+    {
+      "id": "photo",
+      "label": "Photo",
+      "kind": "photo",
+      "width": 700,
+      "height": 900,
+      "widthCm": 3.5,
+      "heightCm": 4.5,
+      "sizeIsSuggested": true,
+      "maxKb": 3000,
+      "fit": "cover",
+      "notes": [
+        "Taken within the last 6 months, on a plain white background.",
+        "A close-up of your face and the top of your shoulders; your face should fill 70–80% of the photo.",
+        "No sunglasses or glasses.",
+        "Uploads can be up to 3 MB. The site doesn't set a pixel size, so we make a sharp 35 × 45 mm passport-style photo, usually far smaller than the limit."
+      ]
+    },
+    {
+      "id": "passport-page",
+      "label": "Passport photo page",
+      "kind": "passport-page",
+      "width": 1400,
+      "height": 986,
+      "sizeIsSuggested": true,
+      "maxKb": 3000,
+      "fit": "cover",
+      "notes": [
+        "The whole photo page, clear and readable, not cropped or blurred.",
+        "Your passport must be valid for at least 6 months from your travel date.",
+        "Screenshots are not accepted; photograph or scan the real page."
+      ]
+    }
+  ],
+  "source": {
+    "label": "the Royal Thai Embassy, London (photo and upload rules)",
+    "url": "https://london.thaiembassy.org/en/page/visa-general-information",
+    "official": true
+  },
+  "lastVerified": "2026-11-01",
+  "travel": {
+    "portal": {
+      "label": "thaievisa.go.th",
+      "url": "https://www.thaievisa.go.th/"
+    },
+    "facts": [
+      {
+        "label": "Do you need it?",
+        "value": "Many nationalities can visit visa-free for up to 30 days for tourism (the rules changed on 15 September 2026). If yours can't, or you'll stay longer, apply for the e-Visa."
+      },
+      {
+        "label": "Cost",
+        "value": "Set by the Thai embassy for the country you apply from. For example, a single-entry tourist visa costs USD 40 from the US."
+      },
+      {
+        "label": "Stay",
+        "value": "Up to 60 days on a tourist e-Visa, with one 30-day extension possible in Thailand."
+      },
+      {
+        "label": "When to apply",
+        "value": "No earlier than 90 days before you travel, and ideally at least 30 days before."
+      }
+    ],
+    "steps": [
+      "Go to thaievisa.go.th and create an account. Activate it from the verification email.",
+      "Start an application. The form checks your eligibility, then asks for your details, your photo and your passport photo page; upload the files you made here.",
+      "Add your travel details, then upload the supporting documents: flight booking, accommodation, recent bank statements and proof that you live in the country you're applying from.",
+      "Pay the fee online. It isn't refunded, even if the visa is refused.",
+      "Wait for the decision. The e-Visa arrives by email; print it and carry it with your passport."
+    ],
+    "beforeYouFly": [
+      "Everyone, including visa-free visitors, must fill in the free Thailand Digital Arrival Card at tdac.immigration.go.th in the 3 days before arrival.",
+      "Each file you upload must be a JPG or PDF of 3 MB or less, and not password-protected."
+    ],
+    "sources": [
+      {
+        "label": "Royal Thai Embassy, Washington DC: tourist visa (fees, stay, timing)",
+        "url": "https://washingtondc.thaiembassy.org/en/page/trsingle-entry"
+      },
+      {
+        "label": "Thailand e-Visa user guide (application steps)",
+        "url": "https://www.thaievisa.go.th/static/English-Manual.pdf"
+      },
+      {
+        "label": "Royal Thai Embassy, Buenos Aires: Thailand Digital Arrival Card",
+        "url": "https://buenos-aires.thaiembassy.org/en/content/how-to-submit-the-thailand-digital-arrival-card-td"
+      }
+    ]
+  },
+  "seo": {
+    "title": "Thailand e-Visa photo and passport page",
+    "metaTitle": "Thailand e-Visa photo (white background, under 3 MB), and how to apply",
+    "description": "Make the white-background photo and passport page for Thailand's e-Visa, then apply step by step on thaievisa.go.th. Includes the 30-day visa-free rule and the arrival card. Free, nothing uploaded.",
+    "lede": "Make the photo and passport page Thailand's e-Visa asks for, then follow the steps below. First, check whether you need a visa at all."
+  },
+  "faqs": [
+    {
+      "q": "What are the Thailand e-Visa photo requirements?",
+      "a": "A photo taken within the last 6 months, on a plain white background, showing your face and the top of your shoulders, with your face filling 70–80% of the picture and no glasses. Files can be JPG or PDF up to 3 MB."
+    },
+    {
+      "q": "Do I need a visa for Thailand?",
+      "a": "Many nationalities can visit visa-free for up to 30 days for tourism. Check your nationality on thaievisa.go.th. You still need to fill in the free Thailand Digital Arrival Card before you land."
+    },
+    {
+      "q": "Can I apply for the Thai e-Visa from any country?",
+      "a": "You apply through the Thai embassy for the country where you live, and the fee and documents follow that embassy's rules."
+    }
+  ]
+}

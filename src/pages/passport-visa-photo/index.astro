@@ -5,6 +5,10 @@ import { describeKb, describeSize } from '../../components/tools/ExamTool';
 
 const all = (await getCollection('idPhotos')).sort((a, b) => a.data.order - b.data.order);
 const presets = all.filter((e) => !e.data.customStart);
+const groups = [
+  { title: 'Travel visas', blurb: 'Online visa applications, with the photo, the passport page and clear steps to apply.', items: presets.filter((e) => e.data.category === 'visa') },
+  { title: 'Passports', blurb: 'Digital photos for passport applications and renewals.', items: presets.filter((e) => e.data.category === 'passport') },
+];
 const custom = all.find((e) => e.data.customStart);
 
 const faqs = [
@@ -16,50 +20,61 @@ const faqs = [
 
 <ToolPage
   title="Passport and visa photos"
-  metaTitle="Passport and visa photo resizer: US visa, US, UK and Indian passport"
-  description="Make a passport or visa photo at the exact pixels and KB the online application accepts: US visa (DS-160, DV lottery), US passport, UK passport, Indian passport, or any other document. Nothing uploaded."
+  metaTitle="Passport and visa photos: US, Bali, Vietnam, Thailand visas; US, UK, Indian passports"
+  description="Make a passport or visa photo at the exact pixels and KB the online application accepts: US visa, Bali e-VOA, Vietnam and Thailand e-visas, US, UK and Indian passports, or any other document. Nothing uploaded."
   lede="Pick your application. Each page knows the photo size and file size it accepts, and checks your photo against them."
   faqs={faqs}
 >
-  <div slot="tool" class="-mx-4 overflow-x-auto px-4">
-    <table class="w-full min-w-[520px] border-collapse text-left">
-      <thead>
-        <tr class="border-b-2 border-ink text-[0.95rem] text-ink">
-          <th scope="col" class="py-2 pr-4 font-bold">Application</th>
-          <th scope="col" class="py-2 pr-4 font-bold">Photo size</th>
-          <th scope="col" class="py-2 font-bold">File size</th>
-        </tr>
-      </thead>
-      <tbody>
-        {
-          presets.map((e) => (
-            <tr class="border-b border-rule">
-              <th scope="row" class="py-1 pr-4">
-                <a href={`/passport-visa-photo/${e.data.slug}`} class="flex min-h-[52px] flex-col justify-center no-underline">
-                  <span class="font-bold text-ink underline decoration-rule-strong underline-offset-4">{e.data.name}</span>
-                  <span class="text-sm font-normal text-ink-3">{e.data.covers.slice(0, 2).join(', ')}</span>
-                </a>
-              </th>
-              <td class="tabular py-1 pr-4 text-ink-2">{describeSize(e.data.documents[0])}</td>
-              <td class="tabular py-1 text-ink-2">{describeKb(e.data.documents[0])}</td>
-            </tr>
-          ))
-        }
-        {
-          custom && (
-            <tr class="border-b border-rule">
-              <th scope="row" class="py-1 pr-4">
-                <a href={`/passport-visa-photo/${custom.data.slug}`} class="flex min-h-[52px] flex-col justify-center no-underline">
-                  <span class="font-bold text-ink underline decoration-rule-strong underline-offset-4">Any other document</span>
-                  <span class="text-sm font-normal text-ink-3">Other visas, ID cards, residence permits</span>
-                </a>
-              </th>
-              <td class="py-1 pr-4 text-ink-2" colspan="2">Enter the size and KB from your instructions</td>
-            </tr>
-          )
-        }
-      </tbody>
-    </table>
+  <div slot="tool" class="space-y-10">
+    {
+      groups.map((g) => (
+        <section>
+          <h2 class="mb-1 text-[1.25rem] font-bold text-ink">{g.title}</h2>
+          <p class="mb-3 text-[0.95rem] text-ink-3">{g.blurb}</p>
+          <div class="-mx-4 overflow-x-auto px-4">
+            <table class="w-full min-w-[520px] border-collapse text-left">
+              <thead>
+                <tr class="border-b-2 border-ink text-[0.95rem] text-ink">
+                  <th scope="col" class="py-2 pr-4 font-bold">Application</th>
+                  <th scope="col" class="py-2 pr-4 font-bold">Photo size</th>
+                  <th scope="col" class="py-2 font-bold">File size</th>
+                </tr>
+              </thead>
+              <tbody>
+                {g.items.map((e) => (
+                  <tr class="border-b border-rule">
+                    <th scope="row" class="py-1 pr-4">
+                      <a href={`/passport-visa-photo/${e.data.slug}`} class="flex min-h-[52px] flex-col justify-center no-underline">
+                        <span class="font-bold text-ink underline decoration-rule-strong underline-offset-4">{e.data.name}</span>
+                        <span class="text-sm font-normal text-ink-3">{e.data.covers.slice(0, 2).join(', ')}</span>
+                      </a>
+                    </th>
+                    {e.data.documents.length ? (
+                      <>
+                        <td class="tabular py-1 pr-4 text-ink-2">
+                          {describeSize(e.data.documents[0])}
+                          {e.data.documents.some((x) => x.kind === 'passport-page') && <span class="block text-sm text-ink-3">+ passport page</span>}
+                        </td>
+                        <td class="tabular py-1 text-ink-2">{describeKb(e.data.documents[0])}</td>
+                      </>
+                    ) : (
+                      <td class="py-1 text-ink-2" colspan="2">No photo needed: free visa on arrival</td>
+                    )}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      ))
+    }
+    {
+      custom && (
+        <p class="text-ink-2">
+          Not listed? Use the <a class="font-semibold underline underline-offset-2" href={`/passport-visa-photo/${custom.data.slug}`}>photo resizer for any passport, visa or ID</a> and enter the size from your instructions.
+        </p>
+      )
+    }
   </div>
 
   <h2>Why online applications reject photos</h2>

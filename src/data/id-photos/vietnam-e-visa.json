@@ -1,0 +1,85 @@
+{
+  "slug": "vietnam-e-visa-photo",
+  "name": "Vietnam e-visa",
+  "fullName": "Vietnam e-visa: portrait photo and passport page",
+  "category": "visa",
+  "covers": ["Vietnam e-visa (single or multiple entry, up to 90 days)", "Hanoi, Ho Chi Minh City, Da Nang and the rest of Vietnam"],
+  "keywords": ["vietnam", "evisa", "e-visa", "4x6", "hanoi", "ho chi minh"],
+  "order": 11,
+  "intro": "Vietnam's e-visa is open to citizens of every country and is applied for on one official site, evisa.gov.vn. The form asks for a 4 × 6 cm portrait on a white background and a picture of your passport's photo page. Vietnam's immigration department asks for the portrait to be under 50 KB and the passport picture under 200 KB.",
+  "documents": [
+    {
+      "id": "portrait",
+      "label": "Portrait photo",
+      "kind": "photo",
+      "width": 400,
+      "height": 600,
+      "widthCm": 4,
+      "heightCm": 6,
+      "sizeIsSuggested": true,
+      "maxKb": 50,
+      "fit": "cover",
+      "notes": [
+        "4 × 6 cm portrait on a plain white background, looking straight at the camera.",
+        "No glasses. Take it within the last 6 months.",
+        "Under 50 KB, as Vietnam's immigration department asks."
+      ]
+    },
+    {
+      "id": "passport-page",
+      "label": "Passport photo page",
+      "kind": "passport-page",
+      "width": 1200,
+      "height": 845,
+      "sizeIsSuggested": true,
+      "maxKb": 200,
+      "fit": "cover",
+      "notes": [
+        "The whole photo page, under 200 KB.",
+        "Include the two lines of letters and arrows at the bottom of the page; they must be sharp.",
+        "No glare, fingers or shadows over your details."
+      ]
+    }
+  ],
+  "source": {
+    "label": "Vietnam Immigration Department e-visa guide (file sizes) and the e-visa portal's photo instructions",
+    "url": "https://immigration.gov.vn/fr/khai-thi-thuc-dien-tu/cap-thi-thuc-dien-tu?type=edit",
+    "official": true
+  },
+  "lastVerified": "2026-11-01",
+  "travel": {
+    "portal": { "label": "evisa.gov.vn", "url": "https://evisa.gov.vn/" },
+    "facts": [
+      { "label": "Who can apply", "value": "Citizens of every country. Some nationalities can visit visa-free for a shorter stay, so check before you apply." },
+      { "label": "Cost", "value": "USD 25 for a single entry, USD 50 for multiple entries." },
+      { "label": "Stay", "value": "Up to 90 days." },
+      { "label": "Processing", "value": "Usually about 3 working days. Apply at least a week before you fly, and earlier around Tết (Lunar New Year)." }
+    ],
+    "steps": [
+      "Go to evisa.gov.vn, the only official site, and choose the e-visa for foreigners outside Vietnam.",
+      "Upload the portrait and passport page you made on this page, and wait for both to be accepted.",
+      "Fill in your details exactly as they appear in your passport.",
+      "Choose single or multiple entry, your dates, and the airport or border crossing where you'll enter and leave. You must enter through the one you choose.",
+      "Pay the fee, and write down your registration code.",
+      "Check the result with your code, email and date of birth. When it's approved, download the e-visa and print a copy to carry."
+    ],
+    "beforeYouFly": [
+      "Your passport should be valid for at least 6 months after you arrive, with blank pages.",
+      "Check that the name, passport number and dates on your e-visa match your passport exactly."
+    ],
+    "sources": [
+      { "label": "Freaking Nomads: Vietnam's 90-day e-visa for all countries (Resolution 127/NQ-CP; fees from the US Embassy in Vietnam)", "url": "https://freakingnomads.com/news/vietnam-offers-90-day-e-visas-to-all-countries-and-territories/" }
+    ]
+  },
+  "seo": {
+    "title": "Vietnam e-visa photo and passport page",
+    "metaTitle": "Vietnam e-visa photo 4×6 cm under 50 KB, and how to apply",
+    "description": "Make the 4 × 6 cm white-background portrait and passport page for Vietnam's e-visa at the right file size, then apply step by step on evisa.gov.vn. Free, nothing is uploaded.",
+    "lede": "Make the 4 × 6 cm portrait and passport page Vietnam's e-visa asks for, at the right file size, then follow the steps below to apply."
+  },
+  "faqs": [
+    { "q": "What is the Vietnam e-visa photo size?", "a": "4 × 6 cm, on a plain white background, looking straight at the camera, with no glasses. Vietnam's immigration department asks for the file to be under 50 KB." },
+    { "q": "Which website is the official Vietnam e-visa site?", "a": "evisa.gov.vn. Many look-alike sites charge extra service fees for the same e-visa." },
+    { "q": "Can I wear glasses in my Vietnam e-visa photo?", "a": "No. Take them off for the photo, and make sure your face is evenly lit with no shadows." }
+  ]
+}

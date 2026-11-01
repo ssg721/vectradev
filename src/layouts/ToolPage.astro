@@ -24,6 +24,8 @@ interface Props {
 
 const { title, metaTitle, description, lede, faqs, related = [], breadcrumb } = Astro.props;
 const rail = showsAd('rail');
+// Without the band ad between them, the tool and the guide need their own gap.
+const band = showsAd('band');
 const url = new URL(Astro.url.pathname.replace(/\.html$/, ''), SITE.url).href;
 
 const jsonLd: object[] = [
@@ -78,7 +80,7 @@ if (breadcrumb) {
 
   <AdSlot placement="band" />
 
-  <div class:list={['mx-auto max-w-5xl px-4', rail && 'lg:grid lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-12']}>
+  <div class:list={['mx-auto max-w-5xl px-4', !band && 'mt-12', rail && 'lg:grid lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-12']}>
     <div class="min-w-0">
     <div class="prose-form">
       <slot />
