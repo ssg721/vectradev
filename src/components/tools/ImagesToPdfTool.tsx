@@ -83,6 +83,12 @@ export default function ImagesToPdfTool() {
   live.current = items;
 
   useEffect(() => {
+    // Links from the PDF size pages pass the limit, e.g. /images-to-pdf?max=500
+    const max = Number(new URLSearchParams(window.location.search).get('max'));
+    if (max > 0 && max <= 100000) {
+      setMode('size');
+      setMaxKbText(String(max));
+    }
     warmUp();
     setIsPhone(window.matchMedia('(pointer: coarse)').matches);
     const idle = (window as Window & { requestIdleCallback?: (cb: () => void) => void }).requestIdleCallback;

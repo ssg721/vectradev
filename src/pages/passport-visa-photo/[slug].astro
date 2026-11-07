@@ -3,6 +3,7 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 import ToolPage from '../../layouts/ToolPage.astro';
 import ExamTool, { describeKb, describeSize } from '../../components/tools/ExamTool';
 import { SITE } from '../../lib/site';
+import SizeAnswer from '../../components/SizeAnswer.astro';
 
 export async function getStaticPaths() {
   const all = await getCollection('idPhotos');
@@ -21,7 +22,7 @@ const reportHref = `mailto:${SITE.email}?subject=${encodeURIComponent(`Outdated 
 )}`;
 const anyOther = all.find((e) => e.data.customStart);
 
-const title = d.seo?.title ?? (d.customStart ? 'Photo resizer for any passport, visa or ID' : `${d.name} photo resizer`);
+const title = d.seo?.title ?? (d.customStart ? 'Photo resizer for any passport, visa or ID' : `${d.name} photo size and resizer`);
 const lede =
   d.seo?.lede ??
   (d.customStart
@@ -31,7 +32,7 @@ const description =
   d.seo?.description ??
   (d.customStart
     ? 'Crop, resize and compress a photo for any passport, visa or ID application. Enter the size in pixels or mm and the KB limit. Free, nothing uploaded.'
-    : `${d.name} photo at the required pixels and KB (${[describeSize(doc), describeKb(doc)].filter(Boolean).join(', ')}). Free, works on phones, nothing is uploaded.`);
+    : `${d.name} photo size: ${[describeSize(doc), describeKb(doc)].filter(Boolean).join(', ')}. Resize yours free on your phone; nothing is uploaded.`);
 const metaTitle = d.seo?.metaTitle ?? (d.customStart ? 'Passport, visa and ID photo resizer for any country' : `${d.name} photo size and resizer`);
 
 const genericFaqs = [
@@ -63,6 +64,11 @@ const sizeOf = (x: (typeof d.documents)[number]) =>
   related={related}
   breadcrumb={{ href: '/passport-visa-photo', label: 'Passport and visa photos' }}
 >
+  {
+    !d.customStart && hasTool && (
+      <SizeAnswer slot="answer" heading={`${d.name} photo size`} documents={d.documents} summary={d.summary} />
+    )
+  }
   <div slot="tool">
     {
       !d.customStart && (

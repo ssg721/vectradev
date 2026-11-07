@@ -67,6 +67,8 @@ const preset = z.object({
     faqs: z.array(z.object({ q: z.string(), a: z.string() })).default([]),
     /** Start with editable rules ("any other document"). */
     customStart: z.boolean().default(false),
+    /** A hand-written answer for the size box under the heading; built from the documents when not set. */
+    summary: z.string().optional(),
 });
 
 /** Plain-language travel guidance shown on visa pages, from the official sources. */

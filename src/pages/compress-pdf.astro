@@ -14,7 +14,7 @@ const faqs = [
 
 <ToolPage
   title="Compress PDF"
-  metaTitle="Compress PDF online to KB, free and private (no upload)"
+  metaTitle="Compress PDF to KB online: free PDF size reducer (no upload)"
   description="Make a PDF smaller in your browser: pick a quality or enter a size limit like 200 KB. Great for scanned certificates and forms. Free, nothing is uploaded."
   lede="Shrink a scanned document, certificate or photo-heavy PDF. Choose a quality, or enter the size limit from your form."
   faqs={faqs}
@@ -23,6 +23,9 @@ const faqs = [
 >
   <PdfCompressTool slot="tool" client:load />
 
+  <p class="callout">
+    Have photos or scans instead of a PDF? <a href="/images-to-pdf">Turn them into one PDF</a>, with an optional size limit.
+  </p>
   <h2>How to compress a PDF</h2>
   <ol>
     <li>Choose <strong>Under a size</strong> if your form gives a limit, and enter it. Otherwise choose <strong>By quality</strong>.</li>

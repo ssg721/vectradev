@@ -20,6 +20,7 @@ const useCase: Record<number, string> = {
 const faqs = [
   { q: `How do I compress a PDF to ${label}?`, a: `Choose your PDF above. The limit is already set to ${label}, so the smaller PDF is ready to download in a few seconds.` },
   { q: `Will a ${label} PDF still be readable?`, a: 'Usually yes. The tool keeps the best quality that fits. For text documents, turning on Black and white keeps text sharp at small sizes. Very long PDFs may need a larger limit.' },
+  { q: `How do I make a ${label} PDF from photos?`, a: `Use Images to PDF: add your photos, put them in order, choose "Under a size" and enter ${kb} KB. Each photo becomes a page, and the whole PDF stays under ${label}.` },
   { q: 'Is my PDF uploaded?', a: 'No. It is compressed inside your browser and never leaves your device.' },
   { q: 'Why can\'t I select text afterwards?', a: 'Pages are saved as images to reach small sizes. Keep the original if you need to copy text from it.' },
 ];
@@ -27,15 +28,18 @@ const faqs = [
 
 <ToolPage
   title={`Compress PDF to ${label}`}
-  metaTitle={`Compress PDF to ${label} online, free (no upload)`}
-  description={`Reduce a PDF to under ${label} in your browser. Ideal for certificates and documents on exam, job and visa forms. Free, nothing is uploaded.`}
-  lede={`Choose a PDF and get a copy under ${label}, at the best quality that fits.`}
+  metaTitle={`Compress PDF to ${label}: free PDF size reducer (no upload)`}
+  description={`Reduce your PDF size to under ${label} in your browser. A free PDF size reducer for certificates and documents on exam, job and visa forms. Nothing is uploaded.`}
+  lede={`A free PDF size reducer: choose a PDF and get a copy under ${label}, at the best quality that fits.`}
   faqs={faqs}
   related={[...PDF_COMPRESS_TOOLS.filter((t) => t.href !== `/compress-pdf-to-${pdfPresetSlug(kb)}`), PDF_CONVERT_TOOLS[0]]}
   breadcrumb={{ href: '/pdf-tools', label: 'PDF tools' }}
 >
   <PdfCompressTool slot="tool" client:load defaultMaxKb={kb} />
 
+  <p class="callout">
+    Have photos or scans instead of a PDF? <a href={`/images-to-pdf?max=${kb}`}>Turn them into one PDF under {label}</a>, in the order you choose.
+  </p>
   <h2>When you need {label}</h2>
   <p>{useCase[kb]}</p>
   <h2>Tips for small PDFs</h2>

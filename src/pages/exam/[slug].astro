@@ -3,6 +3,7 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 import ToolPage from '../../layouts/ToolPage.astro';
 import ExamTool, { describeKb, describeSize } from '../../components/tools/ExamTool';
 import { SITE } from '../../lib/site';
+import SizeAnswer from '../../components/SizeAnswer.astro';
 
 export async function getStaticPaths() {
   const exams = await getCollection('exams');
@@ -21,6 +22,14 @@ const reportHref = `mailto:${SITE.email}?subject=${encodeURIComponent(`Outdated 
 const docNames = uploads.map((x) => x.label.toLowerCase());
 const lede = `Get your ${docNames.join(', ').replace(/, ([^,]*)$/, ' and $1')} to the exact size the ${d.name} form accepts. Nothing is uploaded.`;
 
+// What the search result shows: the sizes themselves, so people see the answer before clicking.
+// Pixels and KB only, and at most two documents, so it isn't cut off in search results.
+const short = (x: (typeof d.documents)[number]) =>
+  x.liveCapture
+    ? `${x.label.toLowerCase()} taken live on the form`
+    : `${x.label.toLowerCase()} ${[x.width && !x.sizeIsSuggested ? `${x.width} × ${x.height} px` : '', describeKb(x)].filter(Boolean).join(', ')}`;
+const shown = [...live, ...uploads].slice(0, 2);
+const sizeLine = shown.map(short).join('; ') + (d.documents.length > 2 ? '; more inside' : '');
 const genericFaqs = [
   { q: 'Is my photo uploaded to your server?', a: 'No. Everything runs inside your browser, on your own phone or computer. Your photo and signature never leave your device.' },
   { q: 'What if my upload is still rejected?', a: 'Open your notification and compare its size rules with the table on this page. If they differ, tick "My notification says something different" and enter the new numbers. Please also tell us so we can update the preset.' },
@@ -37,7 +46,7 @@ related.push({ href: '/compress-image-to-kb', title: 'Compress image to any KB',
 <ToolPage
   title={`${d.name} photo and signature resizer`}
   metaTitle={`${d.name} photo and signature size and resizer`}
-  description={`Resize your ${d.name} ${docNames.join(', ')} to the required pixels and KB. Free, works on phones, nothing is uploaded. Checked ${verified}.`}
+  description={`${d.name} photo and signature size: ${sizeLine}. Resize yours free on your phone; nothing is uploaded. Checked ${verified}.`}
   lede={lede}
   faqs={faqs}
   related={related}
@@ -76,6 +85,7 @@ related.push({ href: '/compress-image-to-kb', title: 'Compress image to any KB',
         </li>
       </ul>
     </details>
+  <SizeAnswer slot="answer" heading={`${d.name} photo and signature size`} documents={d.documents} summary={d.summary} />
   <div slot="tool">
     <ExamTool client:load examName={d.name} documents={d.documents} />
     <p class="mt-6 max-w-[68ch] text-sm text-ink-3">

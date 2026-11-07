@@ -49,9 +49,14 @@ export function describeSize(d: ExamDocument): string {
   return parts.join(', ');
 }
 
+/** 10000 → "10 MB"; 250 → "250 KB". */
+const kbText = (kb: number) => (kb >= 1000 && kb % 1000 === 0 ? `${kb / 1000} MB` : `${kb} KB`);
+
 export function describeKb(d: ExamDocument): string {
   if (!d.maxKb) return '';
-  return d.minKb > 0 ? `${d.minKb}–${d.maxKb} KB` : `up to ${d.maxKb} KB`;
+  if (!(d.minKb > 0)) return `up to ${kbText(d.maxKb)}`;
+  const max = kbText(d.maxKb);
+  return max.endsWith(' KB') ? `${d.minKb}–${d.maxKb} KB` : `${kbText(d.minKb)} to ${max}`;
 }
 
 export default function ExamTool({ examName, documents, ruleSource = 'notification', customStart = false }: Props) {
@@ -369,7 +374,7 @@ function DocPanel({ doc, examName, ruleSource, customStart, onResult, next }: Do
     const size = result.blob.size;
     checks.push({
       label: 'File size',
-      value: `${formatBytes(size)} (allowed ${active.minKb > 0 ? `${active.minKb}–${active.maxKb}` : `up to ${active.maxKb}`} KB)`,
+      value: `${formatBytes(size)} (allowed ${describeKb(active as ExamDocument)})`,
       ok: size >= t.min && size <= t.max,
     });
     if (fixedSize && !(doc.sizeIsSuggested && !custom)) {
@@ -399,7 +404,7 @@ function DocPanel({ doc, examName, ruleSource, customStart, onResult, next }: Do
     notes.push(`The clean image was smaller than ${active.minKb} KB, so invisible padding was added inside the file to meet the minimum. It looks exactly the same.`);
   }
 
-  const kbText = active.minKb > 0 ? `${active.minKb}–${active.maxKb} KB` : `${active.maxKb} KB`;
+  const kbText = describeKb(active as ExamDocument).replace(/^up to /, '');
 
   // The rules as short chips, shown before anything is uploaded.
   const chips: string[] = [kbText];

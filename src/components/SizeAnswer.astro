@@ -1,0 +1,45 @@
+---
+/**
+ * The short answer people search for ("SSC photo size", "US passport photo
+ * size"), shown right under the page heading, before the tool.
+ */
+import { describeKb, describeSize, type ExamDocument } from './tools/ExamTool';
+
+interface Props {
+  heading: string;
+  documents?: ExamDocument[];
+  /** Hand-written answer, used instead of one built from the documents. */
+  summary?: string;
+}
+const { heading, documents = [], summary } = Astro.props;
+
+const describe = (d: ExamDocument) => {
+  if (d.liveCapture) return 'taken live with a camera during the application, so there is nothing to upload';
+  const size = describeSize(d) || (d.kind === 'passport-page' ? 'the whole photo page' : '');
+  return [size, describeKb(d)].filter(Boolean).join(', ');
+};
+const rows = summary ? [] : documents.map((d) => ({ label: d.label, value: describe(d) }));
+---
+
+{
+  (summary || rows.length > 0) && (
+    <div class="mt-5 max-w-[60ch] rounded-[12px] border border-rule bg-sheet px-4 py-3">
+      <p class="text-sm font-bold text-ink">
+        {heading}
+        {!summary && documents.some((d) => !d.liveCapture) && <span class="font-normal text-ink-3"> · JPG files</span>}
+      </p>
+      {summary ? (
+        <p class="mt-1 text-[0.98rem] text-ink-2">{summary}</p>
+      ) : (
+        <dl class="mt-1 space-y-0.5 text-[0.98rem]">
+          {rows.map((r) => (
+            <div class="flex flex-wrap gap-x-2">
+              <dt class="font-semibold text-ink">{r.label}:</dt>
+              <dd class="tabular text-ink-2">{r.value}</dd>
+            </div>
+          ))}
+        </dl>
+      )}
+    </div>
+  )
+}
